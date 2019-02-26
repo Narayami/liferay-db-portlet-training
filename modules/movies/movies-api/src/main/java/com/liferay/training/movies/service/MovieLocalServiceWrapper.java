@@ -107,6 +107,13 @@ public class MovieLocalServiceWrapper implements MovieLocalService,
 		return _movieLocalService.deleteMovie(movie);
 	}
 
+	@Override
+	public com.liferay.training.movies.model.Movie deleteMovieAndAuthor(
+		long movieId, long authorId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _movieLocalService.deleteMovieAndAuthor(movieId, authorId);
+	}
+
 	/**
 	* @throws PortalException
 	*/

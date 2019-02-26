@@ -16,6 +16,7 @@ package com.liferay.training.movies.service.impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Group;
@@ -23,7 +24,9 @@ import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.persistence.GroupPersistence;
+import com.liferay.training.movies.model.Author;
 import com.liferay.training.movies.model.Movie;
+import com.liferay.training.movies.service.AuthorLocalServiceUtil;
 import com.liferay.training.movies.service.AuthorServiceUtil;
 import com.liferay.training.movies.service.base.MovieLocalServiceBaseImpl;
 
@@ -43,7 +46,7 @@ import com.liferay.training.movies.service.base.MovieLocalServiceBaseImpl;
  */
 public class MovieLocalServiceImpl extends MovieLocalServiceBaseImpl {
 	
-	
+	//Author author;
 	public Movie addMovie(long groupId, String movieName, String description, 
 			int rating, ServiceContext serviceContext) throws PortalException {
 		
@@ -53,6 +56,7 @@ public class MovieLocalServiceImpl extends MovieLocalServiceBaseImpl {
 		//getting the user, first get the user id go get the user : userPersistence || userLocalService
 		long userId = serviceContext.getUserId();
 		User user = userLocalService.getUserById(userId);
+		
 		
 		
 		//Generate primary key for the new movie - referencing the movie class in the specific movie about to create
@@ -71,6 +75,11 @@ public class MovieLocalServiceImpl extends MovieLocalServiceBaseImpl {
 		movie.setUserName(user.getScreenName());
 		movie.setModifiedDate(serviceContext.getModifiedDate(new Date()));
 		movie.setCreateDate(serviceContext.getCreateDate(new Date()));
+		//movie.setAuthor(author);
+		
+		//test
+		System.out.println("autho: " + movie.getAuthor());
+		System.out.println("author name test: " + movie.getAuthor().getAuthorName());
 		
 		//persist the movie
 		movie = super.addMovie(movie);
@@ -89,24 +98,27 @@ public class MovieLocalServiceImpl extends MovieLocalServiceBaseImpl {
 	
 	public Movie addMovieAndAuthor(long groupId, String movieName, String description, int rating,
 			String authorName, String biography, ServiceContext serviceContext) throws PortalException {
-		/*
-		Group group = groupPersistence.findByPrimaryKey(groupId);
-		long userId = serviceContext.getUserId();
-		User user = userLocalService.getUser(userId);
-		*/
-		
 		
 		Movie movie = addMovie(groupId, movieName, description, rating, serviceContext);
-		addMovie(movie);
-		
 		AuthorServiceUtil.addAuthor(movie.getMovieId(), authorName, biography, serviceContext);
 		
-		
-		return movie;
+		//movie.setAuthor(author);
+		return addMovie(movie);
 		
 	}
 	
+	public Movie deleteMovieAndAuthor(long movieId, long authorId) throws PortalException {
+		Movie movie = getMovie(movieId);
+		
+		Author author = AuthorLocalServiceUtil.getAuthor(authorId);
+		
+		AuthorLocalServiceUtil.deleteAuthor(author);
+		
+		return super.deleteMovie(movie);
+	} 
+	
 	public Movie deleteMovie(Long movieId) throws PortalException {
+		
 		Movie movie = getMovie(movieId);
 		
 		return deleteMovie(movie);
@@ -137,8 +149,6 @@ public class MovieLocalServiceImpl extends MovieLocalServiceBaseImpl {
 		
 		return moviePersistence.countByGroupId(groupId);
 	}
-	
-	
 	
 	public Movie updateMovie(Long movieId, String movieName, String description, 
 			int rating, ServiceContext serviceContext) throws PortalException {

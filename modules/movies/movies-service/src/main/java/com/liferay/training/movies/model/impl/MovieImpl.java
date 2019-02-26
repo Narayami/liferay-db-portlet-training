@@ -14,6 +14,10 @@
 
 package com.liferay.training.movies.model.impl;
 
+import com.liferay.portal.kernel.util.GetterUtil;
+import com.liferay.training.movies.model.Author;
+import com.liferay.training.movies.service.AuthorLocalServiceUtil;
+
 import aQute.bnd.annotation.ProviderType;
 
 /**
@@ -34,4 +38,16 @@ public class MovieImpl extends MovieBaseImpl {
 	 */
 	public MovieImpl() {
 	}
+	
+	public Author getAuthor() {
+		return author;
+	}
+
+	
+	public void setAuthor(Author author) {
+		this.author = author;
+	}
+
+	private Author author;
+	
 }

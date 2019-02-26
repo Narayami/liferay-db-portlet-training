@@ -53,4 +53,8 @@ public interface Movie extends MovieModel, PersistedModel {
 				return Movie.class;
 			}
 		};
+
+	public Author getAuthor();
+
+	public void setAuthor(Author author);
 }

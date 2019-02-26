@@ -18,7 +18,7 @@
 
 <br/><br/>
 <%
-	if(selectedMovieObject != null){
+	if(selectedMovieObject != null) {
 %>
 		<h3>The following are the selected Movie Information</h3><br/>
 		Movie Name:<%=selectedMovieObject.getMovieName()+"&nbsp;"+

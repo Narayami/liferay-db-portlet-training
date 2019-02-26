@@ -1,3 +1,4 @@
+<%@page import="com.liferay.training.movies.model.Author"%>
 <%@page import="com.liferay.taglib.search.ResultRow"%>
 
 <%@page import="com.liferay.training.movies.web.constants.MVCCommandNames"%>
@@ -29,7 +30,7 @@
  	ResultRow row=(ResultRow)request.getAttribute(WebKeys.SEARCH_CONTAINER_RESULT_ROW);
  	Movie movie = (Movie)row.getObject();
  	String movieId = String.valueOf(movie.getMovieId());
- 	System.out.println(movieId);
+ 	System.out.println("mov id: " + movieId);
 %>
 
 <liferay-ui:icon-menu>

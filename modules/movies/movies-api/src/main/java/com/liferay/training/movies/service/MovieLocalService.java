@@ -111,6 +111,9 @@ public interface MovieLocalService extends BaseLocalService,
 	@Indexable(type = IndexableType.DELETE)
 	public Movie deleteMovie(Movie movie) throws PortalException;
 
+	public Movie deleteMovieAndAuthor(long movieId, long authorId)
+		throws PortalException;
+
 	/**
 	* @throws PortalException
 	*/

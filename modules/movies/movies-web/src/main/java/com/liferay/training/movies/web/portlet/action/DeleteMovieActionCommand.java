@@ -40,18 +40,23 @@ public class DeleteMovieActionCommand extends BaseMVCActionCommand {
 	@Override
 	protected void doProcessAction(ActionRequest actionRequest, ActionResponse actionResponse) throws Exception {
 		
-		String string = actionRequest.getParameter("movieId");
-		long movieId = Long.valueOf(string);
+		String movieIdStr = actionRequest.getParameter("movieId");
+		long movieId = Long.valueOf(movieIdStr);
 		
+		String authorIdStr = actionRequest.getParameter("authorId");
+		long authorId = Long.valueOf(authorIdStr);
 		
-		
-		System.out.println("id:" + movieId);
+		System.out.println("movie id: " + movieId);
+		System.out.println("author id: " + authorId);
 		
 
 		try {
-
-			MovieLocalServiceUtil.deleteMovie(movieId);
-			AuthorLocalServiceUtil.deleteAuthor(authorId);
+			
+			//MovieLocalServiceUtil.deleteMovie(movieId);
+			MovieLocalServiceUtil.deleteMovieAndAuthor(movieId, authorId);
+			
+			
+			//AuthorLocalServiceUtil.deleteAuthor(authorId);
 
 		}
 		catch (PortalException e) {

@@ -153,6 +153,11 @@ public class MovieWrapper implements Movie, ModelWrapper<Movie> {
 		return _movie.compareTo(movie);
 	}
 
+	@Override
+	public Author getAuthor() {
+		return _movie.getAuthor();
+	}
+
 	/**
 	* Returns the company ID of this movie.
 	*
@@ -316,6 +321,11 @@ public class MovieWrapper implements Movie, ModelWrapper<Movie> {
 	@Override
 	public void persist() {
 		_movie.persist();
+	}
+
+	@Override
+	public void setAuthor(Author author) {
+		_movie.setAuthor(author);
 	}
 
 	@Override

@@ -115,6 +115,12 @@ public class MovieLocalServiceUtil {
 		return getService().deleteMovie(movie);
 	}
 
+	public static com.liferay.training.movies.model.Movie deleteMovieAndAuthor(
+		long movieId, long authorId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService().deleteMovieAndAuthor(movieId, authorId);
+	}
+
 	/**
 	* @throws PortalException
 	*/

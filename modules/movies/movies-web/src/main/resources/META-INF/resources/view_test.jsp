@@ -1,3 +1,4 @@
+<%@page import="com.liferay.training.movies.service.AuthorLocalServiceUtil"%>
 <%@page import="com.liferay.portal.kernel.xmlrpc.Response"%>
 <%@page import="com.liferay.portal.kernel.util.ListUtil"%>
 <%@page import="com.liferay.portal.kernel.model.Group"%>
@@ -40,6 +41,7 @@
 	headerNames="movieName, description, rating, action"
 	iteratorURL="<%=iteratorURL%>"
 	delta="10"
+	curParam="sc1"
 	deltaConfigurable="true">
 	
 	<liferay-ui:search-container-results>
@@ -64,11 +66,16 @@
 			<liferay-ui:search-container-column-text href="<%=rowURL %>" name="Name" property="movieName"/>
 			<liferay-ui:search-container-column-text href="<%=rowURL %>" name="description" property="description"/>
 			<liferay-ui:search-container-column-text href="<%=rowURL %>" name="rating" property="rating"/>
+			 <%--
+			<liferay-ui:search-container-column-text href="<%=rowURL %>" name="author" property="<%=currentMovie.getAuthor().getAuthorName() %>"/>
+			<liferay-ui:search-container-column-text href="<%=rowURL %>" name="biography" property="<%=currentMovie.getAuthor().getBiography() %>"/>
+			--%>
 			<liferay-ui:search-container-column-jsp align="center" path="/button.jsp"/>
-			
 	</liferay-ui:search-container-row>
+	
 	<liferay-ui:search-iterator searchContainer="<%=searchContainer %>" paginate="<%=true %>"/>
 </liferay-ui:search-container>
+
 
 <aui:button-row>
 	<aui:button type="cancel" onClick="<%=goBackURL.toString() %>"></aui:button>

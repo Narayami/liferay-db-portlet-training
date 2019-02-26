@@ -71,7 +71,6 @@ public class AuthorLocalServiceImpl extends AuthorLocalServiceBaseImpl {
 		author.setUserId(userId);
 		author.setCreateDate(new Date());
 		author.setModifiedDate(new Date());
-		
 		//persist data
 		super.addAuthor(author);
 		
@@ -104,6 +103,7 @@ public class AuthorLocalServiceImpl extends AuthorLocalServiceBaseImpl {
 		
 		return authorPersistence.findByGroupId(groupId, start, end);
 	}
+	 
 	
 	public int getAuthorCountByGroupId(long groupId) {
 		
