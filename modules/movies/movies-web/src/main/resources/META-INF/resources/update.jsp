@@ -37,7 +37,8 @@
                 <aui:input name="movie" />
                 <aui:input name="description" />
                 <aui:input name="rating" />
-                
+                <aui:input name="author" />
+                <aui:input name="biography" />
 
             </aui:fieldset>
 
@@ -46,3 +47,4 @@
                 <aui:button type="cancel" onClick="<%= goBackURL.toString() %>"></aui:button>
             </aui:button-row>
         </aui:form>
+        

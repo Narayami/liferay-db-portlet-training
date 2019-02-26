@@ -24,6 +24,8 @@ import com.liferay.portal.kernel.util.PortletKeys;
 import com.liferay.portal.kernel.util.WebKeys;
 import com.liferay.training.movies.exception.MovieValidationException;
 import com.liferay.training.movies.model.Movie;
+import com.liferay.training.movies.service.AuthorServiceUtil;
+import com.liferay.training.movies.service.MovieLocalServiceUtil;
 import com.liferay.training.movies.service.MovieService;
 import com.liferay.training.movies.service.MovieServiceUtil;
 import com.liferay.training.movies.web.constants.MVCCommandNames;
@@ -45,6 +47,7 @@ public class AddMovieMVCActionCommand extends BaseMVCActionCommand {
 	
 	@Override
 	protected void doProcessAction(ActionRequest actionRequest, ActionResponse actionResponse) throws Exception {
+		
 		ThemeDisplay themeDisplay = (ThemeDisplay)actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		ServiceContext serviceContext = ServiceContextFactory.getInstance(Movie.class.getName(), actionRequest);
 		
@@ -52,11 +55,13 @@ public class AddMovieMVCActionCommand extends BaseMVCActionCommand {
 		String description = ParamUtil.getString(actionRequest, "description");
 		int rating = ParamUtil.getInteger(actionRequest, "rating");
 		
+		String authorName = ParamUtil.getString(actionRequest, "author");
+		String biography = ParamUtil.getString(actionRequest, "biography");
 		
 		try {
+			MovieLocalServiceUtil.addMovieAndAuthor(themeDisplay.getScopeGroupId(), movieName, description, rating, authorName, 
+					biography, serviceContext);
 			
-			//MovieServiceUtil.addMovie(themeDisplay.getScopeGroupId(), movieName, description, rating, serviceContext);
-			MovieServiceUtil.addMovie(themeDisplay.getScopeGroupId(), movieName, description, rating, serviceContext);
 			SessionMessages.add(actionRequest, "movie-addded");
 			hideDefaultSuccessMessage(actionRequest);
 			

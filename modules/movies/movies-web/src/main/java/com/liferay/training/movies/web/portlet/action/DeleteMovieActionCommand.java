@@ -16,6 +16,8 @@ import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.training.movies.model.Movie;
+import com.liferay.training.movies.service.AuthorLocalService;
+import com.liferay.training.movies.service.AuthorLocalServiceUtil;
 import com.liferay.training.movies.service.MovieLocalServiceUtil;
 import com.liferay.training.movies.service.MovieService;
 import com.liferay.training.movies.web.constants.MVCCommandNames;
@@ -41,12 +43,15 @@ public class DeleteMovieActionCommand extends BaseMVCActionCommand {
 		String string = actionRequest.getParameter("movieId");
 		long movieId = Long.valueOf(string);
 		
+		
+		
 		System.out.println("id:" + movieId);
 		
 
 		try {
 
 			MovieLocalServiceUtil.deleteMovie(movieId);
+			AuthorLocalServiceUtil.deleteAuthor(authorId);
 
 		}
 		catch (PortalException e) {

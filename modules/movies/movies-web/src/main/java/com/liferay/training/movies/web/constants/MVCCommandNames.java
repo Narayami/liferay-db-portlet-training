@@ -19,5 +19,8 @@ public class MVCCommandNames {
 	public static final String VIEW_MOVIE = "/movies/movie/view";
 	
 	public static final String UPDATE_MOVIE = "/movies/movie/update";
+	
+	public static final String ADD_AUTHOR = "/movies/movie/add-author";
+
 
 }

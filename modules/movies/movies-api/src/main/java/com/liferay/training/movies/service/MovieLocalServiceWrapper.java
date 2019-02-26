@@ -53,6 +53,16 @@ public class MovieLocalServiceWrapper implements MovieLocalService,
 		return _movieLocalService.addMovie(movie);
 	}
 
+	@Override
+	public com.liferay.training.movies.model.Movie addMovieAndAuthor(
+		long groupId, String movieName, String description, int rating,
+		String authorName, String biography,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return _movieLocalService.addMovieAndAuthor(groupId, movieName,
+			description, rating, authorName, biography, serviceContext);
+	}
+
 	/**
 	* Creates a new movie with the primary key. Does not add the movie to the database.
 	*

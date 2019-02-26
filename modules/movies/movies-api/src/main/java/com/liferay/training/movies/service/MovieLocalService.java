@@ -76,6 +76,10 @@ public interface MovieLocalService extends BaseLocalService,
 	@Indexable(type = IndexableType.REINDEX)
 	public Movie addMovie(Movie movie);
 
+	public Movie addMovieAndAuthor(long groupId, String movieName,
+		String description, int rating, String authorName, String biography,
+		ServiceContext serviceContext) throws PortalException;
+
 	/**
 	* Creates a new movie with the primary key. Does not add the movie to the database.
 	*

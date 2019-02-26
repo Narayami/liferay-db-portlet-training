@@ -62,6 +62,16 @@ public class MovieLocalServiceUtil {
 		return getService().addMovie(movie);
 	}
 
+	public static com.liferay.training.movies.model.Movie addMovieAndAuthor(
+		long groupId, String movieName, String description, int rating,
+		String authorName, String biography,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		return getService()
+				   .addMovieAndAuthor(groupId, movieName, description, rating,
+			authorName, biography, serviceContext);
+	}
+
 	/**
 	* Creates a new movie with the primary key. Does not add the movie to the database.
 	*

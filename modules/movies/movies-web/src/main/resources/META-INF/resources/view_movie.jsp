@@ -26,7 +26,7 @@
 		<br/>
 		Movie Description:
 		<%=selectedMovieObject.getDescription() %><br/>
-		Student Rating:
+		Movie Rating:
 		<%=selectedMovieObject.getRating()%>
 		<br/>
 <%

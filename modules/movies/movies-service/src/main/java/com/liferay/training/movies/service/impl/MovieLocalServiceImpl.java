@@ -22,7 +22,9 @@ import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.persistence.GroupPersistence;
 import com.liferay.training.movies.model.Movie;
+import com.liferay.training.movies.service.AuthorServiceUtil;
 import com.liferay.training.movies.service.base.MovieLocalServiceBaseImpl;
 
 /**
@@ -83,6 +85,25 @@ public class MovieLocalServiceImpl extends MovieLocalServiceBaseImpl {
 				movie.getMovieId(), portletActions, addGroupPermissions, addGuestPermissions);
 		
 		return movie;
+	}
+	
+	public Movie addMovieAndAuthor(long groupId, String movieName, String description, int rating,
+			String authorName, String biography, ServiceContext serviceContext) throws PortalException {
+		/*
+		Group group = groupPersistence.findByPrimaryKey(groupId);
+		long userId = serviceContext.getUserId();
+		User user = userLocalService.getUser(userId);
+		*/
+		
+		
+		Movie movie = addMovie(groupId, movieName, description, rating, serviceContext);
+		addMovie(movie);
+		
+		AuthorServiceUtil.addAuthor(movie.getMovieId(), authorName, biography, serviceContext);
+		
+		
+		return movie;
+		
 	}
 	
 	public Movie deleteMovie(Long movieId) throws PortalException {

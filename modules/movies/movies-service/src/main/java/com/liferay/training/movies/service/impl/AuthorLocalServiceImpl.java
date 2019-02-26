@@ -47,7 +47,7 @@ public class AuthorLocalServiceImpl extends AuthorLocalServiceBaseImpl {
 	public Author addAuthor(long movieId, String authorName, String biography, ServiceContext serviceContext) 
 			throws PortalException {
 		
-		//get Movie
+		//get Movie by its id
 		Movie movie = MovieLocalServiceUtil.getMovie(movieId);
 		
 		//get user
