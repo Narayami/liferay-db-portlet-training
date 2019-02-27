@@ -4,7 +4,8 @@
 <%@ page import="com.liferay.portal.kernel.util.ParamUtil" %>
 <%@page import="com.liferay.training.movies.model.Movie"%>
 <%@page import="com.liferay.training.movies.model.Author"%>
-
+<%@ taglib uri="http://liferay.com/tld/aui" prefix="aui" %>
+<%@taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 
 
 <%
@@ -23,24 +24,33 @@
 	}
 %>
 
-<a href="<%=redirect %>">Back</a>
-
-<br/><br/>
 <%
 	if(selectedMovieObject != null) {
 %>
-		<h3>The following are the selected Movie Information</h3><br/>
-		Movie Name:<%=selectedMovieObject.getMovieName()+"&nbsp;"+
-		selectedMovieObject.getMovieName()%>
-		<br/>
-		Movie Description:
-		<%=selectedMovieObject.getDescription() %><br/>
-		Movie Rating:
-		<%=selectedMovieObject.getRating()%> <br/>
-		Author Name:
-		<%=selectedAuthor.getAuthorName() %> <br/>
-		Author Biography: <br/>
+		<h3>The following are the selected Movie Information</h3>
+		
+		<br>
+		<strong>Movie Name:</strong><br>
+		<%=selectedMovieObject.getMovieName() %>
+		
+		<br>
+		<strong>Movie Description:</strong><br>
+		<%=selectedMovieObject.getDescription() %>
+		
+		<br>
+		<strong>Movie Rating:</strong><br>
+		<%=selectedMovieObject.getRating()%>
+		
+		<br>
+		<strong>Author Name:</strong><br>
+		<%=selectedAuthor.getAuthorName() %>
+		
+		<br>
+		<strong>Author Biography:</strong><br>
 		<%=selectedAuthor.getBiography() %>
 <%
 	}
 %>
+<aui:button-row>
+	<aui:button type="button" value="Back" onClick="<%=redirect %>"> </aui:button>
+</aui:button-row>
