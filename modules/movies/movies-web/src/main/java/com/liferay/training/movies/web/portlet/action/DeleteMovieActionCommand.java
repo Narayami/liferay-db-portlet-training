@@ -54,11 +54,8 @@ public class DeleteMovieActionCommand extends BaseMVCActionCommand {
 
 		try {
 			
-			//MovieLocalServiceUtil.deleteMovie(movieId);
 			MovieLocalServiceUtil.deleteMovieAndAuthor(movieId, authorId);
 			
-			//AuthorLocalServiceUtil.deleteAuthor(authorId);
-
 		}
 		catch (PortalException e) {
 			log.error(e);

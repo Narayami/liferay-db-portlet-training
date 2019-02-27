@@ -10,13 +10,16 @@
 <%
 	String redirect = ParamUtil.getString(request, "backURL");
 	long movieId = ParamUtil.getLong(request, "movieId");
-	
 	Movie selectedMovieObject = null;
-	Author selAuth = null;
 	if (movieId > 0) {
 		selectedMovieObject = MovieLocalServiceUtil.getMovie(movieId);
-		//todo-fix
-		selAuth = AuthorLocalServiceUtil.getAuthor(selectedMovieObject.getAuthor().getAuthorId());
+	}
+%>
+<%
+	long authorId = ParamUtil.getLong(request, "authorId");
+	Author selectedAuthor = null;
+	if (authorId > 0) {
+		selectedAuthor = AuthorLocalServiceUtil.getAuthor(authorId);
 	}
 %>
 
@@ -34,9 +37,10 @@
 		<%=selectedMovieObject.getDescription() %><br/>
 		Movie Rating:
 		<%=selectedMovieObject.getRating()%> <br/>
-		<%-- todo fix --%>
 		Author Name:
-		<%=selAuth.getAuthorName() %> <br/>
+		<%=selectedAuthor.getAuthorName() %> <br/>
+		Author Biography: <br/>
+		<%=selectedAuthor.getBiography() %>
 <%
 	}
 %>

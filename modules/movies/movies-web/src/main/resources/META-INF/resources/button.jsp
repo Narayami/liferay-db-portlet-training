@@ -39,6 +39,7 @@
 
        <portlet:actionURL name="<%=MVCCommandNames.EDIT_MOVIE %>" var="editURL">
        		<portlet:param name="movieId" value="<%=movieId%>" />
+       		<portlet:param name="authorId" value="<%=authorId%>" />
        </portlet:actionURL>
 
        <liferay-ui:icon image="edit" message="Edit" url="<%=editURL.toString() %>" /> 

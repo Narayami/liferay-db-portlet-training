@@ -60,6 +60,8 @@
 			<portlet:param name="backURL" value="<%=currentURL %>"/>
 			<portlet:param name="jspPage" value="/view_movie.jsp"/>
 			<portlet:param name="movieId" value="<%=String.valueOf(currentMovie.getMovieId()) %>"/>
+			<%-- test --%>
+			<portlet:param name="authorId" value="<%=String.valueOf(currentMovie.getAuthor().getAuthorId()) %>"/>
 		</liferay-portlet:renderURL>
 		
 		<liferay-ui:search-container-row-parameter name="rowURL" value="<%=rowURL.toString() %>"/>
