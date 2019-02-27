@@ -219,6 +219,13 @@ public class AuthorLocalServiceWrapper implements AuthorLocalService,
 		return _authorLocalService.getAuthor(authorId);
 	}
 
+	@Override
+	public com.liferay.training.movies.model.Author getAuthorByMovieId(
+		long movieId)
+		throws com.liferay.training.movies.exception.NoSuchAuthorException {
+		return _authorLocalService.getAuthorByMovieId(movieId);
+	}
+
 	/**
 	* Returns the author matching the UUID and group.
 	*
@@ -312,6 +319,13 @@ public class AuthorLocalServiceWrapper implements AuthorLocalService,
 	@Override
 	public int getAuthorsCount() {
 		return _authorLocalService.getAuthorsCount();
+	}
+
+	@Override
+	public com.liferay.training.movies.model.Author getAuthotByMovieId(
+		Long authorId, long movieId)
+		throws com.liferay.training.movies.exception.NoSuchAuthorException {
+		return _authorLocalService.getAuthotByMovieId(authorId, movieId);
 	}
 
 	@Override

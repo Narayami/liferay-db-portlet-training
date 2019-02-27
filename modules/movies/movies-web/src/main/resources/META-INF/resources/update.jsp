@@ -31,7 +31,6 @@
 
         <aui:form action="<%= addMovieURL %>" name="<portlet:namespace />fm">
 
-       <%-- <aui:model-context bean="<%= movie %>" model="<%= Movie.class %>" />  tag used when using same form for editing and adding--%>
             <aui:fieldset>
 
                 <aui:input name="movie" />

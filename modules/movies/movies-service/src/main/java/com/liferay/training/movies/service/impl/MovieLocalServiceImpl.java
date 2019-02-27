@@ -24,10 +24,12 @@ import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.persistence.GroupPersistence;
+import com.liferay.training.movies.exception.NoSuchAuthorException;
 import com.liferay.training.movies.model.Author;
 import com.liferay.training.movies.model.Movie;
 import com.liferay.training.movies.service.AuthorLocalServiceUtil;
 import com.liferay.training.movies.service.AuthorServiceUtil;
+import com.liferay.training.movies.service.MovieLocalServiceUtil;
 import com.liferay.training.movies.service.base.MovieLocalServiceBaseImpl;
 
 /**
@@ -59,11 +61,17 @@ public class MovieLocalServiceImpl extends MovieLocalServiceBaseImpl {
 		
 		
 		
+		
 		//Generate primary key for the new movie - referencing the movie class in the specific movie about to create
 		long movieId = counterLocalService.increment(Movie.class.getName()); //counterLocalService helps with primary key
 		
 		//create new movie object
 		Movie movie = super.createMovie(movieId);
+		
+		
+		//test
+		Author author = movie.getAuthor();
+		movie.setAuthor(author);
 		
 		//populate all movie object fields
 		movie.setCompanyId(group.getCompanyId());
@@ -75,11 +83,6 @@ public class MovieLocalServiceImpl extends MovieLocalServiceBaseImpl {
 		movie.setUserName(user.getScreenName());
 		movie.setModifiedDate(serviceContext.getModifiedDate(new Date()));
 		movie.setCreateDate(serviceContext.getCreateDate(new Date()));
-		//movie.setAuthor(author);
-		
-		//test
-		System.out.println("autho: " + movie.getAuthor());
-		System.out.println("author name test: " + movie.getAuthor().getAuthorName());
 		
 		//persist the movie
 		movie = super.addMovie(movie);
@@ -100,21 +103,24 @@ public class MovieLocalServiceImpl extends MovieLocalServiceBaseImpl {
 			String authorName, String biography, ServiceContext serviceContext) throws PortalException {
 		
 		Movie movie = addMovie(groupId, movieName, description, rating, serviceContext);
-		AuthorServiceUtil.addAuthor(movie.getMovieId(), authorName, biography, serviceContext);
 		
-		//movie.setAuthor(author);
-		return addMovie(movie);
+		Author author = AuthorServiceUtil.addAuthor(movie.getMovieId(), authorName, biography, serviceContext);
+		author = AuthorLocalServiceUtil.addAuthor(author);
+		
+		movie.setAuthor(author);
+		
+		return movie;
 		
 	}
 	
 	public Movie deleteMovieAndAuthor(long movieId, long authorId) throws PortalException {
+				
 		Movie movie = getMovie(movieId);
-		
 		Author author = AuthorLocalServiceUtil.getAuthor(authorId);
 		
-		AuthorLocalServiceUtil.deleteAuthor(author);
+		author = AuthorLocalServiceUtil.deleteAuthor(author);
 		
-		return super.deleteMovie(movie);
+		return deleteMovie(movie);
 	} 
 	
 	public Movie deleteMovie(Long movieId) throws PortalException {
@@ -148,6 +154,28 @@ public class MovieLocalServiceImpl extends MovieLocalServiceBaseImpl {
 	public int getMovieCountByGroupId(long groupId) {
 		
 		return moviePersistence.countByGroupId(groupId);
+	}
+	
+	//need to override the getter to show the movie author too
+	@Override
+	public List<Movie> getMovies(int startPos, int endPost) {
+		//fetch the movies
+		List<Movie> movies = super.getMovies(startPos, endPost);
+		
+		//fetch authors
+		if ((movies != null && (!movies.isEmpty()))) {
+			Author author;
+			
+			for (Movie movie: movies) {
+				try {
+					author = AuthorLocalServiceUtil.getAuthorByMovieId(movie.getMovieId());
+					movie.setAuthor(author);
+				} catch (NoSuchAuthorException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return movies;
 	}
 	
 	public Movie updateMovie(Long movieId, String movieName, String description, 

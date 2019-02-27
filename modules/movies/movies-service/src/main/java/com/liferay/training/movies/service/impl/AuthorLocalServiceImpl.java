@@ -22,6 +22,7 @@ import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.service.persistence.GroupPersistence;
+import com.liferay.training.movies.exception.NoSuchAuthorException;
 import com.liferay.training.movies.model.Author;
 import com.liferay.training.movies.model.Movie;
 import com.liferay.training.movies.service.MovieLocalServiceUtil;
@@ -47,10 +48,8 @@ public class AuthorLocalServiceImpl extends AuthorLocalServiceBaseImpl {
 	public Author addAuthor(long movieId, String authorName, String biography, ServiceContext serviceContext) 
 			throws PortalException {
 		
-		//get Movie by its id
 		Movie movie = MovieLocalServiceUtil.getMovie(movieId);
 		
-		//get user
 		long userId = serviceContext.getUserId();
 		User user = UserLocalServiceUtil.getUser(userId);
 		
@@ -60,7 +59,7 @@ public class AuthorLocalServiceImpl extends AuthorLocalServiceBaseImpl {
 		//create author obj
 		Author author = authorLocalService.createAuthor(authorId);
 		
-		//set author parameters
+		//set author properties
 		author.setCompanyId(movie.getCompanyId());
 		author.setGroupId(movie.getGroupId());
 		author.setAuthorId(authorId);
@@ -89,11 +88,6 @@ public class AuthorLocalServiceImpl extends AuthorLocalServiceBaseImpl {
 		return super.updateAuthor(author);
 	} 
 	
-	public int getAuthorCountByMovies(long movieId, long authorId) {
-		
-		return authorPersistence.countByMovieIdAuthorId(movieId, authorId);
-	} 
-	
 	public List<Author> getAuthorsByGroupId(long groupId) {
 		
 		return authorPersistence.findByGroupId(groupId);
@@ -108,6 +102,24 @@ public class AuthorLocalServiceImpl extends AuthorLocalServiceBaseImpl {
 	public int getAuthorCountByGroupId(long groupId) {
 		
 		return authorPersistence.countByGroupId(groupId);
+	}
+
+	@Override
+	public int getAuthorCountByMovies(long movieId, long authorId) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public Author getAuthotByMovieId(Long authorId, long movieId) throws NoSuchAuthorException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Author getAuthorByMovieId(long movieId) throws NoSuchAuthorException {
+		
+		return authorPersistence.findByAuthorByMovieId(movieId);
 	}
 	
 }

@@ -38,7 +38,7 @@
 </liferay-portlet:renderURL>
 
 <liferay-ui:search-container emptyResultsMessage="there-are-no-movies"
-	headerNames="movieName, description, rating, action"
+	headerNames="movieName, description, rating, authorName, action"
 	iteratorURL="<%=iteratorURL%>"
 	delta="10"
 	curParam="sc1"
@@ -66,10 +66,10 @@
 			<liferay-ui:search-container-column-text href="<%=rowURL %>" name="Name" property="movieName"/>
 			<liferay-ui:search-container-column-text href="<%=rowURL %>" name="description" property="description"/>
 			<liferay-ui:search-container-column-text href="<%=rowURL %>" name="rating" property="rating"/>
-			 <%--
-			<liferay-ui:search-container-column-text href="<%=rowURL %>" name="author" property="<%=currentMovie.getAuthor().getAuthorName() %>"/>
-			<liferay-ui:search-container-column-text href="<%=rowURL %>" name="biography" property="<%=currentMovie.getAuthor().getBiography() %>"/>
-			--%>
+			 
+			<liferay-ui:search-container-column-text href="<%=rowURL %>" name="author" value="<%=currentMovie.getAuthor().getAuthorName() %>"/>
+			<liferay-ui:search-container-column-text href="<%=rowURL %>" name="biography" value="<%=currentMovie.getAuthor().getBiography() %>"/>
+			
 			<liferay-ui:search-container-column-jsp align="center" path="/button.jsp"/>
 	</liferay-ui:search-container-row>
 	

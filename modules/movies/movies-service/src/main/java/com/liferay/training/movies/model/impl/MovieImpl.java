@@ -17,8 +17,10 @@ package com.liferay.training.movies.model.impl;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.training.movies.model.Author;
 import com.liferay.training.movies.service.AuthorLocalServiceUtil;
+import com.liferay.training.movies.service.AuthorServiceUtil;
 
 import aQute.bnd.annotation.ProviderType;
+import aQute.bnd.build.model.conversions.NewlineEscapedStringFormatter;
 
 /**
  * The extended model implementation for the Movie service. Represents a row in the &quot;movies_Movie&quot; database table, with each column mapped to a property of this class.
@@ -31,13 +33,12 @@ import aQute.bnd.annotation.ProviderType;
  */
 @ProviderType
 public class MovieImpl extends MovieBaseImpl {
-	/*
-	 * NOTE FOR DEVELOPERS:
-	 *
-	 * Never reference this class directly. All methods that expect a movie model instance should use the {@link com.liferay.training.movies.model.Movie} interface instead.
-	 */
+	
+	private Author author;
+	
 	public MovieImpl() {
 	}
+	
 	
 	public Author getAuthor() {
 		return author;
@@ -47,7 +48,4 @@ public class MovieImpl extends MovieBaseImpl {
 	public void setAuthor(Author author) {
 		this.author = author;
 	}
-
-	private Author author;
-	
 }

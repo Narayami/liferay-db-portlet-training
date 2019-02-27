@@ -625,124 +625,45 @@ public interface AuthorPersistence extends BasePersistence<Author> {
 	public int countByAuthorName(String authorName);
 
 	/**
-	* Returns all the authors where movieId = &#63; and authorId = &#63;.
+	* Returns the author where movieId = &#63; and authorId = &#63; or throws a {@link NoSuchAuthorException} if it could not be found.
 	*
 	* @param movieId the movie ID
 	* @param authorId the author ID
-	* @return the matching authors
+	* @return the matching author
+	* @throws NoSuchAuthorException if a matching author could not be found
 	*/
-	public java.util.List<Author> findByMovieIdAuthorId(long movieId,
-		long authorId);
+	public Author findByMovieIdAuthorId(long movieId, long authorId)
+		throws NoSuchAuthorException;
 
 	/**
-	* Returns a range of all the authors where movieId = &#63; and authorId = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link AuthorModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
+	* Returns the author where movieId = &#63; and authorId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	*
 	* @param movieId the movie ID
 	* @param authorId the author ID
-	* @param start the lower bound of the range of authors
-	* @param end the upper bound of the range of authors (not inclusive)
-	* @return the range of matching authors
+	* @return the matching author, or <code>null</code> if a matching author could not be found
 	*/
-	public java.util.List<Author> findByMovieIdAuthorId(long movieId,
-		long authorId, int start, int end);
+	public Author fetchByMovieIdAuthorId(long movieId, long authorId);
 
 	/**
-	* Returns an ordered range of all the authors where movieId = &#63; and authorId = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link AuthorModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
+	* Returns the author where movieId = &#63; and authorId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	*
 	* @param movieId the movie ID
 	* @param authorId the author ID
-	* @param start the lower bound of the range of authors
-	* @param end the upper bound of the range of authors (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	* @return the ordered range of matching authors
-	*/
-	public java.util.List<Author> findByMovieIdAuthorId(long movieId,
-		long authorId, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator<Author> orderByComparator);
-
-	/**
-	* Returns an ordered range of all the authors where movieId = &#63; and authorId = &#63;.
-	*
-	* <p>
-	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link AuthorModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	* </p>
-	*
-	* @param movieId the movie ID
-	* @param authorId the author ID
-	* @param start the lower bound of the range of authors
-	* @param end the upper bound of the range of authors (not inclusive)
-	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	* @param retrieveFromCache whether to retrieve from the finder cache
-	* @return the ordered range of matching authors
+	* @return the matching author, or <code>null</code> if a matching author could not be found
 	*/
-	public java.util.List<Author> findByMovieIdAuthorId(long movieId,
-		long authorId, int start, int end,
-		com.liferay.portal.kernel.util.OrderByComparator<Author> orderByComparator,
+	public Author fetchByMovieIdAuthorId(long movieId, long authorId,
 		boolean retrieveFromCache);
 
 	/**
-	* Returns the first author in the ordered set where movieId = &#63; and authorId = &#63;.
+	* Removes the author where movieId = &#63; and authorId = &#63; from the database.
 	*
 	* @param movieId the movie ID
 	* @param authorId the author ID
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the first matching author
-	* @throws NoSuchAuthorException if a matching author could not be found
+	* @return the author that was removed
 	*/
-	public Author findByMovieIdAuthorId_First(long movieId, long authorId,
-		com.liferay.portal.kernel.util.OrderByComparator<Author> orderByComparator)
+	public Author removeByMovieIdAuthorId(long movieId, long authorId)
 		throws NoSuchAuthorException;
-
-	/**
-	* Returns the first author in the ordered set where movieId = &#63; and authorId = &#63;.
-	*
-	* @param movieId the movie ID
-	* @param authorId the author ID
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the first matching author, or <code>null</code> if a matching author could not be found
-	*/
-	public Author fetchByMovieIdAuthorId_First(long movieId, long authorId,
-		com.liferay.portal.kernel.util.OrderByComparator<Author> orderByComparator);
-
-	/**
-	* Returns the last author in the ordered set where movieId = &#63; and authorId = &#63;.
-	*
-	* @param movieId the movie ID
-	* @param authorId the author ID
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the last matching author
-	* @throws NoSuchAuthorException if a matching author could not be found
-	*/
-	public Author findByMovieIdAuthorId_Last(long movieId, long authorId,
-		com.liferay.portal.kernel.util.OrderByComparator<Author> orderByComparator)
-		throws NoSuchAuthorException;
-
-	/**
-	* Returns the last author in the ordered set where movieId = &#63; and authorId = &#63;.
-	*
-	* @param movieId the movie ID
-	* @param authorId the author ID
-	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	* @return the last matching author, or <code>null</code> if a matching author could not be found
-	*/
-	public Author fetchByMovieIdAuthorId_Last(long movieId, long authorId,
-		com.liferay.portal.kernel.util.OrderByComparator<Author> orderByComparator);
-
-	/**
-	* Removes all the authors where movieId = &#63; and authorId = &#63; from the database.
-	*
-	* @param movieId the movie ID
-	* @param authorId the author ID
-	*/
-	public void removeByMovieIdAuthorId(long movieId, long authorId);
 
 	/**
 	* Returns the number of authors where movieId = &#63; and authorId = &#63;.
@@ -752,6 +673,50 @@ public interface AuthorPersistence extends BasePersistence<Author> {
 	* @return the number of matching authors
 	*/
 	public int countByMovieIdAuthorId(long movieId, long authorId);
+
+	/**
+	* Returns the author where movieId = &#63; or throws a {@link NoSuchAuthorException} if it could not be found.
+	*
+	* @param movieId the movie ID
+	* @return the matching author
+	* @throws NoSuchAuthorException if a matching author could not be found
+	*/
+	public Author findByAuthorByMovieId(long movieId)
+		throws NoSuchAuthorException;
+
+	/**
+	* Returns the author where movieId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	*
+	* @param movieId the movie ID
+	* @return the matching author, or <code>null</code> if a matching author could not be found
+	*/
+	public Author fetchByAuthorByMovieId(long movieId);
+
+	/**
+	* Returns the author where movieId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	*
+	* @param movieId the movie ID
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the matching author, or <code>null</code> if a matching author could not be found
+	*/
+	public Author fetchByAuthorByMovieId(long movieId, boolean retrieveFromCache);
+
+	/**
+	* Removes the author where movieId = &#63; from the database.
+	*
+	* @param movieId the movie ID
+	* @return the author that was removed
+	*/
+	public Author removeByAuthorByMovieId(long movieId)
+		throws NoSuchAuthorException;
+
+	/**
+	* Returns the number of authors where movieId = &#63;.
+	*
+	* @param movieId the movie ID
+	* @return the number of matching authors
+	*/
+	public int countByAuthorByMovieId(long movieId);
 
 	/**
 	* Caches the author in the entity cache if it is enabled.

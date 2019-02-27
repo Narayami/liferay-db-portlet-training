@@ -36,6 +36,7 @@ import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
 import com.liferay.portal.kernel.util.OrderByComparator;
 
+import com.liferay.training.movies.exception.NoSuchAuthorException;
 import com.liferay.training.movies.model.Author;
 
 import java.io.Serializable;
@@ -203,6 +204,9 @@ public interface AuthorLocalService extends BaseLocalService,
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Author getAuthor(long authorId) throws PortalException;
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Author getAuthorByMovieId(long movieId) throws NoSuchAuthorException;
+
 	/**
 	* Returns the author matching the UUID and group.
 	*
@@ -273,6 +277,10 @@ public interface AuthorLocalService extends BaseLocalService,
 	*/
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getAuthorsCount();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Author getAuthotByMovieId(Long authorId, long movieId)
+		throws NoSuchAuthorException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public ExportActionableDynamicQuery getExportActionableDynamicQuery(

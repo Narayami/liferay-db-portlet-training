@@ -34,6 +34,7 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.portal.kernel.uuid.PortalUUIDUtil;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -2497,20 +2498,9 @@ public class AuthorPersistenceImpl extends BasePersistenceImpl<Author>
 	private static final String _FINDER_COLUMN_AUTHORNAME_AUTHORNAME_1 = "author.authorName IS NULL";
 	private static final String _FINDER_COLUMN_AUTHORNAME_AUTHORNAME_2 = "author.authorName = ?";
 	private static final String _FINDER_COLUMN_AUTHORNAME_AUTHORNAME_3 = "(author.authorName IS NULL OR author.authorName = '')";
-	public static final FinderPath FINDER_PATH_WITH_PAGINATION_FIND_BY_MOVIEIDAUTHORID =
-		new FinderPath(AuthorModelImpl.ENTITY_CACHE_ENABLED,
+	public static final FinderPath FINDER_PATH_FETCH_BY_MOVIEIDAUTHORID = new FinderPath(AuthorModelImpl.ENTITY_CACHE_ENABLED,
 			AuthorModelImpl.FINDER_CACHE_ENABLED, AuthorImpl.class,
-			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByMovieIdAuthorId",
-			new String[] {
-				Long.class.getName(), Long.class.getName(),
-				
-			Integer.class.getName(), Integer.class.getName(),
-				OrderByComparator.class.getName()
-			});
-	public static final FinderPath FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_MOVIEIDAUTHORID =
-		new FinderPath(AuthorModelImpl.ENTITY_CACHE_ENABLED,
-			AuthorModelImpl.FINDER_CACHE_ENABLED, AuthorImpl.class,
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByMovieIdAuthorId",
+			FINDER_CLASS_NAME_ENTITY, "fetchByMovieIdAuthorId",
 			new String[] { Long.class.getName(), Long.class.getName() },
 			AuthorModelImpl.MOVIEID_COLUMN_BITMASK |
 			AuthorModelImpl.AUTHORID_COLUMN_BITMASK);
@@ -2521,139 +2511,90 @@ public class AuthorPersistenceImpl extends BasePersistenceImpl<Author>
 			new String[] { Long.class.getName(), Long.class.getName() });
 
 	/**
-	 * Returns all the authors where movieId = &#63; and authorId = &#63;.
+	 * Returns the author where movieId = &#63; and authorId = &#63; or throws a {@link NoSuchAuthorException} if it could not be found.
 	 *
 	 * @param movieId the movie ID
 	 * @param authorId the author ID
-	 * @return the matching authors
+	 * @return the matching author
+	 * @throws NoSuchAuthorException if a matching author could not be found
 	 */
 	@Override
-	public List<Author> findByMovieIdAuthorId(long movieId, long authorId) {
-		return findByMovieIdAuthorId(movieId, authorId, QueryUtil.ALL_POS,
-			QueryUtil.ALL_POS, null);
+	public Author findByMovieIdAuthorId(long movieId, long authorId)
+		throws NoSuchAuthorException {
+		Author author = fetchByMovieIdAuthorId(movieId, authorId);
+
+		if (author == null) {
+			StringBundler msg = new StringBundler(6);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("movieId=");
+			msg.append(movieId);
+
+			msg.append(", authorId=");
+			msg.append(authorId);
+
+			msg.append("}");
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(msg.toString());
+			}
+
+			throw new NoSuchAuthorException(msg.toString());
+		}
+
+		return author;
 	}
 
 	/**
-	 * Returns a range of all the authors where movieId = &#63; and authorId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link AuthorModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
+	 * Returns the author where movieId = &#63; and authorId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	 *
 	 * @param movieId the movie ID
 	 * @param authorId the author ID
-	 * @param start the lower bound of the range of authors
-	 * @param end the upper bound of the range of authors (not inclusive)
-	 * @return the range of matching authors
+	 * @return the matching author, or <code>null</code> if a matching author could not be found
 	 */
 	@Override
-	public List<Author> findByMovieIdAuthorId(long movieId, long authorId,
-		int start, int end) {
-		return findByMovieIdAuthorId(movieId, authorId, start, end, null);
+	public Author fetchByMovieIdAuthorId(long movieId, long authorId) {
+		return fetchByMovieIdAuthorId(movieId, authorId, true);
 	}
 
 	/**
-	 * Returns an ordered range of all the authors where movieId = &#63; and authorId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link AuthorModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
+	 * Returns the author where movieId = &#63; and authorId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	 *
 	 * @param movieId the movie ID
 	 * @param authorId the author ID
-	 * @param start the lower bound of the range of authors
-	 * @param end the upper bound of the range of authors (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching authors
-	 */
-	@Override
-	public List<Author> findByMovieIdAuthorId(long movieId, long authorId,
-		int start, int end, OrderByComparator<Author> orderByComparator) {
-		return findByMovieIdAuthorId(movieId, authorId, start, end,
-			orderByComparator, true);
-	}
-
-	/**
-	 * Returns an ordered range of all the authors where movieId = &#63; and authorId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link AuthorModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
-	 * </p>
-	 *
-	 * @param movieId the movie ID
-	 * @param authorId the author ID
-	 * @param start the lower bound of the range of authors
-	 * @param end the upper bound of the range of authors (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
 	 * @param retrieveFromCache whether to retrieve from the finder cache
-	 * @return the ordered range of matching authors
+	 * @return the matching author, or <code>null</code> if a matching author could not be found
 	 */
 	@Override
-	public List<Author> findByMovieIdAuthorId(long movieId, long authorId,
-		int start, int end, OrderByComparator<Author> orderByComparator,
+	public Author fetchByMovieIdAuthorId(long movieId, long authorId,
 		boolean retrieveFromCache) {
-		boolean pagination = true;
-		FinderPath finderPath = null;
-		Object[] finderArgs = null;
+		Object[] finderArgs = new Object[] { movieId, authorId };
 
-		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
-				(orderByComparator == null)) {
-			pagination = false;
-			finderPath = FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_MOVIEIDAUTHORID;
-			finderArgs = new Object[] { movieId, authorId };
-		}
-		else {
-			finderPath = FINDER_PATH_WITH_PAGINATION_FIND_BY_MOVIEIDAUTHORID;
-			finderArgs = new Object[] {
-					movieId, authorId,
-					
-					start, end, orderByComparator
-				};
-		}
-
-		List<Author> list = null;
+		Object result = null;
 
 		if (retrieveFromCache) {
-			list = (List<Author>)finderCache.getResult(finderPath, finderArgs,
-					this);
+			result = finderCache.getResult(FINDER_PATH_FETCH_BY_MOVIEIDAUTHORID,
+					finderArgs, this);
+		}
 
-			if ((list != null) && !list.isEmpty()) {
-				for (Author author : list) {
-					if ((movieId != author.getMovieId()) ||
-							(authorId != author.getAuthorId())) {
-						list = null;
+		if (result instanceof Author) {
+			Author author = (Author)result;
 
-						break;
-					}
-				}
+			if ((movieId != author.getMovieId()) ||
+					(authorId != author.getAuthorId())) {
+				result = null;
 			}
 		}
 
-		if (list == null) {
-			StringBundler query = null;
-
-			if (orderByComparator != null) {
-				query = new StringBundler(4 +
-						(orderByComparator.getOrderByFields().length * 2));
-			}
-			else {
-				query = new StringBundler(4);
-			}
+		if (result == null) {
+			StringBundler query = new StringBundler(4);
 
 			query.append(_SQL_SELECT_AUTHOR_WHERE);
 
 			query.append(_FINDER_COLUMN_MOVIEIDAUTHORID_MOVIEID_2);
 
 			query.append(_FINDER_COLUMN_MOVIEIDAUTHORID_AUTHORID_2);
-
-			if (orderByComparator != null) {
-				appendOrderByComparator(query, _ORDER_BY_ENTITY_ALIAS,
-					orderByComparator);
-			}
-			else
-			 if (pagination) {
-				query.append(AuthorModelImpl.ORDER_BY_JPQL);
-			}
 
 			String sql = query.toString();
 
@@ -2670,25 +2611,34 @@ public class AuthorPersistenceImpl extends BasePersistenceImpl<Author>
 
 				qPos.add(authorId);
 
-				if (!pagination) {
-					list = (List<Author>)QueryUtil.list(q, getDialect(), start,
-							end, false);
+				List<Author> list = q.list();
 
-					Collections.sort(list);
-
-					list = Collections.unmodifiableList(list);
+				if (list.isEmpty()) {
+					finderCache.putResult(FINDER_PATH_FETCH_BY_MOVIEIDAUTHORID,
+						finderArgs, list);
 				}
 				else {
-					list = (List<Author>)QueryUtil.list(q, getDialect(), start,
-							end);
+					if (list.size() > 1) {
+						Collections.sort(list, Collections.reverseOrder());
+
+						if (_log.isWarnEnabled()) {
+							_log.warn(
+								"AuthorPersistenceImpl.fetchByMovieIdAuthorId(long, long, boolean) with parameters (" +
+								StringUtil.merge(finderArgs) +
+								") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+						}
+					}
+
+					Author author = list.get(0);
+
+					result = author;
+
+					cacheResult(author);
 				}
-
-				cacheResult(list);
-
-				finderCache.putResult(finderPath, finderArgs, list);
 			}
 			catch (Exception e) {
-				finderCache.removeResult(finderPath, finderArgs);
+				finderCache.removeResult(FINDER_PATH_FETCH_BY_MOVIEIDAUTHORID,
+					finderArgs);
 
 				throw processException(e);
 			}
@@ -2697,139 +2647,27 @@ public class AuthorPersistenceImpl extends BasePersistenceImpl<Author>
 			}
 		}
 
-		return list;
-	}
-
-	/**
-	 * Returns the first author in the ordered set where movieId = &#63; and authorId = &#63;.
-	 *
-	 * @param movieId the movie ID
-	 * @param authorId the author ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching author
-	 * @throws NoSuchAuthorException if a matching author could not be found
-	 */
-	@Override
-	public Author findByMovieIdAuthorId_First(long movieId, long authorId,
-		OrderByComparator<Author> orderByComparator)
-		throws NoSuchAuthorException {
-		Author author = fetchByMovieIdAuthorId_First(movieId, authorId,
-				orderByComparator);
-
-		if (author != null) {
-			return author;
-		}
-
-		StringBundler msg = new StringBundler(6);
-
-		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		msg.append("movieId=");
-		msg.append(movieId);
-
-		msg.append(", authorId=");
-		msg.append(authorId);
-
-		msg.append("}");
-
-		throw new NoSuchAuthorException(msg.toString());
-	}
-
-	/**
-	 * Returns the first author in the ordered set where movieId = &#63; and authorId = &#63;.
-	 *
-	 * @param movieId the movie ID
-	 * @param authorId the author ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching author, or <code>null</code> if a matching author could not be found
-	 */
-	@Override
-	public Author fetchByMovieIdAuthorId_First(long movieId, long authorId,
-		OrderByComparator<Author> orderByComparator) {
-		List<Author> list = findByMovieIdAuthorId(movieId, authorId, 0, 1,
-				orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
-		}
-
-		return null;
-	}
-
-	/**
-	 * Returns the last author in the ordered set where movieId = &#63; and authorId = &#63;.
-	 *
-	 * @param movieId the movie ID
-	 * @param authorId the author ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching author
-	 * @throws NoSuchAuthorException if a matching author could not be found
-	 */
-	@Override
-	public Author findByMovieIdAuthorId_Last(long movieId, long authorId,
-		OrderByComparator<Author> orderByComparator)
-		throws NoSuchAuthorException {
-		Author author = fetchByMovieIdAuthorId_Last(movieId, authorId,
-				orderByComparator);
-
-		if (author != null) {
-			return author;
-		}
-
-		StringBundler msg = new StringBundler(6);
-
-		msg.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-		msg.append("movieId=");
-		msg.append(movieId);
-
-		msg.append(", authorId=");
-		msg.append(authorId);
-
-		msg.append("}");
-
-		throw new NoSuchAuthorException(msg.toString());
-	}
-
-	/**
-	 * Returns the last author in the ordered set where movieId = &#63; and authorId = &#63;.
-	 *
-	 * @param movieId the movie ID
-	 * @param authorId the author ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching author, or <code>null</code> if a matching author could not be found
-	 */
-	@Override
-	public Author fetchByMovieIdAuthorId_Last(long movieId, long authorId,
-		OrderByComparator<Author> orderByComparator) {
-		int count = countByMovieIdAuthorId(movieId, authorId);
-
-		if (count == 0) {
+		if (result instanceof List<?>) {
 			return null;
 		}
-
-		List<Author> list = findByMovieIdAuthorId(movieId, authorId, count - 1,
-				count, orderByComparator);
-
-		if (!list.isEmpty()) {
-			return list.get(0);
+		else {
+			return (Author)result;
 		}
-
-		return null;
 	}
 
 	/**
-	 * Removes all the authors where movieId = &#63; and authorId = &#63; from the database.
+	 * Removes the author where movieId = &#63; and authorId = &#63; from the database.
 	 *
 	 * @param movieId the movie ID
 	 * @param authorId the author ID
+	 * @return the author that was removed
 	 */
 	@Override
-	public void removeByMovieIdAuthorId(long movieId, long authorId) {
-		for (Author author : findByMovieIdAuthorId(movieId, authorId,
-				QueryUtil.ALL_POS, QueryUtil.ALL_POS, null)) {
-			remove(author);
-		}
+	public Author removeByMovieIdAuthorId(long movieId, long authorId)
+		throws NoSuchAuthorException {
+		Author author = findByMovieIdAuthorId(movieId, authorId);
+
+		return remove(author);
 	}
 
 	/**
@@ -2890,6 +2728,215 @@ public class AuthorPersistenceImpl extends BasePersistenceImpl<Author>
 
 	private static final String _FINDER_COLUMN_MOVIEIDAUTHORID_MOVIEID_2 = "author.movieId = ? AND ";
 	private static final String _FINDER_COLUMN_MOVIEIDAUTHORID_AUTHORID_2 = "author.authorId = ?";
+	public static final FinderPath FINDER_PATH_FETCH_BY_AUTHORBYMOVIEID = new FinderPath(AuthorModelImpl.ENTITY_CACHE_ENABLED,
+			AuthorModelImpl.FINDER_CACHE_ENABLED, AuthorImpl.class,
+			FINDER_CLASS_NAME_ENTITY, "fetchByAuthorByMovieId",
+			new String[] { Long.class.getName() },
+			AuthorModelImpl.MOVIEID_COLUMN_BITMASK);
+	public static final FinderPath FINDER_PATH_COUNT_BY_AUTHORBYMOVIEID = new FinderPath(AuthorModelImpl.ENTITY_CACHE_ENABLED,
+			AuthorModelImpl.FINDER_CACHE_ENABLED, Long.class,
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByAuthorByMovieId", new String[] { Long.class.getName() });
+
+	/**
+	 * Returns the author where movieId = &#63; or throws a {@link NoSuchAuthorException} if it could not be found.
+	 *
+	 * @param movieId the movie ID
+	 * @return the matching author
+	 * @throws NoSuchAuthorException if a matching author could not be found
+	 */
+	@Override
+	public Author findByAuthorByMovieId(long movieId)
+		throws NoSuchAuthorException {
+		Author author = fetchByAuthorByMovieId(movieId);
+
+		if (author == null) {
+			StringBundler msg = new StringBundler(4);
+
+			msg.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			msg.append("movieId=");
+			msg.append(movieId);
+
+			msg.append("}");
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(msg.toString());
+			}
+
+			throw new NoSuchAuthorException(msg.toString());
+		}
+
+		return author;
+	}
+
+	/**
+	 * Returns the author where movieId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param movieId the movie ID
+	 * @return the matching author, or <code>null</code> if a matching author could not be found
+	 */
+	@Override
+	public Author fetchByAuthorByMovieId(long movieId) {
+		return fetchByAuthorByMovieId(movieId, true);
+	}
+
+	/**
+	 * Returns the author where movieId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param movieId the movie ID
+	 * @param retrieveFromCache whether to retrieve from the finder cache
+	 * @return the matching author, or <code>null</code> if a matching author could not be found
+	 */
+	@Override
+	public Author fetchByAuthorByMovieId(long movieId, boolean retrieveFromCache) {
+		Object[] finderArgs = new Object[] { movieId };
+
+		Object result = null;
+
+		if (retrieveFromCache) {
+			result = finderCache.getResult(FINDER_PATH_FETCH_BY_AUTHORBYMOVIEID,
+					finderArgs, this);
+		}
+
+		if (result instanceof Author) {
+			Author author = (Author)result;
+
+			if ((movieId != author.getMovieId())) {
+				result = null;
+			}
+		}
+
+		if (result == null) {
+			StringBundler query = new StringBundler(3);
+
+			query.append(_SQL_SELECT_AUTHOR_WHERE);
+
+			query.append(_FINDER_COLUMN_AUTHORBYMOVIEID_MOVIEID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(movieId);
+
+				List<Author> list = q.list();
+
+				if (list.isEmpty()) {
+					finderCache.putResult(FINDER_PATH_FETCH_BY_AUTHORBYMOVIEID,
+						finderArgs, list);
+				}
+				else {
+					if (list.size() > 1) {
+						Collections.sort(list, Collections.reverseOrder());
+
+						if (_log.isWarnEnabled()) {
+							_log.warn(
+								"AuthorPersistenceImpl.fetchByAuthorByMovieId(long, boolean) with parameters (" +
+								StringUtil.merge(finderArgs) +
+								") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+						}
+					}
+
+					Author author = list.get(0);
+
+					result = author;
+
+					cacheResult(author);
+				}
+			}
+			catch (Exception e) {
+				finderCache.removeResult(FINDER_PATH_FETCH_BY_AUTHORBYMOVIEID,
+					finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		if (result instanceof List<?>) {
+			return null;
+		}
+		else {
+			return (Author)result;
+		}
+	}
+
+	/**
+	 * Removes the author where movieId = &#63; from the database.
+	 *
+	 * @param movieId the movie ID
+	 * @return the author that was removed
+	 */
+	@Override
+	public Author removeByAuthorByMovieId(long movieId)
+		throws NoSuchAuthorException {
+		Author author = findByAuthorByMovieId(movieId);
+
+		return remove(author);
+	}
+
+	/**
+	 * Returns the number of authors where movieId = &#63;.
+	 *
+	 * @param movieId the movie ID
+	 * @return the number of matching authors
+	 */
+	@Override
+	public int countByAuthorByMovieId(long movieId) {
+		FinderPath finderPath = FINDER_PATH_COUNT_BY_AUTHORBYMOVIEID;
+
+		Object[] finderArgs = new Object[] { movieId };
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler query = new StringBundler(2);
+
+			query.append(_SQL_COUNT_AUTHOR_WHERE);
+
+			query.append(_FINDER_COLUMN_AUTHORBYMOVIEID_MOVIEID_2);
+
+			String sql = query.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query q = session.createQuery(sql);
+
+				QueryPos qPos = QueryPos.getInstance(q);
+
+				qPos.add(movieId);
+
+				count = (Long)q.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception e) {
+				finderCache.removeResult(finderPath, finderArgs);
+
+				throw processException(e);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_AUTHORBYMOVIEID_MOVIEID_2 = "author.movieId = ?";
 
 	public AuthorPersistenceImpl() {
 		setModelClass(Author.class);
@@ -2925,6 +2972,12 @@ public class AuthorPersistenceImpl extends BasePersistenceImpl<Author>
 
 		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G,
 			new Object[] { author.getUuid(), author.getGroupId() }, author);
+
+		finderCache.putResult(FINDER_PATH_FETCH_BY_MOVIEIDAUTHORID,
+			new Object[] { author.getMovieId(), author.getAuthorId() }, author);
+
+		finderCache.putResult(FINDER_PATH_FETCH_BY_AUTHORBYMOVIEID,
+			new Object[] { author.getMovieId() }, author);
 
 		author.resetOriginalValues();
 	}
@@ -3003,6 +3056,22 @@ public class AuthorPersistenceImpl extends BasePersistenceImpl<Author>
 			Long.valueOf(1), false);
 		finderCache.putResult(FINDER_PATH_FETCH_BY_UUID_G, args,
 			authorModelImpl, false);
+
+		args = new Object[] {
+				authorModelImpl.getMovieId(), authorModelImpl.getAuthorId()
+			};
+
+		finderCache.putResult(FINDER_PATH_COUNT_BY_MOVIEIDAUTHORID, args,
+			Long.valueOf(1), false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_MOVIEIDAUTHORID, args,
+			authorModelImpl, false);
+
+		args = new Object[] { authorModelImpl.getMovieId() };
+
+		finderCache.putResult(FINDER_PATH_COUNT_BY_AUTHORBYMOVIEID, args,
+			Long.valueOf(1), false);
+		finderCache.putResult(FINDER_PATH_FETCH_BY_AUTHORBYMOVIEID, args,
+			authorModelImpl, false);
 	}
 
 	protected void clearUniqueFindersCache(AuthorModelImpl authorModelImpl,
@@ -3025,6 +3094,41 @@ public class AuthorPersistenceImpl extends BasePersistenceImpl<Author>
 
 			finderCache.removeResult(FINDER_PATH_COUNT_BY_UUID_G, args);
 			finderCache.removeResult(FINDER_PATH_FETCH_BY_UUID_G, args);
+		}
+
+		if (clearCurrent) {
+			Object[] args = new Object[] {
+					authorModelImpl.getMovieId(), authorModelImpl.getAuthorId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_MOVIEIDAUTHORID, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_MOVIEIDAUTHORID, args);
+		}
+
+		if ((authorModelImpl.getColumnBitmask() &
+				FINDER_PATH_FETCH_BY_MOVIEIDAUTHORID.getColumnBitmask()) != 0) {
+			Object[] args = new Object[] {
+					authorModelImpl.getOriginalMovieId(),
+					authorModelImpl.getOriginalAuthorId()
+				};
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_MOVIEIDAUTHORID, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_MOVIEIDAUTHORID, args);
+		}
+
+		if (clearCurrent) {
+			Object[] args = new Object[] { authorModelImpl.getMovieId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_AUTHORBYMOVIEID, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_AUTHORBYMOVIEID, args);
+		}
+
+		if ((authorModelImpl.getColumnBitmask() &
+				FINDER_PATH_FETCH_BY_AUTHORBYMOVIEID.getColumnBitmask()) != 0) {
+			Object[] args = new Object[] { authorModelImpl.getOriginalMovieId() };
+
+			finderCache.removeResult(FINDER_PATH_COUNT_BY_AUTHORBYMOVIEID, args);
+			finderCache.removeResult(FINDER_PATH_FETCH_BY_AUTHORBYMOVIEID, args);
 		}
 	}
 
@@ -3234,14 +3338,6 @@ public class AuthorPersistenceImpl extends BasePersistenceImpl<Author>
 			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_AUTHORNAME,
 				args);
 
-			args = new Object[] {
-					authorModelImpl.getMovieId(), authorModelImpl.getAuthorId()
-				};
-
-			finderCache.removeResult(FINDER_PATH_COUNT_BY_MOVIEIDAUTHORID, args);
-			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_MOVIEIDAUTHORID,
-				args);
-
 			finderCache.removeResult(FINDER_PATH_COUNT_ALL, FINDER_ARGS_EMPTY);
 			finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_ALL,
 				FINDER_ARGS_EMPTY);
@@ -3315,29 +3411,6 @@ public class AuthorPersistenceImpl extends BasePersistenceImpl<Author>
 
 				finderCache.removeResult(FINDER_PATH_COUNT_BY_AUTHORNAME, args);
 				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_AUTHORNAME,
-					args);
-			}
-
-			if ((authorModelImpl.getColumnBitmask() &
-					FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_MOVIEIDAUTHORID.getColumnBitmask()) != 0) {
-				Object[] args = new Object[] {
-						authorModelImpl.getOriginalMovieId(),
-						authorModelImpl.getOriginalAuthorId()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_MOVIEIDAUTHORID,
-					args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_MOVIEIDAUTHORID,
-					args);
-
-				args = new Object[] {
-						authorModelImpl.getMovieId(),
-						authorModelImpl.getAuthorId()
-					};
-
-				finderCache.removeResult(FINDER_PATH_COUNT_BY_MOVIEIDAUTHORID,
-					args);
-				finderCache.removeResult(FINDER_PATH_WITHOUT_PAGINATION_FIND_BY_MOVIEIDAUTHORID,
 					args);
 			}
 		}

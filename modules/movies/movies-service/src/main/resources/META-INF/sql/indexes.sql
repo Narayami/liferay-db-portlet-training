@@ -1,3 +1,4 @@
+create index IX_90A0B754 on movies_Author (authorId, movieId);
 create index IX_DFFDAC57 on movies_Author (authorName[$COLUMN_LENGTH:75$]);
 create index IX_B0F5FF1D on movies_Author (groupId);
 create index IX_C1C96348 on movies_Author (movieId, authorId);

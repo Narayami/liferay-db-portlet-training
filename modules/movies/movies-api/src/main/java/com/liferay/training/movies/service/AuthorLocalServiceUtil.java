@@ -218,6 +218,12 @@ public class AuthorLocalServiceUtil {
 		return getService().getAuthor(authorId);
 	}
 
+	public static com.liferay.training.movies.model.Author getAuthorByMovieId(
+		long movieId)
+		throws com.liferay.training.movies.exception.NoSuchAuthorException {
+		return getService().getAuthorByMovieId(movieId);
+	}
+
 	/**
 	* Returns the author matching the UUID and group.
 	*
@@ -303,6 +309,12 @@ public class AuthorLocalServiceUtil {
 	*/
 	public static int getAuthorsCount() {
 		return getService().getAuthorsCount();
+	}
+
+	public static com.liferay.training.movies.model.Author getAuthotByMovieId(
+		Long authorId, long movieId)
+		throws com.liferay.training.movies.exception.NoSuchAuthorException {
+		return getService().getAuthotByMovieId(authorId, movieId);
 	}
 
 	public static com.liferay.portal.kernel.dao.orm.ExportActionableDynamicQuery getExportActionableDynamicQuery(

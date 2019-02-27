@@ -43,18 +43,19 @@ public class DeleteMovieActionCommand extends BaseMVCActionCommand {
 		String movieIdStr = actionRequest.getParameter("movieId");
 		long movieId = Long.valueOf(movieIdStr);
 		
+		
 		String authorIdStr = actionRequest.getParameter("authorId");
 		long authorId = Long.valueOf(authorIdStr);
 		
-		System.out.println("movie id: " + movieId);
-		System.out.println("author id: " + authorId);
+		 
+		System.out.println("action-movie id: " + movieId);
+		System.out.println("action-author id: " + authorId);
 		
 
 		try {
 			
 			//MovieLocalServiceUtil.deleteMovie(movieId);
 			MovieLocalServiceUtil.deleteMovieAndAuthor(movieId, authorId);
-			
 			
 			//AuthorLocalServiceUtil.deleteAuthor(authorId);
 

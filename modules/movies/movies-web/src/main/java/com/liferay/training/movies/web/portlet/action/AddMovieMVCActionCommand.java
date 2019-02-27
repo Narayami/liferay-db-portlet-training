@@ -7,6 +7,7 @@ import javax.portlet.PortletException;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
+import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
 import com.liferay.portal.kernel.dao.orm.Session;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
@@ -14,6 +15,7 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.portal.kernel.search.suggest.SuggesterResult.Entry;
+import com.liferay.portal.kernel.service.PersistedModelLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.servlet.SessionErrors;
@@ -28,6 +30,7 @@ import com.liferay.training.movies.service.AuthorServiceUtil;
 import com.liferay.training.movies.service.MovieLocalServiceUtil;
 import com.liferay.training.movies.service.MovieService;
 import com.liferay.training.movies.service.MovieServiceUtil;
+import com.liferay.training.movies.service.persistence.MoviePersistence;
 import com.liferay.training.movies.web.constants.MVCCommandNames;
 import com.liferay.training.movies.web.constants.MoviesPortletKeys;
 
@@ -47,7 +50,6 @@ public class AddMovieMVCActionCommand extends BaseMVCActionCommand {
 	
 	@Override
 	protected void doProcessAction(ActionRequest actionRequest, ActionResponse actionResponse) throws Exception {
-		
 		ThemeDisplay themeDisplay = (ThemeDisplay)actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		ServiceContext serviceContext = ServiceContextFactory.getInstance(Movie.class.getName(), actionRequest);
 		
@@ -57,6 +59,7 @@ public class AddMovieMVCActionCommand extends BaseMVCActionCommand {
 		
 		String authorName = ParamUtil.getString(actionRequest, "author");
 		String biography = ParamUtil.getString(actionRequest, "biography");
+		
 		
 		try {
 			MovieLocalServiceUtil.addMovieAndAuthor(themeDisplay.getScopeGroupId(), movieName, description, rating, authorName, 
