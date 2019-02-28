@@ -60,7 +60,6 @@
 			<portlet:param name="backURL" value="<%=currentURL %>"/>
 			<portlet:param name="jspPage" value="/view_movie.jsp"/>
 			<portlet:param name="movieId" value="<%=String.valueOf(currentMovie.getMovieId()) %>"/>
-			<%-- test --%>
 			<portlet:param name="authorId" value="<%=String.valueOf(currentMovie.getAuthor().getAuthorId()) %>"/>
 		</liferay-portlet:renderURL>
 		
@@ -71,6 +70,7 @@
 			 
 			<liferay-ui:search-container-column-text href="<%=rowURL %>" name="author" value="<%=currentMovie.getAuthor().getAuthorName() %>"/>
 			<liferay-ui:search-container-column-text href="<%=rowURL %>" name="biography" value="<%=currentMovie.getAuthor().getBiography() %>"/>
+			
 			
 			<liferay-ui:search-container-column-jsp align="center" path="/button.jsp"/>
 	</liferay-ui:search-container-row>

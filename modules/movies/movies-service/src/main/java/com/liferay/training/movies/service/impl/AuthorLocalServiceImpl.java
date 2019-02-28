@@ -115,7 +115,8 @@ public class AuthorLocalServiceImpl extends AuthorLocalServiceBaseImpl {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+	
+	
 	@Override
 	public Author getAuthorByMovieId(long movieId) throws NoSuchAuthorException {
 		

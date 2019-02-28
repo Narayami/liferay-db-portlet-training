@@ -14,13 +14,9 @@
 
 package com.liferay.training.movies.model.impl;
 
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.training.movies.model.Author;
-import com.liferay.training.movies.service.AuthorLocalServiceUtil;
-import com.liferay.training.movies.service.AuthorServiceUtil;
 
 import aQute.bnd.annotation.ProviderType;
-import aQute.bnd.build.model.conversions.NewlineEscapedStringFormatter;
 
 /**
  * The extended model implementation for the Movie service. Represents a row in the &quot;movies_Movie&quot; database table, with each column mapped to a property of this class.
