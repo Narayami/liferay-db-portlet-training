@@ -16,20 +16,16 @@ package com.liferay.training.movies.service.impl;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.service.persistence.GroupPersistence;
 import com.liferay.training.movies.exception.NoSuchAuthorException;
 import com.liferay.training.movies.model.Author;
 import com.liferay.training.movies.model.Movie;
 import com.liferay.training.movies.service.AuthorLocalServiceUtil;
 import com.liferay.training.movies.service.AuthorServiceUtil;
-import com.liferay.training.movies.service.MovieLocalServiceUtil;
 import com.liferay.training.movies.service.base.MovieLocalServiceBaseImpl;
 
 /**
@@ -58,9 +54,6 @@ public class MovieLocalServiceImpl extends MovieLocalServiceBaseImpl {
 		//getting the user, first get the user id go get the user : userPersistence || userLocalService
 		long userId = serviceContext.getUserId();
 		User user = userLocalService.getUserById(userId);
-		
-		
-		
 		
 		//Generate primary key for the new movie - referencing the movie class in the specific movie about to create
 		long movieId = counterLocalService.increment(Movie.class.getName()); //counterLocalService helps with primary key
@@ -156,6 +149,28 @@ public class MovieLocalServiceImpl extends MovieLocalServiceBaseImpl {
 		return moviePersistence.countByGroupId(groupId);
 	}
 	
+	
+	//test
+	public List<Movie> getMoviesAndAuthors(int startPos, int endPost) {
+		//fetch the movies
+		List<Movie> movies = super.getMovies(startPos, endPost);
+					//fetch authors
+		if ((movies != null && (!movies.isEmpty()))) {
+			Author author;
+			
+			for (Movie movie: movies) {
+				try {
+					author = AuthorLocalServiceUtil.getAuthorByMovieId(movie.getMovieId());						
+					movie.setAuthor(author);
+					} catch (NoSuchAuthorException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			return movies;
+		}
+	
+	/*
 	//need to override the getter to show the movie author too
 	@Override
 	public List<Movie> getMovies(int startPos, int endPost) {
@@ -176,7 +191,7 @@ public class MovieLocalServiceImpl extends MovieLocalServiceBaseImpl {
 			}
 		}
 		return movies;
-	}
+	}*/
 	
 	public Movie updateMovie(Long movieId, String movieName, String description, 
 			int rating, ServiceContext serviceContext) throws PortalException {

@@ -50,5 +50,6 @@
        </portlet:actionURL>
 
          <liferay-ui:icon-delete url="<%=deleteURL.toString() %>" />
+         
       
 </liferay-ui:icon-menu>

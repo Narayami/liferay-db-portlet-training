@@ -1,3 +1,4 @@
+<%@page import="com.liferay.training.movies.web.constants.MVCCommandNames"%>
 <%@ include file ="/init.jsp"%>
 
 
@@ -6,8 +7,10 @@
 </portlet:renderURL>
 
 <portlet:renderURL var="viewMoviesURL">
-	<portlet:param name="jspPage" value="/view_test.jsp"/>
+	<portlet:param name="mvcRenderCommandName" value="<%=MVCCommandNames.VIEW_MOVIE %>" />
 </portlet:renderURL>
+
+
 <center>
 	<img src="<%=request.getContextPath()%>/img/lordOfTheRings.jpeg" style="width:100%"/>
 </center>

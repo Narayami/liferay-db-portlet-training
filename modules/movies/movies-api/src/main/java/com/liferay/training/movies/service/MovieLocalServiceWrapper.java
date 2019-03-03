@@ -293,6 +293,12 @@ public class MovieLocalServiceWrapper implements MovieLocalService,
 	}
 
 	@Override
+	public java.util.List<com.liferay.training.movies.model.Movie> getMoviesAndAuthors(
+		int startPos, int endPost) {
+		return _movieLocalService.getMoviesAndAuthors(startPos, endPost);
+	}
+
+	@Override
 	public java.util.List<com.liferay.training.movies.model.Movie> getMoviesByGroupId(
 		Long groupId) {
 		return _movieLocalService.getMoviesByGroupId(groupId);

@@ -70,12 +70,11 @@ public class AddMovieMVCActionCommand extends BaseMVCActionCommand {
 			
 			sendRedirect(actionRequest, actionResponse);
 			
-		}catch (MovieValidationException e){
+		}catch (MovieValidationException e) {
 			actionResponse.setRenderParameter("mvcRenderCommandName", MVCCommandNames.EDIT_MOVIE);
-		}catch (PortalException e){
+		}catch (PortalException e) {
 			log.error(e);
 			SessionErrors.add(actionRequest, MVCCommandNames.EDIT_MOVIE);
-		}
-		
+		}		
 	}
 }

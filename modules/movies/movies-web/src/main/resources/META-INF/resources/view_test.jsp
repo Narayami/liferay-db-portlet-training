@@ -29,6 +29,10 @@
 
 <h1 align="center">Movies List</h1>
 
+<%
+	List<Movie> movies = (List<Movie>)request.getAttribute("moviesAndAuthors");	
+%>
+
 <portlet:actionURL var="goBackURL">
 	<param name="jspPage" value="/view.jsp" />
 </portlet:actionURL>
@@ -38,20 +42,18 @@
 </liferay-portlet:renderURL>
 
 <liferay-ui:search-container emptyResultsMessage="there-are-no-movies"
-	headerNames="movieName, description, rating, authorName, action"
-	iteratorURL="<%=iteratorURL%>"
-	delta="10"
-	curParam="sc1"
+	headerNames="movieName, description, rating, authorName, biography, action"
+	iteratorURL="<%=iteratorURL %>"
+	delta="5"
 	deltaConfigurable="true">
 	
 	<liferay-ui:search-container-results>
 		<%
-			int totalMovies = MovieLocalServiceUtil.getMoviesCount();
-			results = MovieLocalServiceUtil.getMovies(searchContainer.getStart(), searchContainer.getEnd());
-			searchContainer.setTotal(totalMovies);
-			searchContainer.setResults(results);
+			searchContainer.setTotal(movies.size());
+			searchContainer.setResults(movies);
 		%>
 	</liferay-ui:search-container-results>
+	
 	
 	<liferay-ui:search-container-row className="com.liferay.training.movies.model.Movie"
 		keyProperty="movieId" modelVar="currentMovie">
@@ -69,8 +71,7 @@
 			<liferay-ui:search-container-column-text href="<%=rowURL %>" name="rating" property="rating"/>
 			 
 			<liferay-ui:search-container-column-text href="<%=rowURL %>" name="author" value="<%=currentMovie.getAuthor().getAuthorName() %>"/>
-			<liferay-ui:search-container-column-text href="<%=rowURL %>" name="biography" value="<%=currentMovie.getAuthor().getBiography() %>"/>
-			
+			<liferay-ui:search-container-column-text href="<%=rowURL %>" name="biography" value="<%=currentMovie.getAuthor().getBiography() %>"/>			
 			
 			<liferay-ui:search-container-column-jsp align="center" path="/button.jsp"/>
 	</liferay-ui:search-container-row>
