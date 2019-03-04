@@ -6,6 +6,7 @@ import javax.portlet.ActionResponse;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
+import com.liferay.portal.kernel.portlet.LiferayWindowState;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
 import com.liferay.training.movies.model.Author;
@@ -37,16 +38,14 @@ public class EditMovieMVCActionRequest extends BaseMVCActionCommand {
         String strAuthorId = actionRequest.getParameter("authorId");
         long authorId = Long.valueOf(strAuthorId);
         
-        System.out.print("ENTROU NO EDIT");
-         
         //Retriev table data using Primary key
         Movie movie = MovieLocalServiceUtil.getMovie(movieId);
         Author author = AuthorLocalServiceUtil.getAuthor(authorId);
-                                    
+        
         //Set Attribute which has all values of specified pk. (necessary for jsp-use bean)
         actionRequest.setAttribute("edit", movie);
         actionRequest.setAttribute("editAuth", author);
-
+        
         // Redirect to Jsp page which has Update form.
         actionResponse.setRenderParameter("jspPage","/edit.jsp");
                                     

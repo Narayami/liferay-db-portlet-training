@@ -8,6 +8,8 @@ import javax.portlet.RenderResponse;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+
+import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCRenderCommand;
 import com.liferay.portal.kernel.transaction.NewTransactionLifecycleListener;
 import com.liferay.portal.kernel.util.Portal;
@@ -33,9 +35,11 @@ public class ViewMoviesMVCRenderCommand implements MVCRenderCommand {
 	
 	public String render(RenderRequest renderRequest, RenderResponse renderResponse) throws PortletException {    
 		
-		int totalMovies = movieViewModel.getMoviesCount();
-		List<Movie> movies = movieViewModel.getMoviesAndAuthors(0, totalMovies);
-		renderRequest.setAttribute("moviesAndAuthors", movies);
+		//int totalMovies = movieViewModel.getMoviesCount();
+		//List<Movie> movies = movieViewModel.getMoviesAndAuthors(0, totalMovies);
+		renderRequest.setAttribute("moviesSearchContainerResult", movieViewModel.setSearchContainerMoviesResults());
+		
+		//renderRequest.setAttribute("moviesAndAuthors", movies);
 		
 		return "/view_test.jsp";
 	}

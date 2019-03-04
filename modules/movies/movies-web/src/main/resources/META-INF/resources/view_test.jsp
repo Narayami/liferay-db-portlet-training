@@ -29,10 +29,6 @@
 
 <h1 align="center">Movies List</h1>
 
-<%
-	List<Movie> movies = (List<Movie>)request.getAttribute("moviesAndAuthors");	
-%>
-
 <portlet:actionURL var="goBackURL">
 	<param name="jspPage" value="/view.jsp" />
 </portlet:actionURL>
@@ -41,20 +37,13 @@
 	<liferay-portlet:param name="jspPage" value="/view_test.jsp"/>
 </liferay-portlet:renderURL>
 
-<liferay-ui:search-container emptyResultsMessage="there-are-no-movies"
+<liferay-ui:search-container searchContainer="${moviesSearchContainerResult}"
 	headerNames="movieName, description, rating, authorName, biography, action"
 	iteratorURL="<%=iteratorURL %>"
-	delta="5"
+	delta="10"
 	deltaConfigurable="true">
 	
-	<liferay-ui:search-container-results>
-		<%
-			searchContainer.setTotal(movies.size());
-			searchContainer.setResults(movies);
-		%>
-	</liferay-ui:search-container-results>
-	
-	
+	<liferay-ui:search-container-results results="${moviesSearchContainerResult.getResults()}" />
 	<liferay-ui:search-container-row className="com.liferay.training.movies.model.Movie"
 		keyProperty="movieId" modelVar="currentMovie">
 		
@@ -78,7 +67,6 @@
 	
 	<liferay-ui:search-iterator searchContainer="<%=searchContainer %>" paginate="<%=true %>"/>
 </liferay-ui:search-container>
-
 
 <aui:button-row>
 	<aui:button type="cancel" onClick="<%=goBackURL.toString() %>"></aui:button>

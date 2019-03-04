@@ -27,7 +27,7 @@
 <%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
 
 <%
- 	ResultRow row=(ResultRow)request.getAttribute(WebKeys.SEARCH_CONTAINER_RESULT_ROW);
+ 	ResultRow row = (ResultRow)request.getAttribute(WebKeys.SEARCH_CONTAINER_RESULT_ROW);
  	Movie movie = (Movie)row.getObject();
  	String movieId = String.valueOf(movie.getMovieId());
  	String authorId = String.valueOf(movie.getAuthor().getAuthorId());
@@ -51,5 +51,4 @@
 
          <liferay-ui:icon-delete url="<%=deleteURL.toString() %>" />
          
-      
 </liferay-ui:icon-menu>

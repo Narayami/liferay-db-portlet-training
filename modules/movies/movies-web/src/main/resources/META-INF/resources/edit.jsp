@@ -26,7 +26,7 @@
 <jsp:useBean id="edit" type="com.liferay.training.movies.model.Movie" scope="request" />
 <jsp:useBean id="editAuth" type="com.liferay.training.movies.model.Author" scope="request" />
  
- 
+ 	
 	<portlet:actionURL name="<%=MVCCommandNames.UPDATE_MOVIE %>" var="updateMovieURL"/>
 	
 	<aui:form action="<%=updateMovieURL.toString() %>" method="post">

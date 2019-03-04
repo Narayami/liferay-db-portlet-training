@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.servlet.SessionErrors;
 import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.transaction.NewTransactionLifecycleListener;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.PortletKeys;
 import com.liferay.portal.kernel.util.WebKeys;
@@ -33,6 +34,7 @@ import com.liferay.training.movies.service.MovieServiceUtil;
 import com.liferay.training.movies.service.persistence.MoviePersistence;
 import com.liferay.training.movies.web.constants.MVCCommandNames;
 import com.liferay.training.movies.web.constants.MoviesPortletKeys;
+import com.liferay.training.movies.web.model.view.MovieViewModel;
 
 @Component(
 		immediate = true,
@@ -43,9 +45,11 @@ import com.liferay.training.movies.web.constants.MoviesPortletKeys;
 		service = MVCActionCommand.class
 )
 public class AddMovieMVCActionCommand extends BaseMVCActionCommand {
+	
 	@Reference
 	MovieService movieService;
 	
+	MovieViewModel movieViewModel = new MovieViewModel();
 	public static final Log log = LogFactoryUtil.getLog(Movie.class);
 	
 	@Override
@@ -56,25 +60,11 @@ public class AddMovieMVCActionCommand extends BaseMVCActionCommand {
 		String movieName = ParamUtil.getString(actionRequest, "movie");
 		String description = ParamUtil.getString(actionRequest, "description");
 		int rating = ParamUtil.getInteger(actionRequest, "rating");
-		
 		String authorName = ParamUtil.getString(actionRequest, "author");
 		String biography = ParamUtil.getString(actionRequest, "biography");
 		
+		movieViewModel.addMovieAndAuthor(themeDisplay.getScopeGroupId(), movieName, description, rating, 
+				authorName, biography, serviceContext);
 		
-		try {
-			MovieLocalServiceUtil.addMovieAndAuthor(themeDisplay.getScopeGroupId(), movieName, description, rating, authorName, 
-					biography, serviceContext);
-			
-			SessionMessages.add(actionRequest, "movie-addded");
-			hideDefaultSuccessMessage(actionRequest);
-			
-			sendRedirect(actionRequest, actionResponse);
-			
-		}catch (MovieValidationException e) {
-			actionResponse.setRenderParameter("mvcRenderCommandName", MVCCommandNames.EDIT_MOVIE);
-		}catch (PortalException e) {
-			log.error(e);
-			SessionErrors.add(actionRequest, MVCCommandNames.EDIT_MOVIE);
-		}		
 	}
 }

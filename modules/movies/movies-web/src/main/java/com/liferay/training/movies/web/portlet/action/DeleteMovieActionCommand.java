@@ -47,7 +47,7 @@ public class DeleteMovieActionCommand extends BaseMVCActionCommand {
 		String authorIdStr = actionRequest.getParameter("authorId");
 		long authorId = Long.valueOf(authorIdStr);
 		
-		 
+		
 		System.out.println("action-movie id: " + movieId);
 		System.out.println("action-author id: " + authorId);
 		
