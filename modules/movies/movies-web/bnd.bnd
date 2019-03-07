@@ -12,4 +12,4 @@ Export-Package: \
 	com.liferay.training.movies.web.portlet.action,\
 	com.liferay.training.movies.web.portlet.template,\
 	com.liferay.training.movies.service.persistence,\
-null
+	null

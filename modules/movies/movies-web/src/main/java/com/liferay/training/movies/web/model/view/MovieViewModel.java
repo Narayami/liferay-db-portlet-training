@@ -1,5 +1,6 @@
 package com.liferay.training.movies.web.model.view;
 
+
 import java.util.List;
 
 import com.liferay.portal.kernel.dao.search.SearchContainer;
@@ -7,27 +8,19 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.training.movies.model.Author;
 import com.liferay.training.movies.model.Movie;
 import com.liferay.training.movies.service.MovieLocalServiceUtil;
 
 public class MovieViewModel {
-	
 	public static final Log log = LogFactoryUtil.getLog(Movie.class);
 	private Author author;
 	private String movieName;
 	private String description;
 	private int rating;
 	
-	public SearchContainer<Movie> setSearchContainerMoviesResults() {
-		SearchContainer<Movie> searchContainer = new SearchContainer<Movie>();
-		List<Movie> movies = getMoviesAndAuthors(0, getMoviesCount());
-		searchContainer.setTotal(getMoviesCount());
-		searchContainer.setResults(movies);
-		searchContainer.setEmptyResultsMessage("No movies found");
-		return searchContainer;
-		
-	}
+	
 	
 	public List<Movie> getMovies(int startPost, int endPos) {
 		return MovieLocalServiceUtil.getMovies(startPost, endPos);
@@ -50,6 +43,11 @@ public class MovieViewModel {
 		} catch (PortalException e) {
 			log.error(e);
 		}
+	}
+	
+	public void updateMovie(Movie movie) {
+		System.out.println("movie hi");
+		MovieLocalServiceUtil.updateMovie(movie);
 	}
 
 	public int getRating() {
@@ -83,4 +81,5 @@ public class MovieViewModel {
 	public void setAuthor(Author author) {
 		this.author = author;
 	}
+
 }

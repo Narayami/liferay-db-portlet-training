@@ -33,6 +33,10 @@
         <finder name="Rating" return-type="Collection">
             <finder-column name="rating"></finder-column>
         </finder>
+        <finder name="G_G" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+            <finder-column name="movieId"></finder-column>
+        </finder>
         <reference entity="Group" package-path="com.liferay.portal"></reference>
         <reference entity="AssetEntry" package-path="com.liferay.portlet.asset"></reference>
         <reference entity="AssetTag" package-path="com.liferay.portlet.asset"></reference>

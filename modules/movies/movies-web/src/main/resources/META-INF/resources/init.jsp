@@ -33,6 +33,11 @@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
 <%@page import="com.liferay.portal.kernel.theme.ThemeDisplay"%>
 <%@page import="com.liferay.training.movies.model.Movie"%>
 
+<%-- 
+<%@page import="com.liferay.training.movies.comparator.MovieNameComparator"%>
+<%@page import="com.liferay.portal.kernel.util.OrderByComparator"%>
+--%>
+
 
 <liferay-theme:defineObjects />
 <portlet:defineObjects />

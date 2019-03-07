@@ -1,3 +1,8 @@
+<%@page import="com.liferay.portal.kernel.servlet.RequestDispatcherUtil"%>
+<%@page import="java.lang.ProcessBuilder.Redirect"%>
+<%@page import="com.liferay.training.movies.web.comparator.MovieComparatorUtil"%>
+<%@page import="com.liferay.portal.kernel.util.ParamUtil"%>
+<%@page import="com.liferay.training.movies.web.model.view.MovieViewModel"%>
 <%@page import="com.liferay.training.movies.service.AuthorLocalServiceUtil"%>
 <%@page import="com.liferay.portal.kernel.xmlrpc.Response"%>
 <%@page import="com.liferay.portal.kernel.util.ListUtil"%>
@@ -37,13 +42,30 @@
 	<liferay-portlet:param name="jspPage" value="/view_test.jsp"/>
 </liferay-portlet:renderURL>
 
-<liferay-ui:search-container searchContainer="${moviesSearchContainerResult}"
-	headerNames="movieName, description, rating, authorName, biography, action"
-	iteratorURL="<%=iteratorURL %>"
-	delta="10"
-	deltaConfigurable="true">
+<%
+	String orderByCol = ParamUtil.getString(request, "orderByCol");
+	String orderByType = ParamUtil.getString(request, "orderByType");
+%>
+
+<liferay-ui:search-container delta="10" orderByType="<%=orderByType %>" iteratorURL="<%=iteratorURL %>"  >
 	
-	<liferay-ui:search-container-results results="${moviesSearchContainerResult.getResults()}" />
+	<liferay-ui:search-container-results >
+		
+	<%
+		List<Movie> movieList = MovieLocalServiceUtil.getMoviesAndAuthors(-1, -1);
+		
+		//get local copy to be sorted in our need
+		List<Movie> sortedMovieList = new ArrayList<Movie>(ListUtil.subList(movieList, 
+				searchContainer.getStart(), searchContainer.getEnd()));
+		
+		//sort the list based on order and column
+		sortedMovieList = MovieComparatorUtil.sortMovies(sortedMovieList, orderByCol, orderByType);
+		
+		pageContext.setAttribute("results", sortedMovieList);
+		pageContext.setAttribute("total", movieList.size());
+	%>
+		
+	</liferay-ui:search-container-results>
 	<liferay-ui:search-container-row className="com.liferay.training.movies.model.Movie"
 		keyProperty="movieId" modelVar="currentMovie">
 		
@@ -55,17 +77,31 @@
 		</liferay-portlet:renderURL>
 		
 		<liferay-ui:search-container-row-parameter name="rowURL" value="<%=rowURL.toString() %>"/>
-			<liferay-ui:search-container-column-text href="<%=rowURL %>" name="Name" property="movieName"/>
-			<liferay-ui:search-container-column-text href="<%=rowURL %>" name="description" property="description"/>
-			<liferay-ui:search-container-column-text href="<%=rowURL %>" name="rating" property="rating"/>
-			 
-			<liferay-ui:search-container-column-text href="<%=rowURL %>" name="author" value="<%=currentMovie.getAuthor().getAuthorName() %>"/>
-			<liferay-ui:search-container-column-text href="<%=rowURL %>" name="biography" value="<%=currentMovie.getAuthor().getBiography() %>"/>			
+			<liferay-ui:search-container-column-text href="<%=rowURL %>"
+				name="Name"
+				property="movieName"
+				orderableProperty="movieName"
+				orderable="true"/>
+			<liferay-ui:search-container-column-text href="<%=rowURL %>"
+				name="description" 
+				property="description" />
+			<liferay-ui:search-container-column-text href="<%=rowURL %>"
+				name="rating" 
+				property="rating"
+				orderableProperty="rating"
+				orderable="true"/>
+			 <liferay-ui:search-container-column-text href="<%=rowURL %>"
+				name="author" 
+				orderableProperty="authorName"
+				orderable="true"
+				value="<%=currentMovie.getAuthor().getAuthorName() %>"/>
+			<liferay-ui:search-container-column-text href="<%=rowURL %>" 
+				name="biography" 
+				value="<%=currentMovie.getAuthor().getBiography() %>"/>	
 			
 			<liferay-ui:search-container-column-jsp align="center" path="/button.jsp"/>
 	</liferay-ui:search-container-row>
-	
-	<liferay-ui:search-iterator searchContainer="<%=searchContainer %>" paginate="<%=true %>"/>
+	<liferay-ui:search-iterator searchContainer="<%=searchContainer %>" paginate="true"/>
 </liferay-ui:search-container>
 
 <aui:button-row>

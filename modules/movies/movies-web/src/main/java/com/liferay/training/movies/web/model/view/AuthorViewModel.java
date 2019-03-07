@@ -1,9 +1,16 @@
 package com.liferay.training.movies.web.model.view;
 
+import com.liferay.training.movies.model.Author;
+import com.liferay.training.movies.service.AuthorLocalServiceUtil;
+
 public class AuthorViewModel {
 	
 	private String authorName;
 	private String biography;
+	
+	public void updateAuthor(Author author) {
+		AuthorLocalServiceUtil.updateAuthor(author);
+	}
 	
 	public String getAuthorName() {
 		return authorName;
@@ -20,6 +27,4 @@ public class AuthorViewModel {
 	public void setBiography(String biography) {
 		this.biography = biography;
 	}
-	
-	
 }

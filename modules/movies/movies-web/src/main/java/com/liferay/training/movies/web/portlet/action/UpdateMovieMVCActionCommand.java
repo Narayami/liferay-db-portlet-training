@@ -2,13 +2,13 @@ package com.liferay.training.movies.web.portlet.action;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
-import javax.portlet.PortletException;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
+import com.liferay.portal.kernel.transaction.NewTransactionLifecycleListener;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.training.movies.model.Author;
 import com.liferay.training.movies.model.Movie;
@@ -17,6 +17,8 @@ import com.liferay.training.movies.service.MovieLocalServiceUtil;
 import com.liferay.training.movies.service.MovieService;
 import com.liferay.training.movies.web.constants.MVCCommandNames;
 import com.liferay.training.movies.web.constants.MoviesPortletKeys;
+import com.liferay.training.movies.web.model.view.AuthorViewModel;
+import com.liferay.training.movies.web.model.view.MovieViewModel;
 
 @Component(
 		immediate = true,
@@ -28,6 +30,9 @@ import com.liferay.training.movies.web.constants.MoviesPortletKeys;
 	)
 public class UpdateMovieMVCActionCommand extends BaseMVCActionCommand {
 
+	private AuthorViewModel authorViewModel = new AuthorViewModel();
+	private MovieViewModel movieViewModel = new MovieViewModel();
+	
 	@Reference
 	MovieService movieService;
 	
@@ -44,7 +49,7 @@ public class UpdateMovieMVCActionCommand extends BaseMVCActionCommand {
 		String biography = actionRequest.getParameter("biography");
 		String strAuthorId = actionRequest.getParameter("authorId");
 		long authorId = Long.valueOf(strAuthorId);
-		 
+		
 		//Fetch data from table using pk
 		Movie movie = MovieLocalServiceUtil.getMovie(movieId);
 		Author author = AuthorLocalServiceUtil.getAuthor(authorId);
@@ -56,12 +61,11 @@ public class UpdateMovieMVCActionCommand extends BaseMVCActionCommand {
 		author.setAuthorName(authorName);
 		author.setBiography(biography);
 		
-		// Update method with change data
+		// Update method with changed data
 		//TODO create method updateMovieAndAuthor?
-		MovieLocalServiceUtil.updateMovie(movie);
-		AuthorLocalServiceUtil.updateAuthor(author);
+		movieViewModel.updateMovie(movie);
+		authorViewModel.updateAuthor(author);
 		
-		//Redirect to Search container with update entry
 		actionResponse.setRenderParameter("jspPage","/view.jsp");
 	}
 }

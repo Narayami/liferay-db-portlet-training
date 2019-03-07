@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.training.movies.exception.NoSuchAuthorException;
 import com.liferay.training.movies.model.Author;
 import com.liferay.training.movies.model.Movie;
@@ -51,7 +52,7 @@ public class MovieLocalServiceImpl extends MovieLocalServiceBaseImpl {
 		//Group is used for the scoping the Movie entity to the site
 		Group group = groupPersistence.findByPrimaryKey(groupId);
 		
-		//getting the user, first get the user id go get the user : userPersistence || userLocalService
+		//getting the user, first get the user id go get the user
 		long userId = serviceContext.getUserId();
 		User user = userLocalService.getUserById(userId);
 		
@@ -154,7 +155,7 @@ public class MovieLocalServiceImpl extends MovieLocalServiceBaseImpl {
 	public List<Movie> getMoviesAndAuthors(int startPos, int endPost) {
 		//fetch the movies
 		List<Movie> movies = super.getMovies(startPos, endPost);
-					//fetch authors
+		//fetch authors
 		if ((movies != null && (!movies.isEmpty()))) {
 			Author author;
 			
@@ -170,28 +171,11 @@ public class MovieLocalServiceImpl extends MovieLocalServiceBaseImpl {
 			return movies;
 		}
 	
-	/*
-	//need to override the getter to show the movie author too
-	@Override
-	public List<Movie> getMovies(int startPos, int endPost) {
-		//fetch the movies
-		List<Movie> movies = super.getMovies(startPos, endPost);
+	public List<Movie> getMovies(long groupId, long movieId, int start, int end, OrderByComparator<Movie> obc) {
 		
-		//fetch authors
-		if ((movies != null && (!movies.isEmpty()))) {
-			Author author;
-			
-			for (Movie movie: movies) {
-				try {
-					author = AuthorLocalServiceUtil.getAuthorByMovieId(movie.getMovieId());
-					movie.setAuthor(author);
-				} catch (NoSuchAuthorException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return movies;
-	}*/
+		return moviePersistence.findByG_G(groupId, movieId, start, end, obc);
+		
+	}
 	
 	public Movie updateMovie(Long movieId, String movieName, String description, 
 			int rating, ServiceContext serviceContext) throws PortalException {

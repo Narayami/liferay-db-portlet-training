@@ -118,10 +118,10 @@ public class MovieModelImpl extends BaseModelImpl<Movie> implements MovieModel {
 			true);
 	public static final long COMPANYID_COLUMN_BITMASK = 1L;
 	public static final long GROUPID_COLUMN_BITMASK = 2L;
-	public static final long MOVIENAME_COLUMN_BITMASK = 4L;
-	public static final long RATING_COLUMN_BITMASK = 8L;
-	public static final long UUID_COLUMN_BITMASK = 16L;
-	public static final long MOVIEID_COLUMN_BITMASK = 32L;
+	public static final long MOVIEID_COLUMN_BITMASK = 4L;
+	public static final long MOVIENAME_COLUMN_BITMASK = 8L;
+	public static final long RATING_COLUMN_BITMASK = 16L;
+	public static final long UUID_COLUMN_BITMASK = 32L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -330,7 +330,19 @@ public class MovieModelImpl extends BaseModelImpl<Movie> implements MovieModel {
 
 	@Override
 	public void setMovieId(long movieId) {
+		_columnBitmask |= MOVIEID_COLUMN_BITMASK;
+
+		if (!_setOriginalMovieId) {
+			_setOriginalMovieId = true;
+
+			_originalMovieId = _movieId;
+		}
+
 		_movieId = movieId;
+	}
+
+	public long getOriginalMovieId() {
+		return _originalMovieId;
 	}
 
 	@JSON
@@ -627,6 +639,10 @@ public class MovieModelImpl extends BaseModelImpl<Movie> implements MovieModel {
 
 		movieModelImpl._originalUuid = movieModelImpl._uuid;
 
+		movieModelImpl._originalMovieId = movieModelImpl._movieId;
+
+		movieModelImpl._setOriginalMovieId = false;
+
 		movieModelImpl._originalGroupId = movieModelImpl._groupId;
 
 		movieModelImpl._setOriginalGroupId = false;
@@ -809,6 +825,8 @@ public class MovieModelImpl extends BaseModelImpl<Movie> implements MovieModel {
 	private String _uuid;
 	private String _originalUuid;
 	private long _movieId;
+	private long _originalMovieId;
+	private boolean _setOriginalMovieId;
 	private long _groupId;
 	private long _originalGroupId;
 	private boolean _setOriginalGroupId;

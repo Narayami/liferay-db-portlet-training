@@ -284,6 +284,12 @@ public class MovieLocalServiceUtil {
 		return getService().getMovies(start, end);
 	}
 
+	public static java.util.List<com.liferay.training.movies.model.Movie> getMovies(
+		long groupId, long movieId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<com.liferay.training.movies.model.Movie> obc) {
+		return getService().getMovies(groupId, movieId, start, end, obc);
+	}
+
 	public static java.util.List<com.liferay.training.movies.model.Movie> getMoviesAndAuthors(
 		int startPos, int endPost) {
 		return getService().getMoviesAndAuthors(startPos, endPost);

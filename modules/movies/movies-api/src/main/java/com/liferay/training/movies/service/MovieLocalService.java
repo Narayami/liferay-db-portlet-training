@@ -249,6 +249,10 @@ public interface MovieLocalService extends BaseLocalService,
 	public List<Movie> getMovies(int start, int end);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Movie> getMovies(long groupId, long movieId, int start,
+		int end, OrderByComparator<Movie> obc);
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Movie> getMoviesAndAuthors(int startPos, int endPost);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
