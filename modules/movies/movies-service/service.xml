@@ -20,27 +20,40 @@
 		<column name="userId" type="long"></column>
 		<column name="createDate" type="Date"></column>
 		<column name="modifiedDate" type="Date"></column>
-        <column name="movieName" type="String"></column>
-        <column name="description" type="String"></column>
-        <column name="rating" type="int"></column>
-        <column name="userName" type="String"></column>
-        <finder name="GroupId" return-type="Collection">
-            <finder-column name="groupId"></finder-column>
-        </finder>
-        <finder name="MovieName" return-type="Collection">
-            <finder-column name="movieName"></finder-column>
-        </finder>
-        <finder name="Rating" return-type="Collection">
-            <finder-column name="rating"></finder-column>
-        </finder>
-        <finder name="G_G" return-type="Collection">
-            <finder-column name="groupId"></finder-column>
-            <finder-column name="movieId"></finder-column>
-        </finder>
-        <reference entity="Group" package-path="com.liferay.portal"></reference>
-        <reference entity="AssetEntry" package-path="com.liferay.portlet.asset"></reference>
-        <reference entity="AssetTag" package-path="com.liferay.portlet.asset"></reference>
-        <reference entity="WorkflowInstanceLink" package-path="com.liferay.portal"></reference>
+		<column name="movieName" type="String"></column>
+		<column name="description" type="String"></column>
+		<column name="rating" type="int"></column>
+		<column name="userName" type="String"></column>
+		<finder name="GroupId" return-type="Collection">
+			<finder-column name="groupId"></finder-column>
+		</finder>
+		<finder name="MovieName" return-type="Collection">
+			<finder-column name="movieName"></finder-column>
+		</finder>
+		<finder name="Rating" return-type="Collection">
+			<finder-column name="rating"></finder-column>
+		</finder>
+		<finder name="G_G" return-type="Collection">
+			<finder-column name="groupId"></finder-column>
+			<finder-column name="movieId"></finder-column>
+		</finder>
+		<reference entity="Group" package-path="com.liferay.portal"></reference>
+		<reference entity="AssetEntry"
+			package-path="com.liferay.portlet.asset">
+		</reference>
+		<reference entity="AssetTag"
+			package-path="com.liferay.portlet.asset">
+		</reference>
+		<reference entity="WorkflowInstanceLink"
+			package-path="com.liferay.portal">
+		</reference>
+
+
+		<!-- PK fields -->
+
+		<!-- Group instance -->
+
+		<!-- Audit fields -->
 	</entity>
 	<entity name="Author" local-service="true" uuid="true">
 

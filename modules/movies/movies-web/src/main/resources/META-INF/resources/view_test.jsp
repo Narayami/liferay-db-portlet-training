@@ -34,9 +34,26 @@
 
 <h1 align="center">Movies List</h1>
 
+<liferay-portlet:renderURL varImpl="searchURL">
+	<portlet:param name="mvcPath" value="/view_search.jsp" />
+</liferay-portlet:renderURL>
+
+<aui:form action="<%=searchURL %>" method="get" name="fm" >
+	<liferay-portlet:renderURLParams varImpl="searchURL" />
+	
+	<div class="search-form" >
+		<span class="aui-search-bar" >
+			<aui:input inlineField="true" label="" name="keywords" size="5" title="search-entries" type="text"/>
+			<aui:button type="submit" value="search" />
+		</span>
+	</div>
+	
+</aui:form>
+
 <portlet:actionURL var="goBackURL">
 	<param name="jspPage" value="/view.jsp" />
 </portlet:actionURL>
+
 
 <liferay-portlet:renderURL varImpl="iteratorURL">
 	<liferay-portlet:param name="jspPage" value="/view_test.jsp"/>
@@ -47,24 +64,27 @@
 	String orderByType = ParamUtil.getString(request, "orderByType");
 %>
 
-<liferay-ui:search-container delta="10" orderByType="<%=orderByType %>" iteratorURL="<%=iteratorURL %>"  >
+<liferay-ui:search-container delta="5" deltaConfigurable="true" iteratorURL="<%=iteratorURL %>">
 	
 	<liferay-ui:search-container-results >
-		
+	
 	<%
 		List<Movie> movieList = MovieLocalServiceUtil.getMoviesAndAuthors(-1, -1);
 		
 		//get local copy to be sorted in our need
-		List<Movie> sortedMovieList = new ArrayList<Movie>(ListUtil.subList(movieList, 
+		List<Movie> sortedMovieList = new ArrayList<Movie>(ListUtil.subList(movieList,
 				searchContainer.getStart(), searchContainer.getEnd()));
 		
 		//sort the list based on order and column
 		sortedMovieList = MovieComparatorUtil.sortMovies(sortedMovieList, orderByCol, orderByType);
 		
-		pageContext.setAttribute("results", sortedMovieList);
-		pageContext.setAttribute("total", movieList.size());
-	%>
+		searchContainer.setResults(sortedMovieList);
+		searchContainer.setTotal(movieList.size());
 		
+		//pageContext.setAttribute("results", sortedMovieList);
+		//pageContext.setAttribute("total", movieList.size());
+	%>
+	
 	</liferay-ui:search-container-results>
 	<liferay-ui:search-container-row className="com.liferay.training.movies.model.Movie"
 		keyProperty="movieId" modelVar="currentMovie">
