@@ -19,6 +19,8 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.jsonwebservice.JSONWebService;
+import com.liferay.portal.kernel.search.Indexable;
+import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.security.access.control.AccessControlled;
 import com.liferay.portal.kernel.service.BaseService;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -55,9 +57,11 @@ public interface MovieService extends BaseService {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link MovieServiceUtil} to access the movie remote service. Add custom service methods to {@link com.liferay.training.movies.service.impl.MovieServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
+	@Indexable(type = IndexableType.REINDEX)
 	public Movie addMovie(long groupId, String movieName, String description,
 		int rating, ServiceContext serviceContext) throws PortalException;
 
+	@Indexable(type = IndexableType.REINDEX)
 	public Movie deleteMovie(long movieId) throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -73,6 +77,7 @@ public interface MovieService extends BaseService {
 	*/
 	public String getOSGiServiceIdentifier();
 
+	@Indexable(type = IndexableType.REINDEX)
 	public Movie updateMovie(long movieId, String movieName,
 		String description, int rating, ServiceContext serviceContext)
 		throws PortalException;

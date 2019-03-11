@@ -75,6 +75,7 @@ public interface AuthorLocalService extends BaseLocalService,
 	@Indexable(type = IndexableType.REINDEX)
 	public Author addAuthor(Author author);
 
+	@Indexable(type = IndexableType.REINDEX)
 	public Author addAuthor(long movieId, String authorName, String biography,
 		ServiceContext serviceContext) throws PortalException;
 
@@ -310,6 +311,7 @@ public interface AuthorLocalService extends BaseLocalService,
 	@Indexable(type = IndexableType.REINDEX)
 	public Author updateAuthor(Author author);
 
+	@Indexable(type = IndexableType.REINDEX)
 	public Author updateAuthor(long authorId, String authorName,
 		String biography, ServiceContext serviceContext)
 		throws PortalException;

@@ -20,6 +20,8 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.User;
+import com.liferay.portal.kernel.search.Indexable;
+import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.training.movies.exception.NoSuchAuthorException;
@@ -45,7 +47,9 @@ import com.liferay.training.movies.service.base.MovieLocalServiceBaseImpl;
  */
 public class MovieLocalServiceImpl extends MovieLocalServiceBaseImpl {
 	
-	//Author author;
+	@Indexable(
+		type = IndexableType.REINDEX
+	)
 	public Movie addMovie(long groupId, String movieName, String description, 
 			int rating, ServiceContext serviceContext) throws PortalException {
 		
@@ -90,9 +94,14 @@ public class MovieLocalServiceImpl extends MovieLocalServiceBaseImpl {
 		resourceLocalService.addResources(group.getCompanyId(),groupId, userId, Movie.class.getName(), 
 				movie.getMovieId(), portletActions, addGroupPermissions, addGuestPermissions);
 		
+		
+		
 		return movie;
 	}
 	
+	@Indexable(
+		type = IndexableType.REINDEX
+	)
 	public Movie addMovieAndAuthor(long groupId, String movieName, String description, int rating,
 			String authorName, String biography, ServiceContext serviceContext) throws PortalException {
 		
@@ -107,6 +116,9 @@ public class MovieLocalServiceImpl extends MovieLocalServiceBaseImpl {
 		
 	}
 	
+	@Indexable(
+		type = IndexableType.REINDEX
+	)
 	public Movie deleteMovieAndAuthor(long movieId, long authorId) throws PortalException {
 				
 		Movie movie = getMovie(movieId);
@@ -117,6 +129,9 @@ public class MovieLocalServiceImpl extends MovieLocalServiceBaseImpl {
 		return deleteMovie(movie);
 	} 
 	
+	@Indexable(
+		type = IndexableType.REINDEX
+	)
 	public Movie deleteMovie(Long movieId) throws PortalException {
 		
 		Movie movie = getMovie(movieId);
@@ -124,6 +139,9 @@ public class MovieLocalServiceImpl extends MovieLocalServiceBaseImpl {
 		return deleteMovie(movie);
 	}
 	
+	@Indexable(
+		type = IndexableType.REINDEX
+	)
 	public Movie deleteMovie(Movie movie) throws PortalException {
 		
 		//if we create the movie and the resource along it, when deleting we need to delete the resource permission too.
@@ -149,7 +167,6 @@ public class MovieLocalServiceImpl extends MovieLocalServiceBaseImpl {
 		
 		return moviePersistence.countByGroupId(groupId);
 	}
-	
 	
 	//test
 	public List<Movie> getMoviesAndAuthors(int startPos, int endPost) {
@@ -177,6 +194,9 @@ public class MovieLocalServiceImpl extends MovieLocalServiceBaseImpl {
 		
 	}
 	
+	@Indexable(
+		type = IndexableType.REINDEX
+	)
 	public Movie updateMovie(Long movieId, String movieName, String description, 
 			int rating, ServiceContext serviceContext) throws PortalException {
 		

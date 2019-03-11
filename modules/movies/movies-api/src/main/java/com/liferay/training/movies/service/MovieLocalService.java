@@ -64,6 +64,7 @@ public interface MovieLocalService extends BaseLocalService,
 	 *
 	 * Never modify or reference this interface directly. Always use {@link MovieLocalServiceUtil} to access the movie local service. Add custom service methods to {@link com.liferay.training.movies.service.impl.MovieLocalServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
+	@Indexable(type = IndexableType.REINDEX)
 	public Movie addMovie(long groupId, String movieName, String description,
 		int rating, ServiceContext serviceContext) throws PortalException;
 
@@ -76,6 +77,7 @@ public interface MovieLocalService extends BaseLocalService,
 	@Indexable(type = IndexableType.REINDEX)
 	public Movie addMovie(Movie movie);
 
+	@Indexable(type = IndexableType.REINDEX)
 	public Movie addMovieAndAuthor(long groupId, String movieName,
 		String description, int rating, String authorName, String biography,
 		ServiceContext serviceContext) throws PortalException;
@@ -89,6 +91,7 @@ public interface MovieLocalService extends BaseLocalService,
 	@Transactional(enabled = false)
 	public Movie createMovie(long movieId);
 
+	@Indexable(type = IndexableType.REINDEX)
 	public Movie deleteMovie(Long movieId) throws PortalException;
 
 	/**
@@ -108,9 +111,10 @@ public interface MovieLocalService extends BaseLocalService,
 	* @return the movie that was removed
 	* @throws PortalException
 	*/
-	@Indexable(type = IndexableType.DELETE)
+	@Indexable(type = IndexableType.REINDEX)
 	public Movie deleteMovie(Movie movie) throws PortalException;
 
+	@Indexable(type = IndexableType.REINDEX)
 	public Movie deleteMovieAndAuthor(long movieId, long authorId)
 		throws PortalException;
 
@@ -305,6 +309,7 @@ public interface MovieLocalService extends BaseLocalService,
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException;
 
+	@Indexable(type = IndexableType.REINDEX)
 	public Movie updateMovie(Long movieId, String movieName,
 		String description, int rating, ServiceContext serviceContext)
 		throws PortalException;

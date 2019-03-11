@@ -33,7 +33,7 @@ dependencies {2
 	compileOnly files("../../../bundles/libtest/ext/portlet.jar")
 	compileOnly files("../../../bundles/libtest/ext/portal-kernel.jar")
     
-    //compileOnly group: "javax.portlet", name: "portlet-api"
+    //compileOnly group: "javax.portlileOnly group: "javax.portlet", name: "portlet-api"
     //compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
 
 
@@ -41,7 +41,8 @@ dependencies {2
 
 	compileOnly files("../../../bundles/osgi/modules/com.liferay.dynamic.data.mapping.taglib.jar")
 	compileOnly files("../../../bundles/osgi/modules/com.liferay.portlet.display.template.api.jar")
-	// Needed by the Clay tag library
+	
+    // Needed by the Clay tag library
 	
 	compileOnly files("../../../bundles/osgi/modules/com.liferay.frontend.taglib.clay.jar")
 

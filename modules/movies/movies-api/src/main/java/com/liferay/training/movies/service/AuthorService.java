@@ -19,6 +19,8 @@ import aQute.bnd.annotation.ProviderType;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.jsonwebservice.JSONWebService;
+import com.liferay.portal.kernel.search.Indexable;
+import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.security.access.control.AccessControlled;
 import com.liferay.portal.kernel.service.BaseService;
 import com.liferay.portal.kernel.service.ServiceContext;
@@ -55,9 +57,11 @@ public interface AuthorService extends BaseService {
 	 *
 	 * Never modify or reference this interface directly. Always use {@link AuthorServiceUtil} to access the author remote service. Add custom service methods to {@link com.liferay.training.movies.service.impl.AuthorServiceImpl} and rerun ServiceBuilder to automatically copy the method declarations to this interface.
 	 */
+	@Indexable(type = IndexableType.REINDEX)
 	public Author addAuthor(long movieId, String authorName, String biography,
 		ServiceContext serviceContext) throws PortalException;
 
+	@Indexable(type = IndexableType.REINDEX)
 	public Author deleteAuthor(long authorId) throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -73,6 +77,7 @@ public interface AuthorService extends BaseService {
 	*/
 	public String getOSGiServiceIdentifier();
 
+	@Indexable(type = IndexableType.REINDEX)
 	public Author updateAuthor(long authorId, String authorName,
 		String biography, ServiceContext serviceContext)
 		throws PortalException;

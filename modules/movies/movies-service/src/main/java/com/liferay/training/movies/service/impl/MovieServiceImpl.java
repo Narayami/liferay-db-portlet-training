@@ -17,6 +17,8 @@ package com.liferay.training.movies.service.impl;
 import java.util.List;
 
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.search.Indexable;
+import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.spring.extender.service.ServiceReference;
@@ -45,16 +47,14 @@ public class MovieServiceImpl extends MovieServiceBaseImpl {
 	 * Service builder classes are not OSGi components but Spring beans and you
 	 * cannot use the @Reference annotation. Use @ServiceReference instead.
 	 */
-	
-	
 	@ServiceReference(
 		type = com.liferay.training.movies.permission.MoviePermissionChecker.class
 	)
 	private MoviePermissionChecker moviePermissionChecker;
 	
-	
-	//remote services are used for permission checking
-	
+	@Indexable(
+		type = IndexableType.REINDEX
+	)
 	public Movie addMovie(long groupId, String movieName, String description, 
 			int rating, ServiceContext serviceContext) throws PortalException {
 		
@@ -65,6 +65,9 @@ public class MovieServiceImpl extends MovieServiceBaseImpl {
 		return movieLocalService.addMovie(groupId, movieName, description, rating, serviceContext);
 	} 
 	
+	@Indexable(
+			type = IndexableType.REINDEX
+	)
 	public Movie deleteMovie(long movieId) throws PortalException{
 		Movie movie = movieLocalService.getMovie(movieId);
 		
@@ -91,6 +94,9 @@ public class MovieServiceImpl extends MovieServiceBaseImpl {
 		return movieLocalService.getMoviesByGroupId(groupId, start, end);
 	} 
 	
+	@Indexable(
+			type = IndexableType.REINDEX
+		)
 	public Movie updateMovie(long movieId, String movieName, 
 			String description, int rating, ServiceContext serviceContext) throws PortalException {
 		

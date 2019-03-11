@@ -46,9 +46,7 @@
 
 <%
 	String keywords = ParamUtil.getString(request, "keywords");
-	//Long movieId = ParamUtil.getLong(request, "movieId");
-	System.out.println("KEYWORDS:" + keywords);
-	
+	//Long movieId = ParamUtil.getLong(request, "movieId");	
 %>
 
 <liferay-portlet:renderURL varImpl="searchURL">
@@ -82,18 +80,18 @@
 	
 	Indexer indexer = IndexerRegistryUtil.getIndexer(Movie.class);
 
-	if (indexer == null) {
-		System.out.println("INDEXER NULL");
-	}
-	else {
-		System.out.println("INDEXER:" + indexer.getClass().getSimpleName());
-	}
-		
+	System.out.println("indexerLength " + indexer.search(searchContext).getLength());
+	
 	Hits hits = indexer.search(searchContext);
 	
 	List<Movie> movies = new ArrayList<Movie>();
+	System.out.println("here");
+	
+	System.out.println("hitsDocsLength " + hits.getDocs().length);
+	
 	
 	for (int i = 0 ; i < hits.getDocs().length ; i++ ) {
+		System.out.println("for");
 		
 		Document doc = hits.doc(i);
 		
@@ -109,25 +107,33 @@
 		} catch (SystemException e) {
 			e.getStackTrace();
 		}
+		
+		if (movie == null) {		
+			System.out.println("null list");
+		} else {
+			System.out.println("movieName: " + movie.getMovieName());
+		}
 		movies.add(movie);
 	}
 %>
 
 <liferay-ui:search-container delta="10" emptyResultsMessage="no-entries-were-found" total="<%= movies.size() %>">
-	<liferay-ui:search-container-results results="<%= movies %>"/>
+	<liferay-ui:search-container-results results="<%=movies %>"/>
 	
 	<liferay-ui:search-container-row className="com.liferay.training.movies.model.Movie"
         keyProperty="entryId" modelVar="entry" escapedModel="<%=true%>">
         <%-- 
 	    <liferay-ui:search-container-column-text name="guestbook" value="<%=guestbookMap.get(Long.toString(entry.getGuestbookId()))%>" />
         <liferay-ui:search-container-column-text name="movies" value="<%=movies.get(Long.toString(entry.getMovieId()))%>" />
-        --%>        
-    	<liferay-ui:search-container-column-text property="movieName" />
     	<liferay-ui:search-container-column-text property="rating" />
     	<liferay-ui:search-container-column-jsp path="/button.jsp" align="right" />
     	
+        --%>        
+ 
+    	<liferay-ui:search-container-column-text property="movieName" />
 	</liferay-ui:search-container-row>
     <liferay-ui:search-iterator />
 </liferay-ui:search-container>
+
 
 
