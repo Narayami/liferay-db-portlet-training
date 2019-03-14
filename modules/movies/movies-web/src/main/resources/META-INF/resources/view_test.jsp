@@ -141,7 +141,7 @@
 	PortletURL portletURL = renderResponse.createRenderURL();
 	String portletURLString = portletURL.toString();
 	MovieSearchContainer movieSearchContainer = new MovieSearchContainer(renderRequest, portletURL);
-	MovieDisplayTerms displayTerms = (MovieDisplayTerms)movieSearchContainer.getDisplayTerms();	
+	MovieDisplayTerms displayTerms = (MovieDisplayTerms)movieSearchContainer.getDisplayTerms();
 %>
 
 <aui:form action="<%=iteratorURL %>" method="post" name="fm">
@@ -154,16 +154,23 @@
 	<liferay-ui:search-container-results results="<%=MovieHelper.getMovie(displayTerms,movieSearchContainer.getStart(), movieSearchContainer.getEnd()) %>" />
 	
 	<liferay-ui:search-container-row className="com.liferay.training.movies.model.Movie" modelVar="movie" >
+		
 		<liferay-ui:search-container-column-text property="movieId" />
 		<liferay-ui:search-container-column-text property="movieName" />
 		<liferay-ui:search-container-column-text property="rating" />
 		<liferay-ui:search-container-column-text property="description" />
+		
+		
+		<liferay-ui:search-container-column-text name="author" value="<%=movie.getAuthor().getAuthorName() %>" />
+		
+		
 		
 	</liferay-ui:search-container-row>
 	
 	<liferay-ui:search-iterator />
 	
 	</liferay-ui:search-container>
+	
 </aui:form>
 
 

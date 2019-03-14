@@ -8,6 +8,9 @@
 %>
 
 <liferay-ui:search-toggle buttonLabel="Movie Search" displayTerms="<%= displayTerms %>" id="toggle_id_movie_search">
-	<aui:input label="MovieID" name="movieId" value="<%=displayTerms.getId() %>"/>
 	<aui:input label="MovieName" name="movieName" value="<%=displayTerms.getName() %>"/>
+	<aui:input label="rating" name="rating" value="<%=displayTerms.getRating() %>"/>
+	<%--
+	<aui:input label="authorName" name="authorName" value="<%=displayTerms.getAuthorName() %>"/>
+	--%>
 </liferay-ui:search-toggle>

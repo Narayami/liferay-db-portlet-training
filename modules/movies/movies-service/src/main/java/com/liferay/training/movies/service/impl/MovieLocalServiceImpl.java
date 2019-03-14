@@ -189,13 +189,31 @@ public class MovieLocalServiceImpl extends MovieLocalServiceBaseImpl {
 		return moviePersistence.countByGroupId(groupId);
 	}
 
-	// test
 	public List<Movie> getMoviesAndAuthors(int startPos, int endPost) {
 
 		// fetch the movies
 		List<Movie> movies = super.getMovies(startPos, endPost);
 
 		// fetch authors
+		if ((movies != null && (!movies.isEmpty()))) {
+
+			Author author;
+
+			for (Movie movie : movies) {
+				try {
+					author = AuthorLocalServiceUtil.getAuthorByMovieId(movie.getMovieId());
+					movie.setAuthor(author);
+				} catch (NoSuchAuthorException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return movies;
+	}
+	
+	//receives the queriedList so it can set the author to the movie
+	public List<Movie> getMoviesAndAuthorsQueried(List<Movie> movies) {
+
 		if ((movies != null && (!movies.isEmpty()))) {
 
 			Author author;
@@ -233,7 +251,7 @@ public class MovieLocalServiceImpl extends MovieLocalServiceBaseImpl {
 		movie = super.updateMovie(movie);
 
 		return movie;
-	}	
+	}
 
 	private void updateAsset(Movie movie, ServiceContext serviceContext) throws PortalException {
 
@@ -244,5 +262,4 @@ public class MovieLocalServiceImpl extends MovieLocalServiceBaseImpl {
 				ContentTypes.TEXT_HTML, null, null, movie.getMovieName(), null, null, 0, 0,
 				serviceContext.getAssetPriority());
 	}
-	//test
 }

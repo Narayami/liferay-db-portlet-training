@@ -14,13 +14,23 @@ public class MovieSearchContainer extends SearchContainer<Movie> {
 	static {
 		headerNames.add("movieId");
 		headerNames.add("movieName");
+		
+		headerNames.add("description");
+		headerNames.add("rating");
+		headerNames.add("authorName");
+		headerNames.add("biography");
 	}
 
 	public MovieSearchContainer(PortletRequest portletRequest, PortletURL iteratorURL) {
 		super(portletRequest, new MovieDisplayTerms(portletRequest), new MovieDisplayTerms(portletRequest), 
 				DEFAULT_CUR_PARAM, DEFAULT_DELTA, iteratorURL, headerNames, EMPTY_RESULTS_MESSAGE);
 		MovieDisplayTerms displayTerms = (MovieDisplayTerms) getDisplayTerms();
-		iteratorURL.setParameter("movieId", ""+displayTerms.getId());
+		iteratorURL.setParameter("movieId", ""+displayTerms.getId()); 
 		iteratorURL.setParameter("movieName", displayTerms.getName());
+		
+		iteratorURL.setParameter("description", displayTerms.getDescription());
+		iteratorURL.setParameter("rating", ""+displayTerms.getRating());
+		iteratorURL.setParameter("authorName", displayTerms.getAuthorName());
+		iteratorURL.setParameter("biography", displayTerms.getBiography());
 	}
 }
