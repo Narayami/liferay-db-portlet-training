@@ -3,3 +3,17 @@ Bundle-SymbolicName: com.liferay.training.movies.service
 Bundle-Version: 1.0.0
 Liferay-Require-SchemaVersion: 1.0.0
 Liferay-Service: true
+Export-Package: \
+	com.liferay.training.movies.exception,\
+	com.liferay.training.movies.model,\
+	com.liferay.training.movies.model.impl,\
+	com.liferay.training.movies.permission,\
+	com.liferay.training.movies.search,\
+	com.liferay.training.movies.service,\
+	com.liferay.training.movies.service.base,\
+	com.liferay.training.movies.service.http,\
+	com.liferay.training.movies.service.impl,\
+	com.liferay.training.movies.service.permission.impl,\
+	com.liferay.training.movies.service.persistence,\
+	com.liferay.training.movies.service.persistence.impl,\
+	com.liferay.training.movies.service.util

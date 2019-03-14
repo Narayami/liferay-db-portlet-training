@@ -2,14 +2,16 @@ Bundle-Name: movies-web
 Bundle-SymbolicName: com.liferay.training.movies.web
 Bundle-Version: 1.0.0
 Export-Package: \
-	com.liferay.training.movies.web.constants,\
 	com.liferay.training.movies.exception,\
 	com.liferay.training.movies.model,\
 	com.liferay.training.movies.permission,\
 	com.liferay.training.movies.service,\
+	com.liferay.training.movies.service.persistence,\
+	com.liferay.training.movies.web.comparator,\
+	com.liferay.training.movies.web.constants,\
 	com.liferay.training.movies.web.display.context,\
+	com.liferay.training.movies.web.model.view,\
 	com.liferay.training.movies.web.portlet,\
 	com.liferay.training.movies.web.portlet.action,\
 	com.liferay.training.movies.web.portlet.template,\
-	com.liferay.training.movies.service.persistence,\
-	null
+	com.liferay.training.movies.web.search

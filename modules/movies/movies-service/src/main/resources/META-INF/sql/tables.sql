@@ -23,5 +23,6 @@ create table movies_Movie (
 	movieName VARCHAR(75) null,
 	description VARCHAR(75) null,
 	rating INTEGER,
-	userName VARCHAR(75) null
+	userName VARCHAR(75) null,
+	status INTEGER
 );

@@ -64,7 +64,7 @@ public class MovieCacheModel implements CacheModel<Movie>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(23);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -88,6 +88,8 @@ public class MovieCacheModel implements CacheModel<Movie>, Externalizable {
 		sb.append(rating);
 		sb.append(", userName=");
 		sb.append(userName);
+		sb.append(", status=");
+		sb.append(status);
 		sb.append("}");
 
 		return sb.toString();
@@ -146,6 +148,8 @@ public class MovieCacheModel implements CacheModel<Movie>, Externalizable {
 			movieImpl.setUserName(userName);
 		}
 
+		movieImpl.setStatus(status);
+
 		movieImpl.resetOriginalValues();
 
 		return movieImpl;
@@ -169,6 +173,8 @@ public class MovieCacheModel implements CacheModel<Movie>, Externalizable {
 
 		rating = objectInput.readInt();
 		userName = objectInput.readUTF();
+
+		status = objectInput.readInt();
 	}
 
 	@Override
@@ -213,6 +219,8 @@ public class MovieCacheModel implements CacheModel<Movie>, Externalizable {
 		else {
 			objectOutput.writeUTF(userName);
 		}
+
+		objectOutput.writeInt(status);
 	}
 
 	public String uuid;
@@ -226,4 +234,5 @@ public class MovieCacheModel implements CacheModel<Movie>, Externalizable {
 	public String description;
 	public int rating;
 	public String userName;
+	public int status;
 }

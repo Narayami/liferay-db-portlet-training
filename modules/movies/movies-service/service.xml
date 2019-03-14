@@ -24,6 +24,7 @@
 		<column name="description" type="String"></column>
 		<column name="rating" type="int"></column>
 		<column name="userName" type="String"></column>
+        <column name="status" type="int"></column>
 		<finder name="GroupId" return-type="Collection">
 			<finder-column name="groupId"></finder-column>
 		</finder>

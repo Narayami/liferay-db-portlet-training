@@ -91,7 +91,7 @@ public interface MovieLocalService extends BaseLocalService,
 	@Transactional(enabled = false)
 	public Movie createMovie(long movieId);
 
-	@Indexable(type = IndexableType.REINDEX)
+	@Indexable(type = IndexableType.DELETE)
 	public Movie deleteMovie(Long movieId) throws PortalException;
 
 	/**
@@ -111,10 +111,10 @@ public interface MovieLocalService extends BaseLocalService,
 	* @return the movie that was removed
 	* @throws PortalException
 	*/
-	@Indexable(type = IndexableType.REINDEX)
+	@Indexable(type = IndexableType.DELETE)
 	public Movie deleteMovie(Movie movie) throws PortalException;
 
-	@Indexable(type = IndexableType.REINDEX)
+	@Indexable(type = IndexableType.DELETE)
 	public Movie deleteMovieAndAuthor(long movieId, long authorId)
 		throws PortalException;
 

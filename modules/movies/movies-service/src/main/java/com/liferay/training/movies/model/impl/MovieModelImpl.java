@@ -82,7 +82,8 @@ public class MovieModelImpl extends BaseModelImpl<Movie> implements MovieModel {
 			{ "movieName", Types.VARCHAR },
 			{ "description", Types.VARCHAR },
 			{ "rating", Types.INTEGER },
-			{ "userName", Types.VARCHAR }
+			{ "userName", Types.VARCHAR },
+			{ "status", Types.INTEGER }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -98,9 +99,10 @@ public class MovieModelImpl extends BaseModelImpl<Movie> implements MovieModel {
 		TABLE_COLUMNS_MAP.put("description", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("rating", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("userName", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("status", Types.INTEGER);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table movies_Movie (uuid_ VARCHAR(75) null,movieId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,createDate DATE null,modifiedDate DATE null,movieName VARCHAR(75) null,description VARCHAR(75) null,rating INTEGER,userName VARCHAR(75) null)";
+	public static final String TABLE_SQL_CREATE = "create table movies_Movie (uuid_ VARCHAR(75) null,movieId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,createDate DATE null,modifiedDate DATE null,movieName VARCHAR(75) null,description VARCHAR(75) null,rating INTEGER,userName VARCHAR(75) null,status INTEGER)";
 	public static final String TABLE_SQL_DROP = "drop table movies_Movie";
 	public static final String ORDER_BY_JPQL = " ORDER BY movie.movieId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY movies_Movie.movieId ASC";
@@ -147,6 +149,7 @@ public class MovieModelImpl extends BaseModelImpl<Movie> implements MovieModel {
 		model.setDescription(soapModel.getDescription());
 		model.setRating(soapModel.getRating());
 		model.setUserName(soapModel.getUserName());
+		model.setStatus(soapModel.getStatus());
 
 		return model;
 	}
@@ -222,6 +225,7 @@ public class MovieModelImpl extends BaseModelImpl<Movie> implements MovieModel {
 		attributes.put("description", getDescription());
 		attributes.put("rating", getRating());
 		attributes.put("userName", getUserName());
+		attributes.put("status", getStatus());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -295,6 +299,12 @@ public class MovieModelImpl extends BaseModelImpl<Movie> implements MovieModel {
 
 		if (userName != null) {
 			setUserName(userName);
+		}
+
+		Integer status = (Integer)attributes.get("status");
+
+		if (status != null) {
+			setStatus(status);
 		}
 	}
 
@@ -527,6 +537,17 @@ public class MovieModelImpl extends BaseModelImpl<Movie> implements MovieModel {
 		_userName = userName;
 	}
 
+	@JSON
+	@Override
+	public int getStatus() {
+		return _status;
+	}
+
+	@Override
+	public void setStatus(int status) {
+		_status = status;
+	}
+
 	@Override
 	public StagedModelType getStagedModelType() {
 		return new StagedModelType(PortalUtil.getClassNameId(
@@ -575,6 +596,7 @@ public class MovieModelImpl extends BaseModelImpl<Movie> implements MovieModel {
 		movieImpl.setDescription(getDescription());
 		movieImpl.setRating(getRating());
 		movieImpl.setUserName(getUserName());
+		movieImpl.setStatus(getStatus());
 
 		movieImpl.resetOriginalValues();
 
@@ -726,12 +748,14 @@ public class MovieModelImpl extends BaseModelImpl<Movie> implements MovieModel {
 			movieCacheModel.userName = null;
 		}
 
+		movieCacheModel.status = getStatus();
+
 		return movieCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(23);
+		StringBundler sb = new StringBundler(25);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -755,6 +779,8 @@ public class MovieModelImpl extends BaseModelImpl<Movie> implements MovieModel {
 		sb.append(getRating());
 		sb.append(", userName=");
 		sb.append(getUserName());
+		sb.append(", status=");
+		sb.append(getStatus());
 		sb.append("}");
 
 		return sb.toString();
@@ -762,7 +788,7 @@ public class MovieModelImpl extends BaseModelImpl<Movie> implements MovieModel {
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(37);
+		StringBundler sb = new StringBundler(40);
 
 		sb.append("<model><model-name>");
 		sb.append("com.liferay.training.movies.model.Movie");
@@ -812,6 +838,10 @@ public class MovieModelImpl extends BaseModelImpl<Movie> implements MovieModel {
 			"<column><column-name>userName</column-name><column-value><![CDATA[");
 		sb.append(getUserName());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>status</column-name><column-value><![CDATA[");
+		sb.append(getStatus());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -844,6 +874,7 @@ public class MovieModelImpl extends BaseModelImpl<Movie> implements MovieModel {
 	private int _originalRating;
 	private boolean _setOriginalRating;
 	private String _userName;
+	private int _status;
 	private long _columnBitmask;
 	private Movie _escapedModel;
 }

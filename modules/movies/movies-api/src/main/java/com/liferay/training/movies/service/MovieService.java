@@ -61,7 +61,7 @@ public interface MovieService extends BaseService {
 	public Movie addMovie(long groupId, String movieName, String description,
 		int rating, ServiceContext serviceContext) throws PortalException;
 
-	@Indexable(type = IndexableType.REINDEX)
+	@Indexable(type = IndexableType.DELETE)
 	public Movie deleteMovie(long movieId) throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)

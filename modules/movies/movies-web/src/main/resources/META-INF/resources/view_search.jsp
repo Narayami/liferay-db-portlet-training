@@ -1,3 +1,5 @@
+<%@page import="com.liferay.portal.kernel.theme.ThemeDisplay"%>
+<%@page import="com.liferay.portal.kernel.util.PortalUtil"%>
 <%@page import="com.liferay.training.movies.model.Author"%>
 <%@page import="com.liferay.portal.kernel.exception.SystemException"%>
 <%@page import="com.liferay.portal.kernel.exception.PortalException"%>
@@ -46,12 +48,14 @@
 
 <%
 	String keywords = ParamUtil.getString(request, "keywords");
-	//Long movieId = ParamUtil.getLong(request, "movieId");	
+	Long movieId = ParamUtil.getLong(request, "movieId");	
+	System.out.println("keyword scplt: " + keywords + "\nmovieId scplt: " + movieId);
 %>
 
 <liferay-portlet:renderURL varImpl="searchURL">
 	<portlet:param name = "mvcPath" value="/view_search.jsp" />
 </liferay-portlet:renderURL>
+
 
 <portlet:renderURL var="viewURL">
     <portlet:param name="mvcPath" value="/view_test.jsp" />
@@ -71,24 +75,21 @@
     </div>
 </aui:form>
 
+<%-- 
 <%
 	SearchContext searchContext = SearchContextFactory.getInstance(request);
 	searchContext.setKeywords(keywords);
 	searchContext.setAttribute("paginationType", "more");
 	searchContext.setStart(0);
-	searchContext.setEnd(10);
+	searchContext.setEnd(20);
+	
+	System.out.println(searchContext.getKeywords());
 	
 	Indexer indexer = IndexerRegistryUtil.getIndexer(Movie.class);
-
-	System.out.println("indexerLength " + indexer.search(searchContext).getLength());
 	
 	Hits hits = indexer.search(searchContext);
-	
 	List<Movie> movies = new ArrayList<Movie>();
-	System.out.println("here");
-	
 	System.out.println("hitsDocsLength " + hits.getDocs().length);
-	
 	
 	for (int i = 0 ; i < hits.getDocs().length ; i++ ) {
 		System.out.println("for");
@@ -107,33 +108,35 @@
 		} catch (SystemException e) {
 			e.getStackTrace();
 		}
-		
-		if (movie == null) {		
-			System.out.println("null list");
-		} else {
-			System.out.println("movieName: " + movie.getMovieName());
-		}
+
 		movies.add(movie);
 	}
+	System.out.println("movies.size: " + movies.size());
+	
 %>
+--%>
+<%-- 
 
 <liferay-ui:search-container delta="10" emptyResultsMessage="no-entries-were-found" total="<%= movies.size() %>">
 	<liferay-ui:search-container-results results="<%=movies %>"/>
 	
 	<liferay-ui:search-container-row className="com.liferay.training.movies.model.Movie"
-        keyProperty="entryId" modelVar="entry" escapedModel="<%=true%>">
-        <%-- 
-	    <liferay-ui:search-container-column-text name="guestbook" value="<%=guestbookMap.get(Long.toString(entry.getGuestbookId()))%>" />
-        <liferay-ui:search-container-column-text name="movies" value="<%=movies.get(Long.toString(entry.getMovieId()))%>" />
+        keyProperty="movieId" modelVar="movie" escapedModel="<%=true%>">
+         
+        <liferay-ui:search-container-column-text name="author" value="<%=movie.getAuthor().getAuthorName() %>" />
+        <liferay-ui:search-container-column-text name="movie" value="<%=movie.getMovieName() %>" />
+        
+    	<liferay-ui:search-container-column-text property="movieName" />
     	<liferay-ui:search-container-column-text property="rating" />
     	<liferay-ui:search-container-column-jsp path="/button.jsp" align="right" />
     	
-        --%>        
- 
+    	
     	<liferay-ui:search-container-column-text property="movieName" />
 	</liferay-ui:search-container-row>
     <liferay-ui:search-iterator />
 </liferay-ui:search-container>
+--%>
+
 
 
 

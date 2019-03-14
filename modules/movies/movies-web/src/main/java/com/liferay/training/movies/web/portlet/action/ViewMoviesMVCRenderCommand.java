@@ -70,31 +70,6 @@ public class ViewMoviesMVCRenderCommand implements MVCRenderCommand {
 		else {
 		   orderByType = "asc";
 		}
-		/*
-		//setting the iterator for the search container
-		PortletURL iteratorURL = renderResponse.createRenderURL();
 		
-		//search container
-		SearchContainer<Movie> searchContainer = new SearchContainer<Movie>(renderRequest, null, null, 
-				SearchContainer.DEFAULT_CUR_PARAM, SearchContainer.DEFAULT_DELTA, iteratorURL, null, StringPool.BLANK);
-		
-		searchContainer.setIteratorURL(iteratorURL);
-		searchContainer.setOrderByType(orderByType);
-		searchContainer.setOrderByCol(orderByCol);
-		
-		List<Movie> movieList = MovieLocalServiceUtil.getMoviesAndAuthors(-1, -1);
-		
-		//get local copy to be sorted in our need
-		List<Movie> sortedMovieList = new ArrayList<Movie>(ListUtil.subList(movieList, 
-				searchContainer.getStart(), searchContainer.getEnd()));
-		
-		//sort the list based on order and column
-		sortedMovieList = MovieComparatorUtil.sortMovies(sortedMovieList, orderByCol, orderByType);
-		
-		searchContainer.setResults(sortedMovieList);
-		searchContainer.setTotal(movieList.size());
-		
-		renderRequest.setAttribute("orgMovies", sortedMovieList);
-		*/
 	}
 }

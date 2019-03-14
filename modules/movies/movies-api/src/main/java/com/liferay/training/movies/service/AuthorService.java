@@ -61,7 +61,7 @@ public interface AuthorService extends BaseService {
 	public Author addAuthor(long movieId, String authorName, String biography,
 		ServiceContext serviceContext) throws PortalException;
 
-	@Indexable(type = IndexableType.REINDEX)
+	@Indexable(type = IndexableType.DELETE)
 	public Author deleteAuthor(long authorId) throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)

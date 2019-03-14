@@ -53,7 +53,7 @@ public class AuthorServiceImpl extends AuthorServiceBaseImpl {
 	}
 
 	@Indexable(
-			type = IndexableType.REINDEX
+			type = IndexableType.DELETE
 		)
 	public Author deleteAuthor(long authorId) 
 			throws PortalException {

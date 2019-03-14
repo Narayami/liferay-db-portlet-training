@@ -7,6 +7,8 @@ import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.search.Indexable;
+import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.training.movies.model.Author;
@@ -33,7 +35,6 @@ public class MovieViewModel {
 	public int getMoviesCount() {
 		return MovieLocalServiceUtil.getMoviesCount();
 	}
-	
 	public void addMovieAndAuthor(long groupId, String movieName, String description, 
 			int rating, String authorName, String biography, ServiceContext serviceContext) {
 		
@@ -46,7 +47,6 @@ public class MovieViewModel {
 	}
 	
 	public void updateMovie(Movie movie) {
-		System.out.println("movie hi");
 		MovieLocalServiceUtil.updateMovie(movie);
 	}
 

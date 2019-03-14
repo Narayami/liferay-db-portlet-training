@@ -1,6 +1,6 @@
-
 package com.liferay.training.movies.search;
 
+import java.util.LinkedHashMap;
 import java.util.Locale;
 
 import javax.portlet.PortletRequest;
@@ -26,157 +26,157 @@ import com.liferay.portal.kernel.search.filter.BooleanFilter;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.HtmlUtil;
-import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.util.LocalizationUtil;
+import com.liferay.portal.kernel.util.PortalUtil;
+import com.liferay.portal.kernel.util.Validator;
 import com.liferay.training.movies.model.Movie;
+import com.liferay.training.movies.permission.MoviePermissionChecker;
 import com.liferay.training.movies.service.MovieLocalService;
 
-@Component(
-	immediate = true,
-	service = Indexer.class
-)
+@Component(immediate = true, service = Indexer.class)
 public class MovieIndexer extends BaseIndexer<Movie> {
-	
-	private static final Log _log = LogFactoryUtil.getLog(MovieIndexer.class);
-	private static final String CLASS_NAME = Movie.class.getName();
-	
-	@Reference
-	private MovieLocalService movieLocalService;
-	
-	@Reference
-	protected IndexWriterHelper indexWriterHelper;
-	
 
-	public MovieIndexer() {
-		setDefaultSelectedFieldNames(Field.COMPANY_ID, Field.ENTRY_CLASS_NAME, Field.ENTRY_CLASS_PK, Field.UID, Field.DESCRIPTION);
-		setDefaultSelectedLocalizedFieldNames(Field.TITLE);
-		setFilterSearch(true);
-		setPermissionAware(true);
-	}
-	
-	@Override
-	public String getClassName() {
-		return CLASS_NAME;
-	}
-	
-	@Override
-	public boolean hasPermission(PermissionChecker permissionChecker, String entryClassName, long entryClassPK, 
-			String actionId) throws Exception {
+    private static final String CLASS_NAME = Movie.class.getName();
+    private static final Log _log = LogFactoryUtil.getLog(MovieIndexer.class);
+    
+    @Reference
+    protected IndexWriterHelper indexWriterHelper;
+    
+    @Reference
+    private MovieLocalService _movieLocalService;
+    
+    @Reference
+    private MoviePermissionChecker _moviePermissionChecker;
+
+    public MovieIndexer() {
+        setDefaultSelectedFieldNames(Field.COMPANY_ID, Field.ENTRY_CLASS_NAME, Field.ENTRY_CLASS_PK,
+            Field.UID, Field.SCOPE_GROUP_ID, Field.GROUP_ID);
+        setDefaultSelectedLocalizedFieldNames(Field.TITLE, Field.CONTENT);
+        setFilterSearch(true);
+        setPermissionAware(true);
+    }
+
+    @Override
+    public String getClassName() {
+    	return CLASS_NAME;
+    }
+
+    @Override
+    public boolean hasPermission(PermissionChecker permissionChecker, String entryClassName, 
+    		long entryClassPK, String actionId) throws Exception {
+
+        return _moviePermissionChecker.containsTopLevel(permissionChecker, entryClassPK, ActionKeys.VIEW);
+    }
+
+    @Override
+    public void postProcessContextBooleanFilter(BooleanFilter contextBooleanFilter, SearchContext searchContext) 
+    		throws Exception {
+
+        addStatus(contextBooleanFilter, searchContext);
+    }
+
+    @Override
+    public void postProcessSearchQuery(BooleanQuery searchQuery, BooleanFilter fullQueryBooleanFilter,
+    		SearchContext searchContext) throws Exception {
+
+    	addSearchLocalizedTerm(searchQuery, searchContext, Field.TITLE, true);
+    	addSearchLocalizedTerm(searchQuery, searchContext, Field.CONTENT, true);
+        addSearchLocalizedTerm(searchQuery, searchContext, "movieName", false);
+        addSearchLocalizedTerm(searchQuery, searchContext, "rating", false);
+        addSearchLocalizedTerm(searchQuery, searchContext, "description", false);
+        
+    }
+    
+    @Override
+    protected void doDelete(Movie movie) throws Exception {
+
+        deleteDocument(movie.getCompanyId(), movie.getMovieId());
+    }
+
+    @Override
+    protected Document doGetDocument(Movie movie) throws Exception {
+    	        
+    	Document document = getBaseModelDocument(CLASS_NAME, movie);
+    	
+        document.addDate(Field.MODIFIED_DATE, movie.getModifiedDate());
+
+        Locale defaultLocale = PortalUtil.getSiteDefaultLocale(movie.getGroupId());
+        String localizedTitle = LocalizationUtil.getLocalizedName(Field.TITLE, defaultLocale.toString());
+        String localizedMessage = LocalizationUtil.getLocalizedName(Field.CONTENT, defaultLocale.toString());
+
+        document.addText(localizedTitle, movie.getMovieName());
+        document.addText(localizedMessage, movie.getDescription());
 		
-		Movie movie = movieLocalService.getMovie(entryClassPK);
-		return permissionChecker.hasPermission(movie.getGroupId(), Movie.class.getName(), movie.getMovieId(), ActionKeys.VIEW);
-	}
-	
-	/*
-	@Override
-	public boolean isVisible(long classPK, int status) throws Exception {
-		Movie entry = movieLocalService.getMovie(classPK);
+    	
+    	
+    	document.addText("movieName", movie.getMovieName());
+    	document.addText("description", movie.getDescription());
+    	document.addNumber("rating", movie.getRating());
+    	    	
+        return document;
+    }
+    @Override
+    protected Summary doGetSummary( Document document, Locale locale, String snippet,
+        PortletRequest portletRequest, PortletResponse portletResponse) throws Exception {
 
-		return isVisible(entry.getStatus(), status);
-	}
-	*/
-	
-	@Override
-	public void postProcessContextBooleanFilter(
-		BooleanFilter contextBooleanFilter, SearchContext searchContext) throws Exception {
-		addStatus(contextBooleanFilter, searchContext);
-	}
+    	System.out.println("summary");
+        Summary summary = createSummary(document);
 
-	@Override
-	protected void doDelete(Movie movie) throws Exception {
-		deleteDocument(movie.getCompanyId(), movie.getMovieId());
-	}
+        summary.setMaxContentLength(200);
 
-	 @Override
-	    public void postProcessSearchQuery( BooleanQuery searchQuery, BooleanFilter fullQueryBooleanFilter, 
-	    		SearchContext searchContext) throws Exception {
+        return summary;
+    }
 
-	        addSearchLocalizedTerm(searchQuery, searchContext, Field.TITLE, false);
-	        addSearchTerm(searchQuery, searchContext, Field.DESCRIPTION, false);
-	    }
-	
-	
-	@Override
-	protected Document doGetDocument(Movie movie) throws Exception {
+    @Override
+    protected void doReindex(Movie movie) throws Exception {
 
-		Document document = getBaseModelDocument(CLASS_NAME, movie);
-		//document.addLocalizedText(Field.TITLE, movie.getTitleMap());
-		//document.addText(Field.DESCRIPTION, assignment.getDescription());
-		
-		document.addText(Field.TITLE, movie.getMovieName());
-		//document.addText(Field.DESCRIPTION, movie.getDescription());
-		
-		
-		
-		
+        Document document = getDocument(movie);
+        indexWriterHelper.updateDocument(getSearchEngineId(), movie.getCompanyId(), document, isCommitImmediately());
+        
+    }
 
-		return document;
-	}
+    @Override
+    protected void doReindex(String className, long classPK) throws Exception {
 
-	@Override
-	protected Summary doGetSummary( Document document, Locale locale, String snippet, 
-			PortletRequest portletRequest, PortletResponse portletResponse) throws Exception {
-		
-		String prefix = Field.SNIPPET + StringPool.UNDERLINE;
-		String title = document.get(prefix + Field.TITLE, Field.TITLE);
-		String content = HtmlUtil.stripHtml(
-			document.get(prefix + Field.DESCRIPTION, Field.DESCRIPTION));
+        Movie movie = _movieLocalService.getMovie(classPK);
+        doReindex(movie);
+    }
 
-		Summary summary = new Summary(title, content);
-		summary.setMaxContentLength(200);
-		return summary;
-	}
+    @Override
+    protected void doReindex(String[] ids) throws Exception {
+    	System.out.println("reindex3");
 
-	@Override
-	protected void doReindex(String className, long classPK)
-		throws Exception {
+        long companyId = GetterUtil.getLong(ids[0]);
+        reindexEntries(companyId);
+    }
 
-		Movie movie = movieLocalService.getMovie(classPK);
-		doReindex(movie);
-	}
+    protected void reindexEntries(long companyId) throws PortalException {
+    	System.out.println("REINDEX ENTRIE");
 
-	@Override
-	protected void doReindex(String[] ids) throws Exception {
+        final IndexableActionableDynamicQuery indexableActionableDynamicQuery =
+            _movieLocalService.getIndexableActionableDynamicQuery();
 
-		long companyId = GetterUtil.getLong(ids[0]);
-		reindexMovies(companyId);
-	}
+        indexableActionableDynamicQuery.setCompanyId(companyId);
 
-	@Override
-	protected void doReindex(Movie movie) throws Exception {
+        indexableActionableDynamicQuery.setPerformActionMethod(
+            new ActionableDynamicQuery.PerformActionMethod<Movie>() {
 
-		Document document = getDocument(movie);
-		indexWriterHelper.updateDocument(getSearchEngineId(), movie.getCompanyId(), document, isCommitImmediately());
-	}
+                @Override
+                public void performAction(Movie movie) {
 
-	protected void reindexMovies(long companyId) throws PortalException {
+                    try {
+                        Document document = getDocument(movie);
+                        indexableActionableDynamicQuery.addDocuments(document);
+                    }
+                    catch (PortalException pe) {
+                        if (_log.isWarnEnabled()) {
+                            _log.warn("Unable to index entry " + movie.getMovieId(), pe);
+                        }
+                    }
+                }
+            });
+        indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
+        indexableActionableDynamicQuery.performActions();
+    }
 
-		final IndexableActionableDynamicQuery indexableActionableDynamicQuery = movieLocalService.getIndexableActionableDynamicQuery();
-
-		indexableActionableDynamicQuery.setCompanyId(companyId);
-
-		// Actionable query
-
-		indexableActionableDynamicQuery.setPerformActionMethod( new ActionableDynamicQuery.PerformActionMethod<Movie>() {
-
-				@Override
-				public void performAction(Movie movie) {
-
-					try {
-						Document document = getDocument(movie);
-						indexableActionableDynamicQuery.addDocuments(document);
-					}
-					catch (PortalException pe) {
-						if (_log.isWarnEnabled()) {
-							_log.warn(
-								"Unable to index assignment " +
-									movie.getMovieId(),
-								pe);
-						}
-					}
-				}
-			});
-		indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
-		indexableActionableDynamicQuery.performActions();
-	}
 }

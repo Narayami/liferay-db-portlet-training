@@ -26,5 +26,6 @@
 		<field name="description" type="String" />
 		<field name="rating" type="int" />
 		<field name="userName" type="String" />
+		<field name="status" type="int" />
 	</model>
 </model-hints>

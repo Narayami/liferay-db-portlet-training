@@ -45,6 +45,7 @@ public class MovieSoap implements Serializable {
 		soapModel.setDescription(model.getDescription());
 		soapModel.setRating(model.getRating());
 		soapModel.setUserName(model.getUserName());
+		soapModel.setStatus(model.getStatus());
 
 		return soapModel;
 	}
@@ -185,6 +186,14 @@ public class MovieSoap implements Serializable {
 		_userName = userName;
 	}
 
+	public int getStatus() {
+		return _status;
+	}
+
+	public void setStatus(int status) {
+		_status = status;
+	}
+
 	private String _uuid;
 	private long _movieId;
 	private long _groupId;
@@ -196,4 +205,5 @@ public class MovieSoap implements Serializable {
 	private String _description;
 	private int _rating;
 	private String _userName;
+	private int _status;
 }

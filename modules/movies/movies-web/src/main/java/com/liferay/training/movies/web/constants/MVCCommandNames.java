@@ -22,5 +22,7 @@ public class MVCCommandNames {
 	
 	public static final String ADD_AUTHOR = "/movies/movie/add-author";
 
+	public static final String SEARCH_MOVIES = "/movies/movie/search-movies";
+
 
 }

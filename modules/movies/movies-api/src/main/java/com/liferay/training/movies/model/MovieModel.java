@@ -254,6 +254,20 @@ public interface MovieModel extends BaseModel<Movie>, GroupedModel, ShardedModel
 	@Override
 	public void setUserName(String userName);
 
+	/**
+	 * Returns the status of this movie.
+	 *
+	 * @return the status of this movie
+	 */
+	public int getStatus();
+
+	/**
+	 * Sets the status of this movie.
+	 *
+	 * @param status the status of this movie
+	 */
+	public void setStatus(int status);
+
 	@Override
 	public boolean isNew();
 

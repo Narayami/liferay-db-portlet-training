@@ -70,6 +70,7 @@ public class MovieWrapper implements Movie, ModelWrapper<Movie> {
 		attributes.put("description", getDescription());
 		attributes.put("rating", getRating());
 		attributes.put("userName", getUserName());
+		attributes.put("status", getStatus());
 
 		return attributes;
 	}
@@ -140,6 +141,12 @@ public class MovieWrapper implements Movie, ModelWrapper<Movie> {
 
 		if (userName != null) {
 			setUserName(userName);
+		}
+
+		Integer status = (Integer)attributes.get("status");
+
+		if (status != null) {
+			setStatus(status);
 		}
 	}
 
@@ -256,6 +263,16 @@ public class MovieWrapper implements Movie, ModelWrapper<Movie> {
 	@Override
 	public int getRating() {
 		return _movie.getRating();
+	}
+
+	/**
+	* Returns the status of this movie.
+	*
+	* @return the status of this movie
+	*/
+	@Override
+	public int getStatus() {
+		return _movie.getStatus();
 	}
 
 	/**
@@ -447,6 +464,16 @@ public class MovieWrapper implements Movie, ModelWrapper<Movie> {
 	@Override
 	public void setRating(int rating) {
 		_movie.setRating(rating);
+	}
+
+	/**
+	* Sets the status of this movie.
+	*
+	* @param status the status of this movie
+	*/
+	@Override
+	public void setStatus(int status) {
+		_movie.setStatus(status);
 	}
 
 	/**

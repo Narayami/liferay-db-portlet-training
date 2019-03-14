@@ -66,7 +66,7 @@ public class MovieServiceImpl extends MovieServiceBaseImpl {
 	} 
 	
 	@Indexable(
-			type = IndexableType.REINDEX
+			type = IndexableType.DELETE
 	)
 	public Movie deleteMovie(long movieId) throws PortalException{
 		Movie movie = movieLocalService.getMovie(movieId);
