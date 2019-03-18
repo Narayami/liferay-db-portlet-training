@@ -249,7 +249,7 @@ public class MovieLocalServiceImpl extends MovieLocalServiceBaseImpl {
 
 		// persist the changes
 		movie = super.updateMovie(movie);
-
+		
 		return movie;
 	}
 

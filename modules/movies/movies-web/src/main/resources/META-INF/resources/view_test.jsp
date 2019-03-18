@@ -1,6 +1,6 @@
-<%@page import="com.liferay.training.movies.web.search.MovieHelper"%>
-<%@page import="com.liferay.training.movies.web.search.MovieDisplayTerms"%>
 <%@page import="com.liferay.training.movies.web.search.MovieSearchContainer"%>
+<%@page import="com.liferay.portal.kernel.dao.search.DisplayTerms"%>
+<%@page import="com.liferay.training.movies.web.search.MovieHelper"%>
 <%@page import="com.liferay.portal.kernel.servlet.RequestDispatcherUtil"%>
 <%@page import="java.lang.ProcessBuilder.Redirect"%>
 <%@page import="com.liferay.training.movies.web.comparator.MovieComparatorUtil"%>
@@ -37,140 +37,101 @@
 
 <h1 align="center">Movies List</h1>
 
-<%-- 
-<liferay-portlet:renderURL varImpl="searchURL">
-	<portlet:param name="mvcPath" value="/view_search.jsp" />
-</liferay-portlet:renderURL>
-
-<aui:form action="<%=searchURL %>" method="get" name="fm" >
-	<liferay-portlet:renderURLParams varImpl="searchURL" />
-	
-	<div class="search-form" >
-		<span class="aui-search-bar" >
-			<aui:input inlineField="true" label="" name="keywords" size="5" title="search-entries" type="text"/>
-			<aui:button type="submit" value="search" />
-		</span>
-	</div>
-	
-</aui:form>
-
+<%
+	String orderByCol = ParamUtil.getString(request, "orderByCol");
+	String orderByType = ParamUtil.getString(request, "orderByType");
+%>
 
 <portlet:actionURL var="goBackURL">
 	<param name="jspPage" value="/view.jsp" />
 </portlet:actionURL>
-
 
 <liferay-portlet:renderURL varImpl="iteratorURL">
 	<liferay-portlet:param name="jspPage" value="/view_test.jsp"/>
 </liferay-portlet:renderURL>
 
 <%
-	String orderByCol = ParamUtil.getString(request, "orderByCol");
-	String orderByType = ParamUtil.getString(request, "orderByType");
-%>
-
-<liferay-ui:search-container delta="15" deltaConfigurable="true" iteratorURL="<%=iteratorURL %>">
-	
-	<liferay-ui:search-container-results >
-		<%
-			List<Movie> movieList = MovieLocalServiceUtil.getMoviesAndAuthors(-1, -1);
-			
-			//get local copy to be sorted in our need
-			List<Movie> sortedMovieList = new ArrayList<Movie>(ListUtil.subList(movieList,
-					searchContainer.getStart(), searchContainer.getEnd()));
-			
-			//sort the list based on order and column
-			sortedMovieList = MovieComparatorUtil.sortMovies(sortedMovieList, orderByCol, orderByType);
-			
-			searchContainer.setResults(sortedMovieList);
-			searchContainer.setTotal(movieList.size());
-		%>
-	</liferay-ui:search-container-results>
-	
-	<liferay-ui:search-container-row className="com.liferay.training.movies.model.Movie"
-		keyProperty="movieId" modelVar="currentMovie">
-		
-		<liferay-portlet:renderURL varImpl="rowURL">
-			<portlet:param name="backURL" value="<%=currentURL %>"/>
-			<portlet:param name="jspPage" value="/view_movie.jsp"/>
-			<portlet:param name="movieId" value="<%=String.valueOf(currentMovie.getMovieId()) %>"/>
-			<portlet:param name="authorId" value="<%=String.valueOf(currentMovie.getAuthor().getAuthorId()) %>"/>
-		</liferay-portlet:renderURL>
-		
-		<liferay-ui:search-container-row-parameter name="rowURL" value="<%=rowURL.toString() %>"/>
-			<liferay-ui:search-container-column-text href="<%=rowURL %>"
-				name="Name"
-				property="movieName"
-				orderableProperty="movieName"
-				orderable="true"/>
-			<liferay-ui:search-container-column-text href="<%=rowURL %>"
-				name="description" 
-				property="description" />
-			<liferay-ui:search-container-column-text href="<%=rowURL %>"
-				name="rating" 
-				property="rating"
-				orderableProperty="rating"
-				orderable="true"/>
-			 <liferay-ui:search-container-column-text href="<%=rowURL %>"
-				name="author" 
-				orderableProperty="authorName"
-				orderable="true"
-				value="<%=currentMovie.getAuthor().getAuthorName() %>"/>
-			<liferay-ui:search-container-column-text href="<%=rowURL %>" 
-				name="biography" 
-				value="<%=currentMovie.getAuthor().getBiography() %>"/>
-			
-			<liferay-ui:search-container-column-jsp align="center" path="/button.jsp"/>
-	</liferay-ui:search-container-row>
-	<liferay-ui:search-iterator searchContainer="<%=searchContainer %>" paginate="true"/>
-</liferay-ui:search-container>
-
-<aui:button-row>
-	<aui:button type="cancel" onClick="<%=goBackURL.toString() %>"></aui:button>
-</aui:button-row>
---%>
-
-
-<%-- TEST --%>
-
-<liferay-portlet:renderURL varImpl="iteratorURL">
-   <portlet:param name="mvcPath" value="/view_test.jsp" />
-</liferay-portlet:renderURL>
-
-<%
-	PortletURL portletURL = renderResponse.createRenderURL();
+	PortletURL portletURL = iteratorURL;
 	String portletURLString = portletURL.toString();
 	MovieSearchContainer movieSearchContainer = new MovieSearchContainer(renderRequest, portletURL);
-	MovieDisplayTerms displayTerms = (MovieDisplayTerms)movieSearchContainer.getDisplayTerms();
+	DisplayTerms displayTerms = (DisplayTerms)movieSearchContainer.getDisplayTerms();
+	
+	//sort
+	List<Movie> movieList = MovieHelper.getMovie(displayTerms, -1, -1);
+	
+	//get local copy to be sorted in our need
+	List<Movie> sortedMovieList = new ArrayList<Movie>(ListUtil.subList(movieList,
+		movieSearchContainer.getStart(), movieSearchContainer.getEnd()));
+		
+	//sort the list based on order and column
+	sortedMovieList = MovieComparatorUtil.sortMovies(sortedMovieList, orderByCol, orderByType);
+		
+	movieSearchContainer.setResults(sortedMovieList);
+	movieSearchContainer.setTotal(movieList.size());
 %>
 
 <aui:form action="<%=iteratorURL %>" method="post" name="fm">
-
-	<liferay-ui:search-container total="<%= MovieHelper.getTotalMovieCount(displayTerms, movieSearchContainer.getStart(), movieSearchContainer.getEnd()) %>"
-		searchContainer="<%= movieSearchContainer %>" >
-
+	<liferay-ui:search-container iteratorURL="<%=iteratorURL %>" searchContainer= "<%=movieSearchContainer %>">
+	
 	<liferay-ui:search-form page="/search.jsp" servletContext="<%=application %>" />
 	
-	<liferay-ui:search-container-results results="<%=MovieHelper.getMovie(displayTerms,movieSearchContainer.getStart(), movieSearchContainer.getEnd()) %>" />
+	<liferay-ui:search-container-results>
+	
+		
+	</liferay-ui:search-container-results>
 	
 	<liferay-ui:search-container-row className="com.liferay.training.movies.model.Movie" modelVar="movie" >
+		<liferay-portlet:renderURL varImpl="rowURL">
+			<portlet:param name="backURL" value="<%=currentURL %>"/>
+			<portlet:param name="jspPage" value="/view_movie.jsp"/>
+			<portlet:param name="movieId" value="<%=String.valueOf(movie.getMovieId()) %>"/>
+			<portlet:param name="authorId" value="<%=String.valueOf(movie.getAuthor().getAuthorId()) %>"/>
+		</liferay-portlet:renderURL>
 		
-		<liferay-ui:search-container-column-text property="movieId" />
-		<liferay-ui:search-container-column-text property="movieName" />
-		<liferay-ui:search-container-column-text property="rating" />
-		<liferay-ui:search-container-column-text property="description" />
+	<liferay-ui:search-container-row-parameter name="rowURL" value="<%=rowURL.toString() %>"/>
 		
+		<liferay-ui:search-container-column-text href="<%=rowURL %>"
+			name="Movie ID"
+			property="movieId" />
 		
-		<liferay-ui:search-container-column-text name="author" value="<%=movie.getAuthor().getAuthorName() %>" />
+		<liferay-ui:search-container-column-text href="<%=rowURL %>"
+			name="Movie Name"
+			property="movieName"
+			orderable="true" 
+			orderableProperty="movieName"/>
 		
+		<liferay-ui:search-container-column-text href="<%=rowURL %>"
+			name="Rating" 
+			property="rating" 
+			orderable="true"
+			orderableProperty="rating"/>
 		
+		<liferay-ui:search-container-column-text href="<%=rowURL %>"
+			name="Description"
+			property="description" />
 		
+		<liferay-ui:search-container-column-text href="<%=rowURL %>"
+			name="author" 
+			orderable="true"
+			orderableProperty="authorName"
+			value="<%=movie.getAuthor().getAuthorName() %>" />
+		
+		<liferay-ui:search-container-column-text href="<%=rowURL %>"
+			name="biography" 
+			value="<%=movie.getAuthor().getBiography() %>" />
+		
+		<liferay-ui:search-container-column-jsp align="center" path="/button.jsp" />
+			
 	</liferay-ui:search-container-row>
 	
-	<liferay-ui:search-iterator />
+	<liferay-ui:search-iterator searchContainer="<%=movieSearchContainer %>" paginate="true" />
 	
 	</liferay-ui:search-container>
 	
 </aui:form>
+
+<aui:button-row>
+	<aui:button type="cancel" onClick="<%=goBackURL.toString() %>"></aui:button>
+</aui:button-row>
 
 

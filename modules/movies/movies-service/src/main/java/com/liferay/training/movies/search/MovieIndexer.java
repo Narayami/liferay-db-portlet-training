@@ -1,3 +1,4 @@
+
 package com.liferay.training.movies.search;
 
 import java.util.LinkedHashMap;
