@@ -21,6 +21,9 @@ dependencies {
 	compileOnly group: "com.liferay", name: "com.liferay.registry.api", version: "1.0.0"
 	    compileOnly files("../../../bundles/osgi/modules/com.liferay.asset.api.jar")
 	
+	    compile group: "javax.mail", name: "mail", version: "1.4"
+	
+	
 }
 
 buildService {
