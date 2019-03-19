@@ -57,6 +57,8 @@ public class AddMovieMVCActionCommand extends BaseMVCActionCommand {
 		ThemeDisplay themeDisplay = (ThemeDisplay)actionRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		ServiceContext serviceContext = ServiceContextFactory.getInstance(Movie.class.getName(), actionRequest);
 		
+		
+		
 		String movieName = ParamUtil.getString(actionRequest, "movie");
 		String description = ParamUtil.getString(actionRequest, "description");
 		int rating = ParamUtil.getInteger(actionRequest, "rating");

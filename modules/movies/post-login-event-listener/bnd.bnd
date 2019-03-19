@@ -1,11 +1,10 @@
-Bundle-Name: movies-rest
-Bundle-SymbolicName: com.liferay.training.movies.rest.service
+Bundle-Name: post-login-event-listener
+Bundle-SymbolicName: com.liferay.training.movies.login.events.post
 Bundle-Version: 1.0.0
-Liferay-Configuration-Path: /configuration
 Export-Package: \
 	com.liferay.training.movies.exception,\
+	com.liferay.training.movies.login.events.post,\
 	com.liferay.training.movies.model,\
 	com.liferay.training.movies.permission,\
-	com.liferay.training.movies.rest.service.application,\
 	com.liferay.training.movies.service,\
 	com.liferay.training.movies.service.persistence
