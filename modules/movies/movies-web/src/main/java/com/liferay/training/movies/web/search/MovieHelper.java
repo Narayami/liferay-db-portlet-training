@@ -17,6 +17,7 @@ import com.liferay.portal.kernel.portlet.PortletClassLoaderUtil;
 import com.liferay.portal.kernel.service.persistence.PortletUtil;
 import com.liferay.portal.kernel.servlet.ServletContextUtil;
 import com.liferay.portal.kernel.util.ListUtil;
+import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.training.movies.model.Movie;
 import com.liferay.training.movies.service.MovieLocalServiceUtil;
@@ -42,9 +43,12 @@ public class MovieHelper {
 		
 		List<Movie> movieList = Collections.EMPTY_LIST;
 		List<Movie> moviesListQueriedAndSettedAuthorsList = Collections.EMPTY_LIST;
-
+		
+		
+		//if the keyword has more than 1 space replace them with only 1 space
+		keywords = keywords.replaceAll(" +", " ");
+		
 		if ((Validator.isBlank(keywords)) && (!isAdvancedSearch)) {// No search
-			movieList = MovieLocalServiceUtil.getMovies(0, MovieLocalServiceUtil.getMoviesCount());
 			moviesListQueriedAndSettedAuthorsList = MovieLocalServiceUtil.getMoviesAndAuthors(0, 
 					MovieLocalServiceUtil.getMoviesCount());
 		} else {
@@ -65,15 +69,17 @@ public class MovieHelper {
 					junction.add(PropertyFactoryUtil.forName("movieName").like(keywords));
 			}
 			else {// Normal Search
-
 				junction = RestrictionsFactoryUtil.disjunction();
 
 				if (Validator.isDigit(keywords)) {
 					junction.add(PropertyFactoryUtil.forName("movieId").eq(Long.valueOf(keywords)));
 					junction.add(PropertyFactoryUtil.forName("rating").eq(Integer.valueOf(keywords)));
 				}
-				junction.add(PropertyFactoryUtil.forName("movieName").like(keywords));
+				junction.add(RestrictionsFactoryUtil.ilike("movieName", keywords));
+				
+				
 			}
+			
 			
 			dynamicQuery.add(junction);
 			movieList = MovieLocalServiceUtil.dynamicQuery(dynamicQuery);
@@ -82,6 +88,7 @@ public class MovieHelper {
 			moviesListQueriedAndSettedAuthorsList = MovieLocalServiceUtil.getMoviesAndAuthorsQueried(movieList);
 			
 		}
+		
 		return moviesListQueriedAndSettedAuthorsList;
 	}
 }

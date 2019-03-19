@@ -1,7 +1,6 @@
 
 package com.liferay.training.movies.search;
 
-import java.util.LinkedHashMap;
 import java.util.Locale;
 
 import javax.portlet.PortletRequest;
@@ -29,7 +28,6 @@ import com.liferay.portal.kernel.security.permission.PermissionChecker;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocalizationUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
-import com.liferay.portal.kernel.util.Validator;
 import com.liferay.training.movies.model.Movie;
 import com.liferay.training.movies.permission.MoviePermissionChecker;
 import com.liferay.training.movies.service.MovieLocalService;
@@ -122,7 +120,7 @@ public class MovieIndexer extends BaseIndexer<Movie> {
 
     	System.out.println("summary");
         Summary summary = createSummary(document);
-
+        
         summary.setMaxContentLength(200);
 
         return summary;
