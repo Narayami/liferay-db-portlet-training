@@ -3,25 +3,16 @@ package com.liferay.training.movies.web.search;
 import java.util.Collections;
 import java.util.List;
 
-import org.osgi.service.component.annotations.Component;
-
-import com.liferay.portal.kernel.bean.PortletBeanLocatorUtil;
 import com.liferay.portal.kernel.dao.orm.DynamicQuery;
-import com.liferay.portal.kernel.dao.orm.DynamicQueryFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.Junction;
 import com.liferay.portal.kernel.dao.orm.PropertyFactoryUtil;
 import com.liferay.portal.kernel.dao.orm.RestrictionsFactoryUtil;
 import com.liferay.portal.kernel.dao.search.DisplayTerms;
 import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.portlet.PortletClassLoaderUtil;
-import com.liferay.portal.kernel.service.persistence.PortletUtil;
-import com.liferay.portal.kernel.servlet.ServletContextUtil;
 import com.liferay.portal.kernel.util.ListUtil;
-import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.util.Validator;
 import com.liferay.training.movies.model.Movie;
 import com.liferay.training.movies.service.MovieLocalServiceUtil;
-import com.liferay.training.movies.web.constants.MoviesPortletKeys;
 
 public class MovieHelper {
 	
@@ -43,7 +34,6 @@ public class MovieHelper {
 		
 		List<Movie> movieList = Collections.EMPTY_LIST;
 		List<Movie> moviesListQueriedAndSettedAuthorsList = Collections.EMPTY_LIST;
-		
 		
 		//if the keyword has more than 1 space replace them with only 1 space
 		keywords = keywords.replaceAll(" +", " ");
@@ -84,7 +74,7 @@ public class MovieHelper {
 			dynamicQuery.add(junction);
 			movieList = MovieLocalServiceUtil.dynamicQuery(dynamicQuery);
 			
-			//invokes the method that will set the queried movies to set the movies the respective author
+			//invokes the method that will set the queried movies the respectives authors
 			moviesListQueriedAndSettedAuthorsList = MovieLocalServiceUtil.getMoviesAndAuthorsQueried(movieList);
 			
 		}

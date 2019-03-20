@@ -11,14 +11,19 @@
 </portlet:renderURL>
 
 <portlet:renderURL var="viewForumURL">
-	<portlet:param name="jspPage" value="/viewForums.jsp" />\
+	<portlet:param name="jspPage" value="/viewForums.jsp" />
 </portlet:renderURL>
 
 <center>
 	<img src="<%=request.getContextPath()%>/img/lordOfTheRings.jpeg" style="width:100%"/>
 </center>
+
 <aui:button-row align="center">
 	<aui:button type="button" value="ADD MOVIE" onClick="<%=updateMovieURL.toString() %>"> </aui:button>
 	<aui:button type="button" value="VIEW MOVIES" onClick="<%=viewMoviesURL.toString() %>"> </aui:button>
+	<%-- 
 	<aui:button type="button" value="FORUM" onClick="<%=viewForumURL.toString() %>"> </aui:button>
+	--%>
+	<aui:button type="button" value="FORUM" href="http://localhost:8080/web/guest/forum"> </aui:button>
+	
 </aui:button-row>

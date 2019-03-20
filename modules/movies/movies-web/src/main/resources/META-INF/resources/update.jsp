@@ -25,7 +25,7 @@
 	<portlet:param name="jspPage" value="/view.jsp"/>
 </portlet:renderURL>
 
-<h1>Add Movie</h1>
+<h1 align="center">Add a new Movie</h1>
 
 <portlet:actionURL name='<%=MVCCommandNames.ADD_MOVIE %>' var="addMovieURL"></portlet:actionURL>
 
@@ -33,11 +33,38 @@
 
             <aui:fieldset>
 
-                <aui:input name="movie" />
-                <aui:input name="description" />
-                <aui:input name="rating" />
-                <aui:input name="author" />
-                <aui:input name="biography" />
+                <aui:input 
+                	name="movie"
+                	label="Movie Name"
+                	required="true"
+           			 
+                />
+                
+                <aui:input 
+                	name="description" 
+                	type="textarea"
+                	required="true" 
+                />
+                
+                <aui:input 
+                	name="rating" 
+                	type="number"
+                	max="20"
+                	min="0"
+                	helpMessage="Rate the movie from 0 to 20"
+                	required="true" 
+                />
+                
+                <aui:input 
+                	name="author" 
+                	required="true" 
+                />
+                
+                <aui:input 
+                	name="biography" 
+                	type="textarea"
+                	required="true" 
+                />
 
             </aui:fieldset>
 
