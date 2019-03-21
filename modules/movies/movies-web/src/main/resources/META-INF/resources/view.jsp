@@ -14,6 +14,10 @@
 	<portlet:param name="jspPage" value="/viewForums.jsp" />
 </portlet:renderURL>
 
+<portlet:renderURL var="testURL">
+	<portlet:param name="jspPage" value="/test_feed.jsp" />
+</portlet:renderURL>
+
 <center>
 	<img src="<%=request.getContextPath()%>/img/lordOfTheRings.jpeg" style="width:100%"/>
 </center>
@@ -25,5 +29,6 @@
 	<aui:button type="button" value="FORUM" onClick="<%=viewForumURL.toString() %>"> </aui:button>
 	--%>
 	<aui:button type="button" value="FORUM" href="http://localhost:8080/web/guest/forum"> </aui:button>
+	<aui:button type="button" value="TEST" onClick="<%=testURL.toString()%>"> </aui:button>
 	
 </aui:button-row>

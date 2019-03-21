@@ -1247,6 +1247,409 @@ public class MovieUtil {
 	}
 
 	/**
+	* Returns all the movies where status = &#63;.
+	*
+	* @param status the status
+	* @return the matching movies
+	*/
+	public static List<Movie> findBystatus(int status) {
+		return getPersistence().findBystatus(status);
+	}
+
+	/**
+	* Returns a range of all the movies where status = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link MovieModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param status the status
+	* @param start the lower bound of the range of movies
+	* @param end the upper bound of the range of movies (not inclusive)
+	* @return the range of matching movies
+	*/
+	public static List<Movie> findBystatus(int status, int start, int end) {
+		return getPersistence().findBystatus(status, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the movies where status = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link MovieModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param status the status
+	* @param start the lower bound of the range of movies
+	* @param end the upper bound of the range of movies (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching movies
+	*/
+	public static List<Movie> findBystatus(int status, int start, int end,
+		OrderByComparator<Movie> orderByComparator) {
+		return getPersistence()
+				   .findBystatus(status, start, end, orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the movies where status = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link MovieModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param status the status
+	* @param start the lower bound of the range of movies
+	* @param end the upper bound of the range of movies (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching movies
+	*/
+	public static List<Movie> findBystatus(int status, int start, int end,
+		OrderByComparator<Movie> orderByComparator, boolean retrieveFromCache) {
+		return getPersistence()
+				   .findBystatus(status, start, end, orderByComparator,
+			retrieveFromCache);
+	}
+
+	/**
+	* Returns the first movie in the ordered set where status = &#63;.
+	*
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching movie
+	* @throws NoSuchMovieException if a matching movie could not be found
+	*/
+	public static Movie findBystatus_First(int status,
+		OrderByComparator<Movie> orderByComparator)
+		throws com.liferay.training.movies.exception.NoSuchMovieException {
+		return getPersistence().findBystatus_First(status, orderByComparator);
+	}
+
+	/**
+	* Returns the first movie in the ordered set where status = &#63;.
+	*
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching movie, or <code>null</code> if a matching movie could not be found
+	*/
+	public static Movie fetchBystatus_First(int status,
+		OrderByComparator<Movie> orderByComparator) {
+		return getPersistence().fetchBystatus_First(status, orderByComparator);
+	}
+
+	/**
+	* Returns the last movie in the ordered set where status = &#63;.
+	*
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching movie
+	* @throws NoSuchMovieException if a matching movie could not be found
+	*/
+	public static Movie findBystatus_Last(int status,
+		OrderByComparator<Movie> orderByComparator)
+		throws com.liferay.training.movies.exception.NoSuchMovieException {
+		return getPersistence().findBystatus_Last(status, orderByComparator);
+	}
+
+	/**
+	* Returns the last movie in the ordered set where status = &#63;.
+	*
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching movie, or <code>null</code> if a matching movie could not be found
+	*/
+	public static Movie fetchBystatus_Last(int status,
+		OrderByComparator<Movie> orderByComparator) {
+		return getPersistence().fetchBystatus_Last(status, orderByComparator);
+	}
+
+	/**
+	* Returns the movies before and after the current movie in the ordered set where status = &#63;.
+	*
+	* @param movieId the primary key of the current movie
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next movie
+	* @throws NoSuchMovieException if a movie with the primary key could not be found
+	*/
+	public static Movie[] findBystatus_PrevAndNext(long movieId, int status,
+		OrderByComparator<Movie> orderByComparator)
+		throws com.liferay.training.movies.exception.NoSuchMovieException {
+		return getPersistence()
+				   .findBystatus_PrevAndNext(movieId, status, orderByComparator);
+	}
+
+	/**
+	* Removes all the movies where status = &#63; from the database.
+	*
+	* @param status the status
+	*/
+	public static void removeBystatus(int status) {
+		getPersistence().removeBystatus(status);
+	}
+
+	/**
+	* Returns the number of movies where status = &#63;.
+	*
+	* @param status the status
+	* @return the number of matching movies
+	*/
+	public static int countBystatus(int status) {
+		return getPersistence().countBystatus(status);
+	}
+
+	/**
+	* Returns all the movies where groupId = &#63; and status = &#63;.
+	*
+	* @param groupId the group ID
+	* @param status the status
+	* @return the matching movies
+	*/
+	public static List<Movie> findByG_S(long groupId, int status) {
+		return getPersistence().findByG_S(groupId, status);
+	}
+
+	/**
+	* Returns a range of all the movies where groupId = &#63; and status = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link MovieModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param status the status
+	* @param start the lower bound of the range of movies
+	* @param end the upper bound of the range of movies (not inclusive)
+	* @return the range of matching movies
+	*/
+	public static List<Movie> findByG_S(long groupId, int status, int start,
+		int end) {
+		return getPersistence().findByG_S(groupId, status, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the movies where groupId = &#63; and status = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link MovieModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param status the status
+	* @param start the lower bound of the range of movies
+	* @param end the upper bound of the range of movies (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching movies
+	*/
+	public static List<Movie> findByG_S(long groupId, int status, int start,
+		int end, OrderByComparator<Movie> orderByComparator) {
+		return getPersistence()
+				   .findByG_S(groupId, status, start, end, orderByComparator);
+	}
+
+	/**
+	* Returns an ordered range of all the movies where groupId = &#63; and status = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link MovieModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param status the status
+	* @param start the lower bound of the range of movies
+	* @param end the upper bound of the range of movies (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the ordered range of matching movies
+	*/
+	public static List<Movie> findByG_S(long groupId, int status, int start,
+		int end, OrderByComparator<Movie> orderByComparator,
+		boolean retrieveFromCache) {
+		return getPersistence()
+				   .findByG_S(groupId, status, start, end, orderByComparator,
+			retrieveFromCache);
+	}
+
+	/**
+	* Returns the first movie in the ordered set where groupId = &#63; and status = &#63;.
+	*
+	* @param groupId the group ID
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching movie
+	* @throws NoSuchMovieException if a matching movie could not be found
+	*/
+	public static Movie findByG_S_First(long groupId, int status,
+		OrderByComparator<Movie> orderByComparator)
+		throws com.liferay.training.movies.exception.NoSuchMovieException {
+		return getPersistence()
+				   .findByG_S_First(groupId, status, orderByComparator);
+	}
+
+	/**
+	* Returns the first movie in the ordered set where groupId = &#63; and status = &#63;.
+	*
+	* @param groupId the group ID
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the first matching movie, or <code>null</code> if a matching movie could not be found
+	*/
+	public static Movie fetchByG_S_First(long groupId, int status,
+		OrderByComparator<Movie> orderByComparator) {
+		return getPersistence()
+				   .fetchByG_S_First(groupId, status, orderByComparator);
+	}
+
+	/**
+	* Returns the last movie in the ordered set where groupId = &#63; and status = &#63;.
+	*
+	* @param groupId the group ID
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching movie
+	* @throws NoSuchMovieException if a matching movie could not be found
+	*/
+	public static Movie findByG_S_Last(long groupId, int status,
+		OrderByComparator<Movie> orderByComparator)
+		throws com.liferay.training.movies.exception.NoSuchMovieException {
+		return getPersistence()
+				   .findByG_S_Last(groupId, status, orderByComparator);
+	}
+
+	/**
+	* Returns the last movie in the ordered set where groupId = &#63; and status = &#63;.
+	*
+	* @param groupId the group ID
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the last matching movie, or <code>null</code> if a matching movie could not be found
+	*/
+	public static Movie fetchByG_S_Last(long groupId, int status,
+		OrderByComparator<Movie> orderByComparator) {
+		return getPersistence()
+				   .fetchByG_S_Last(groupId, status, orderByComparator);
+	}
+
+	/**
+	* Returns the movies before and after the current movie in the ordered set where groupId = &#63; and status = &#63;.
+	*
+	* @param movieId the primary key of the current movie
+	* @param groupId the group ID
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next movie
+	* @throws NoSuchMovieException if a movie with the primary key could not be found
+	*/
+	public static Movie[] findByG_S_PrevAndNext(long movieId, long groupId,
+		int status, OrderByComparator<Movie> orderByComparator)
+		throws com.liferay.training.movies.exception.NoSuchMovieException {
+		return getPersistence()
+				   .findByG_S_PrevAndNext(movieId, groupId, status,
+			orderByComparator);
+	}
+
+	/**
+	* Returns all the movies that the user has permission to view where groupId = &#63; and status = &#63;.
+	*
+	* @param groupId the group ID
+	* @param status the status
+	* @return the matching movies that the user has permission to view
+	*/
+	public static List<Movie> filterFindByG_S(long groupId, int status) {
+		return getPersistence().filterFindByG_S(groupId, status);
+	}
+
+	/**
+	* Returns a range of all the movies that the user has permission to view where groupId = &#63; and status = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link MovieModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param status the status
+	* @param start the lower bound of the range of movies
+	* @param end the upper bound of the range of movies (not inclusive)
+	* @return the range of matching movies that the user has permission to view
+	*/
+	public static List<Movie> filterFindByG_S(long groupId, int status,
+		int start, int end) {
+		return getPersistence().filterFindByG_S(groupId, status, start, end);
+	}
+
+	/**
+	* Returns an ordered range of all the movies that the user has permissions to view where groupId = &#63; and status = &#63;.
+	*
+	* <p>
+	* Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to {@link QueryUtil#ALL_POS} will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent and pagination is required (<code>start</code> and <code>end</code> are not {@link QueryUtil#ALL_POS}), then the query will include the default ORDER BY logic from {@link MovieModelImpl}. If both <code>orderByComparator</code> and pagination are absent, for performance reasons, the query will not have an ORDER BY clause and the returned result set will be sorted on by the primary key in an ascending order.
+	* </p>
+	*
+	* @param groupId the group ID
+	* @param status the status
+	* @param start the lower bound of the range of movies
+	* @param end the upper bound of the range of movies (not inclusive)
+	* @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	* @return the ordered range of matching movies that the user has permission to view
+	*/
+	public static List<Movie> filterFindByG_S(long groupId, int status,
+		int start, int end, OrderByComparator<Movie> orderByComparator) {
+		return getPersistence()
+				   .filterFindByG_S(groupId, status, start, end,
+			orderByComparator);
+	}
+
+	/**
+	* Returns the movies before and after the current movie in the ordered set of movies that the user has permission to view where groupId = &#63; and status = &#63;.
+	*
+	* @param movieId the primary key of the current movie
+	* @param groupId the group ID
+	* @param status the status
+	* @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	* @return the previous, current, and next movie
+	* @throws NoSuchMovieException if a movie with the primary key could not be found
+	*/
+	public static Movie[] filterFindByG_S_PrevAndNext(long movieId,
+		long groupId, int status, OrderByComparator<Movie> orderByComparator)
+		throws com.liferay.training.movies.exception.NoSuchMovieException {
+		return getPersistence()
+				   .filterFindByG_S_PrevAndNext(movieId, groupId, status,
+			orderByComparator);
+	}
+
+	/**
+	* Removes all the movies where groupId = &#63; and status = &#63; from the database.
+	*
+	* @param groupId the group ID
+	* @param status the status
+	*/
+	public static void removeByG_S(long groupId, int status) {
+		getPersistence().removeByG_S(groupId, status);
+	}
+
+	/**
+	* Returns the number of movies where groupId = &#63; and status = &#63;.
+	*
+	* @param groupId the group ID
+	* @param status the status
+	* @return the number of matching movies
+	*/
+	public static int countByG_S(long groupId, int status) {
+		return getPersistence().countByG_S(groupId, status);
+	}
+
+	/**
+	* Returns the number of movies that the user has permission to view where groupId = &#63; and status = &#63;.
+	*
+	* @param groupId the group ID
+	* @param status the status
+	* @return the number of matching movies that the user has permission to view
+	*/
+	public static int filterCountByG_S(long groupId, int status) {
+		return getPersistence().filterCountByG_S(groupId, status);
+	}
+
+	/**
 	* Caches the movie in the entity cache if it is enabled.
 	*
 	* @param movie the movie

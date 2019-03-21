@@ -23,8 +23,8 @@ import org.osgi.service.component.annotations.Component;
  */
 @Component(
 	immediate = true,
-	property = {"key=login.events.post"
-		// TODO enter required service properties
+	property = {
+		"key=login.events.post"
 	},
 	service = LifecycleAction.class
 )
@@ -44,6 +44,7 @@ public class PostLoginEventListener implements LifecycleAction {
 			mailMessage.setBody("Liferay detected a login, if its not you, contact an admin ASAP");
 			
 			InternetAddress toAdress = new InternetAddress(User.getEmailAddress());
+
 			InternetAddress fromAdress = new InternetAddress("do-not-replyt@liferay.com");
 			
 			mailMessage.setTo(toAdress);

@@ -71,6 +71,9 @@ public class MovieWrapper implements Movie, ModelWrapper<Movie> {
 		attributes.put("rating", getRating());
 		attributes.put("userName", getUserName());
 		attributes.put("status", getStatus());
+		attributes.put("statusByUserId", getStatusByUserId());
+		attributes.put("statusByUserName", getStatusByUserName());
+		attributes.put("statusDate", getStatusDate());
 
 		return attributes;
 	}
@@ -147,6 +150,24 @@ public class MovieWrapper implements Movie, ModelWrapper<Movie> {
 
 		if (status != null) {
 			setStatus(status);
+		}
+
+		Long statusByUserId = (Long)attributes.get("statusByUserId");
+
+		if (statusByUserId != null) {
+			setStatusByUserId(statusByUserId);
+		}
+
+		String statusByUserName = (String)attributes.get("statusByUserName");
+
+		if (statusByUserName != null) {
+			setStatusByUserName(statusByUserName);
+		}
+
+		Date statusDate = (Date)attributes.get("statusDate");
+
+		if (statusDate != null) {
+			setStatusDate(statusDate);
 		}
 	}
 
@@ -276,6 +297,46 @@ public class MovieWrapper implements Movie, ModelWrapper<Movie> {
 	}
 
 	/**
+	* Returns the status by user ID of this movie.
+	*
+	* @return the status by user ID of this movie
+	*/
+	@Override
+	public long getStatusByUserId() {
+		return _movie.getStatusByUserId();
+	}
+
+	/**
+	* Returns the status by user name of this movie.
+	*
+	* @return the status by user name of this movie
+	*/
+	@Override
+	public String getStatusByUserName() {
+		return _movie.getStatusByUserName();
+	}
+
+	/**
+	* Returns the status by user uuid of this movie.
+	*
+	* @return the status by user uuid of this movie
+	*/
+	@Override
+	public String getStatusByUserUuid() {
+		return _movie.getStatusByUserUuid();
+	}
+
+	/**
+	* Returns the status date of this movie.
+	*
+	* @return the status date of this movie
+	*/
+	@Override
+	public Date getStatusDate() {
+		return _movie.getStatusDate();
+	}
+
+	/**
 	* Returns the user ID of this movie.
 	*
 	* @return the user ID of this movie
@@ -320,9 +381,39 @@ public class MovieWrapper implements Movie, ModelWrapper<Movie> {
 		return _movie.hashCode();
 	}
 
+	/**
+	* Returns <code>true</code> if this movie is approved.
+	*
+	* @return <code>true</code> if this movie is approved; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isApproved() {
+		return _movie.isApproved();
+	}
+
 	@Override
 	public boolean isCachedModel() {
 		return _movie.isCachedModel();
+	}
+
+	/**
+	* Returns <code>true</code> if this movie is denied.
+	*
+	* @return <code>true</code> if this movie is denied; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isDenied() {
+		return _movie.isDenied();
+	}
+
+	/**
+	* Returns <code>true</code> if this movie is a draft.
+	*
+	* @return <code>true</code> if this movie is a draft; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isDraft() {
+		return _movie.isDraft();
 	}
 
 	@Override
@@ -330,9 +421,59 @@ public class MovieWrapper implements Movie, ModelWrapper<Movie> {
 		return _movie.isEscapedModel();
 	}
 
+	/**
+	* Returns <code>true</code> if this movie is expired.
+	*
+	* @return <code>true</code> if this movie is expired; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isExpired() {
+		return _movie.isExpired();
+	}
+
+	/**
+	* Returns <code>true</code> if this movie is inactive.
+	*
+	* @return <code>true</code> if this movie is inactive; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isInactive() {
+		return _movie.isInactive();
+	}
+
+	/**
+	* Returns <code>true</code> if this movie is incomplete.
+	*
+	* @return <code>true</code> if this movie is incomplete; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isIncomplete() {
+		return _movie.isIncomplete();
+	}
+
 	@Override
 	public boolean isNew() {
 		return _movie.isNew();
+	}
+
+	/**
+	* Returns <code>true</code> if this movie is pending.
+	*
+	* @return <code>true</code> if this movie is pending; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isPending() {
+		return _movie.isPending();
+	}
+
+	/**
+	* Returns <code>true</code> if this movie is scheduled.
+	*
+	* @return <code>true</code> if this movie is scheduled; <code>false</code> otherwise
+	*/
+	@Override
+	public boolean isScheduled() {
+		return _movie.isScheduled();
 	}
 
 	@Override
@@ -474,6 +615,46 @@ public class MovieWrapper implements Movie, ModelWrapper<Movie> {
 	@Override
 	public void setStatus(int status) {
 		_movie.setStatus(status);
+	}
+
+	/**
+	* Sets the status by user ID of this movie.
+	*
+	* @param statusByUserId the status by user ID of this movie
+	*/
+	@Override
+	public void setStatusByUserId(long statusByUserId) {
+		_movie.setStatusByUserId(statusByUserId);
+	}
+
+	/**
+	* Sets the status by user name of this movie.
+	*
+	* @param statusByUserName the status by user name of this movie
+	*/
+	@Override
+	public void setStatusByUserName(String statusByUserName) {
+		_movie.setStatusByUserName(statusByUserName);
+	}
+
+	/**
+	* Sets the status by user uuid of this movie.
+	*
+	* @param statusByUserUuid the status by user uuid of this movie
+	*/
+	@Override
+	public void setStatusByUserUuid(String statusByUserUuid) {
+		_movie.setStatusByUserUuid(statusByUserUuid);
+	}
+
+	/**
+	* Sets the status date of this movie.
+	*
+	* @param statusDate the status date of this movie
+	*/
+	@Override
+	public void setStatusDate(Date statusDate) {
+		_movie.setStatusDate(statusDate);
 	}
 
 	/**

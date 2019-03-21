@@ -63,7 +63,8 @@ public class AddMovieMVCActionCommand extends BaseMVCActionCommand {
 		String description = ParamUtil.getString(actionRequest, "description");
 		int rating = ParamUtil.getInteger(actionRequest, "rating");
 		String authorName = ParamUtil.getString(actionRequest, "author");
-		String biography = ParamUtil.getString(actionRequest, "biography");		
+		String biography = ParamUtil.getString(actionRequest, "biography");
+		
 		//MovieLocalServiceUtil.addMovieAndAuthor(themeDisplay.getScopeGroupId(), movieName, description, rating, authorName, biography, serviceContext);
 		
 		movieViewModel.addMovieAndAuthor(themeDisplay.getScopeGroupId(), movieName, description, rating, 

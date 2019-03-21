@@ -34,6 +34,7 @@ import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.StringBundler;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
 
 import com.liferay.training.movies.model.Movie;
 import com.liferay.training.movies.model.MovieModel;
@@ -83,7 +84,10 @@ public class MovieModelImpl extends BaseModelImpl<Movie> implements MovieModel {
 			{ "description", Types.VARCHAR },
 			{ "rating", Types.INTEGER },
 			{ "userName", Types.VARCHAR },
-			{ "status", Types.INTEGER }
+			{ "status", Types.INTEGER },
+			{ "statusByUserId", Types.BIGINT },
+			{ "statusByUserName", Types.VARCHAR },
+			{ "statusDate", Types.TIMESTAMP }
 		};
 	public static final Map<String, Integer> TABLE_COLUMNS_MAP = new HashMap<String, Integer>();
 
@@ -100,9 +104,12 @@ public class MovieModelImpl extends BaseModelImpl<Movie> implements MovieModel {
 		TABLE_COLUMNS_MAP.put("rating", Types.INTEGER);
 		TABLE_COLUMNS_MAP.put("userName", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("status", Types.INTEGER);
+		TABLE_COLUMNS_MAP.put("statusByUserId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("statusByUserName", Types.VARCHAR);
+		TABLE_COLUMNS_MAP.put("statusDate", Types.TIMESTAMP);
 	}
 
-	public static final String TABLE_SQL_CREATE = "create table movies_Movie (uuid_ VARCHAR(75) null,movieId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,createDate DATE null,modifiedDate DATE null,movieName VARCHAR(75) null,description VARCHAR(75) null,rating INTEGER,userName VARCHAR(75) null,status INTEGER)";
+	public static final String TABLE_SQL_CREATE = "create table movies_Movie (uuid_ VARCHAR(75) null,movieId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,createDate DATE null,modifiedDate DATE null,movieName VARCHAR(75) null,description VARCHAR(75) null,rating INTEGER,userName VARCHAR(75) null,status INTEGER,statusByUserId LONG,statusByUserName VARCHAR(75) null,statusDate DATE null)";
 	public static final String TABLE_SQL_DROP = "drop table movies_Movie";
 	public static final String ORDER_BY_JPQL = " ORDER BY movie.movieId ASC";
 	public static final String ORDER_BY_SQL = " ORDER BY movies_Movie.movieId ASC";
@@ -123,7 +130,8 @@ public class MovieModelImpl extends BaseModelImpl<Movie> implements MovieModel {
 	public static final long MOVIEID_COLUMN_BITMASK = 4L;
 	public static final long MOVIENAME_COLUMN_BITMASK = 8L;
 	public static final long RATING_COLUMN_BITMASK = 16L;
-	public static final long UUID_COLUMN_BITMASK = 32L;
+	public static final long STATUS_COLUMN_BITMASK = 32L;
+	public static final long UUID_COLUMN_BITMASK = 64L;
 
 	/**
 	 * Converts the soap model instance into a normal model instance.
@@ -150,6 +158,9 @@ public class MovieModelImpl extends BaseModelImpl<Movie> implements MovieModel {
 		model.setRating(soapModel.getRating());
 		model.setUserName(soapModel.getUserName());
 		model.setStatus(soapModel.getStatus());
+		model.setStatusByUserId(soapModel.getStatusByUserId());
+		model.setStatusByUserName(soapModel.getStatusByUserName());
+		model.setStatusDate(soapModel.getStatusDate());
 
 		return model;
 	}
@@ -226,6 +237,9 @@ public class MovieModelImpl extends BaseModelImpl<Movie> implements MovieModel {
 		attributes.put("rating", getRating());
 		attributes.put("userName", getUserName());
 		attributes.put("status", getStatus());
+		attributes.put("statusByUserId", getStatusByUserId());
+		attributes.put("statusByUserName", getStatusByUserName());
+		attributes.put("statusDate", getStatusDate());
 
 		attributes.put("entityCacheEnabled", isEntityCacheEnabled());
 		attributes.put("finderCacheEnabled", isFinderCacheEnabled());
@@ -305,6 +319,24 @@ public class MovieModelImpl extends BaseModelImpl<Movie> implements MovieModel {
 
 		if (status != null) {
 			setStatus(status);
+		}
+
+		Long statusByUserId = (Long)attributes.get("statusByUserId");
+
+		if (statusByUserId != null) {
+			setStatusByUserId(statusByUserId);
+		}
+
+		String statusByUserName = (String)attributes.get("statusByUserName");
+
+		if (statusByUserName != null) {
+			setStatusByUserName(statusByUserName);
+		}
+
+		Date statusDate = (Date)attributes.get("statusDate");
+
+		if (statusDate != null) {
+			setStatusDate(statusDate);
 		}
 	}
 
@@ -545,13 +577,159 @@ public class MovieModelImpl extends BaseModelImpl<Movie> implements MovieModel {
 
 	@Override
 	public void setStatus(int status) {
+		_columnBitmask |= STATUS_COLUMN_BITMASK;
+
+		if (!_setOriginalStatus) {
+			_setOriginalStatus = true;
+
+			_originalStatus = _status;
+		}
+
 		_status = status;
+	}
+
+	public int getOriginalStatus() {
+		return _originalStatus;
+	}
+
+	@JSON
+	@Override
+	public long getStatusByUserId() {
+		return _statusByUserId;
+	}
+
+	@Override
+	public void setStatusByUserId(long statusByUserId) {
+		_statusByUserId = statusByUserId;
+	}
+
+	@Override
+	public String getStatusByUserUuid() {
+		try {
+			User user = UserLocalServiceUtil.getUserById(getStatusByUserId());
+
+			return user.getUuid();
+		}
+		catch (PortalException pe) {
+			return "";
+		}
+	}
+
+	@Override
+	public void setStatusByUserUuid(String statusByUserUuid) {
+	}
+
+	@JSON
+	@Override
+	public String getStatusByUserName() {
+		if (_statusByUserName == null) {
+			return "";
+		}
+		else {
+			return _statusByUserName;
+		}
+	}
+
+	@Override
+	public void setStatusByUserName(String statusByUserName) {
+		_statusByUserName = statusByUserName;
+	}
+
+	@JSON
+	@Override
+	public Date getStatusDate() {
+		return _statusDate;
+	}
+
+	@Override
+	public void setStatusDate(Date statusDate) {
+		_statusDate = statusDate;
 	}
 
 	@Override
 	public StagedModelType getStagedModelType() {
 		return new StagedModelType(PortalUtil.getClassNameId(
 				Movie.class.getName()));
+	}
+
+	@Override
+	public boolean isApproved() {
+		if (getStatus() == WorkflowConstants.STATUS_APPROVED) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isDenied() {
+		if (getStatus() == WorkflowConstants.STATUS_DENIED) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isDraft() {
+		if (getStatus() == WorkflowConstants.STATUS_DRAFT) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isExpired() {
+		if (getStatus() == WorkflowConstants.STATUS_EXPIRED) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isInactive() {
+		if (getStatus() == WorkflowConstants.STATUS_INACTIVE) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isIncomplete() {
+		if (getStatus() == WorkflowConstants.STATUS_INCOMPLETE) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isPending() {
+		if (getStatus() == WorkflowConstants.STATUS_PENDING) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	@Override
+	public boolean isScheduled() {
+		if (getStatus() == WorkflowConstants.STATUS_SCHEDULED) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	public long getColumnBitmask() {
@@ -597,6 +775,9 @@ public class MovieModelImpl extends BaseModelImpl<Movie> implements MovieModel {
 		movieImpl.setRating(getRating());
 		movieImpl.setUserName(getUserName());
 		movieImpl.setStatus(getStatus());
+		movieImpl.setStatusByUserId(getStatusByUserId());
+		movieImpl.setStatusByUserName(getStatusByUserName());
+		movieImpl.setStatusDate(getStatusDate());
 
 		movieImpl.resetOriginalValues();
 
@@ -681,6 +862,10 @@ public class MovieModelImpl extends BaseModelImpl<Movie> implements MovieModel {
 
 		movieModelImpl._setOriginalRating = false;
 
+		movieModelImpl._originalStatus = movieModelImpl._status;
+
+		movieModelImpl._setOriginalStatus = false;
+
 		movieModelImpl._columnBitmask = 0;
 	}
 
@@ -750,12 +935,31 @@ public class MovieModelImpl extends BaseModelImpl<Movie> implements MovieModel {
 
 		movieCacheModel.status = getStatus();
 
+		movieCacheModel.statusByUserId = getStatusByUserId();
+
+		movieCacheModel.statusByUserName = getStatusByUserName();
+
+		String statusByUserName = movieCacheModel.statusByUserName;
+
+		if ((statusByUserName != null) && (statusByUserName.length() == 0)) {
+			movieCacheModel.statusByUserName = null;
+		}
+
+		Date statusDate = getStatusDate();
+
+		if (statusDate != null) {
+			movieCacheModel.statusDate = statusDate.getTime();
+		}
+		else {
+			movieCacheModel.statusDate = Long.MIN_VALUE;
+		}
+
 		return movieCacheModel;
 	}
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(25);
+		StringBundler sb = new StringBundler(31);
 
 		sb.append("{uuid=");
 		sb.append(getUuid());
@@ -781,6 +985,12 @@ public class MovieModelImpl extends BaseModelImpl<Movie> implements MovieModel {
 		sb.append(getUserName());
 		sb.append(", status=");
 		sb.append(getStatus());
+		sb.append(", statusByUserId=");
+		sb.append(getStatusByUserId());
+		sb.append(", statusByUserName=");
+		sb.append(getStatusByUserName());
+		sb.append(", statusDate=");
+		sb.append(getStatusDate());
 		sb.append("}");
 
 		return sb.toString();
@@ -788,7 +998,7 @@ public class MovieModelImpl extends BaseModelImpl<Movie> implements MovieModel {
 
 	@Override
 	public String toXmlString() {
-		StringBundler sb = new StringBundler(40);
+		StringBundler sb = new StringBundler(49);
 
 		sb.append("<model><model-name>");
 		sb.append("com.liferay.training.movies.model.Movie");
@@ -842,6 +1052,18 @@ public class MovieModelImpl extends BaseModelImpl<Movie> implements MovieModel {
 			"<column><column-name>status</column-name><column-value><![CDATA[");
 		sb.append(getStatus());
 		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>statusByUserId</column-name><column-value><![CDATA[");
+		sb.append(getStatusByUserId());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>statusByUserName</column-name><column-value><![CDATA[");
+		sb.append(getStatusByUserName());
+		sb.append("]]></column-value></column>");
+		sb.append(
+			"<column><column-name>statusDate</column-name><column-value><![CDATA[");
+		sb.append(getStatusDate());
+		sb.append("]]></column-value></column>");
 
 		sb.append("</model>");
 
@@ -875,6 +1097,11 @@ public class MovieModelImpl extends BaseModelImpl<Movie> implements MovieModel {
 	private boolean _setOriginalRating;
 	private String _userName;
 	private int _status;
+	private int _originalStatus;
+	private boolean _setOriginalStatus;
+	private long _statusByUserId;
+	private String _statusByUserName;
+	private Date _statusDate;
 	private long _columnBitmask;
 	private Movie _escapedModel;
 }

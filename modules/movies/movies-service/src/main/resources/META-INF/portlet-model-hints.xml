@@ -27,5 +27,8 @@
 		<field name="rating" type="int" />
 		<field name="userName" type="String" />
 		<field name="status" type="int" />
+		<field name="statusByUserId" type="long" />
+		<field name="statusByUserName" type="String" />
+		<field name="statusDate" type="Date" />
 	</model>
 </model-hints>

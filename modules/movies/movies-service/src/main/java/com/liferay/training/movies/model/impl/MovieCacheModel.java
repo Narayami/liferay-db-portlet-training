@@ -64,7 +64,7 @@ public class MovieCacheModel implements CacheModel<Movie>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(25);
+		StringBundler sb = new StringBundler(31);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -90,6 +90,12 @@ public class MovieCacheModel implements CacheModel<Movie>, Externalizable {
 		sb.append(userName);
 		sb.append(", status=");
 		sb.append(status);
+		sb.append(", statusByUserId=");
+		sb.append(statusByUserId);
+		sb.append(", statusByUserName=");
+		sb.append(statusByUserName);
+		sb.append(", statusDate=");
+		sb.append(statusDate);
 		sb.append("}");
 
 		return sb.toString();
@@ -149,6 +155,21 @@ public class MovieCacheModel implements CacheModel<Movie>, Externalizable {
 		}
 
 		movieImpl.setStatus(status);
+		movieImpl.setStatusByUserId(statusByUserId);
+
+		if (statusByUserName == null) {
+			movieImpl.setStatusByUserName("");
+		}
+		else {
+			movieImpl.setStatusByUserName(statusByUserName);
+		}
+
+		if (statusDate == Long.MIN_VALUE) {
+			movieImpl.setStatusDate(null);
+		}
+		else {
+			movieImpl.setStatusDate(new Date(statusDate));
+		}
 
 		movieImpl.resetOriginalValues();
 
@@ -175,6 +196,10 @@ public class MovieCacheModel implements CacheModel<Movie>, Externalizable {
 		userName = objectInput.readUTF();
 
 		status = objectInput.readInt();
+
+		statusByUserId = objectInput.readLong();
+		statusByUserName = objectInput.readUTF();
+		statusDate = objectInput.readLong();
 	}
 
 	@Override
@@ -221,6 +246,17 @@ public class MovieCacheModel implements CacheModel<Movie>, Externalizable {
 		}
 
 		objectOutput.writeInt(status);
+
+		objectOutput.writeLong(statusByUserId);
+
+		if (statusByUserName == null) {
+			objectOutput.writeUTF("");
+		}
+		else {
+			objectOutput.writeUTF(statusByUserName);
+		}
+
+		objectOutput.writeLong(statusDate);
 	}
 
 	public String uuid;
@@ -235,4 +271,7 @@ public class MovieCacheModel implements CacheModel<Movie>, Externalizable {
 	public int rating;
 	public String userName;
 	public int status;
+	public long statusByUserId;
+	public String statusByUserName;
+	public long statusDate;
 }

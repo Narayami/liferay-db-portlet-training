@@ -24,5 +24,8 @@ create table movies_Movie (
 	description VARCHAR(75) null,
 	rating INTEGER,
 	userName VARCHAR(75) null,
-	status INTEGER
+	status INTEGER,
+	statusByUserId LONG,
+	statusByUserName VARCHAR(75) null,
+	statusDate DATE null
 );

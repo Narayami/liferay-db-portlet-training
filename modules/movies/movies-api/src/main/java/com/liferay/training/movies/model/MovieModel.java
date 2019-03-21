@@ -24,6 +24,7 @@ import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.model.GroupedModel;
 import com.liferay.portal.kernel.model.ShardedModel;
 import com.liferay.portal.kernel.model.StagedAuditedModel;
+import com.liferay.portal.kernel.model.WorkflowedModel;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import java.io.Serializable;
@@ -45,7 +46,7 @@ import java.util.Date;
  */
 @ProviderType
 public interface MovieModel extends BaseModel<Movie>, GroupedModel, ShardedModel,
-	StagedAuditedModel {
+	StagedAuditedModel, WorkflowedModel {
 	/*
 	 * NOTE FOR DEVELOPERS:
 	 *
@@ -259,6 +260,7 @@ public interface MovieModel extends BaseModel<Movie>, GroupedModel, ShardedModel
 	 *
 	 * @return the status of this movie
 	 */
+	@Override
 	public int getStatus();
 
 	/**
@@ -266,7 +268,137 @@ public interface MovieModel extends BaseModel<Movie>, GroupedModel, ShardedModel
 	 *
 	 * @param status the status of this movie
 	 */
+	@Override
 	public void setStatus(int status);
+
+	/**
+	 * Returns the status by user ID of this movie.
+	 *
+	 * @return the status by user ID of this movie
+	 */
+	@Override
+	public long getStatusByUserId();
+
+	/**
+	 * Sets the status by user ID of this movie.
+	 *
+	 * @param statusByUserId the status by user ID of this movie
+	 */
+	@Override
+	public void setStatusByUserId(long statusByUserId);
+
+	/**
+	 * Returns the status by user uuid of this movie.
+	 *
+	 * @return the status by user uuid of this movie
+	 */
+	@Override
+	public String getStatusByUserUuid();
+
+	/**
+	 * Sets the status by user uuid of this movie.
+	 *
+	 * @param statusByUserUuid the status by user uuid of this movie
+	 */
+	@Override
+	public void setStatusByUserUuid(String statusByUserUuid);
+
+	/**
+	 * Returns the status by user name of this movie.
+	 *
+	 * @return the status by user name of this movie
+	 */
+	@AutoEscape
+	@Override
+	public String getStatusByUserName();
+
+	/**
+	 * Sets the status by user name of this movie.
+	 *
+	 * @param statusByUserName the status by user name of this movie
+	 */
+	@Override
+	public void setStatusByUserName(String statusByUserName);
+
+	/**
+	 * Returns the status date of this movie.
+	 *
+	 * @return the status date of this movie
+	 */
+	@Override
+	public Date getStatusDate();
+
+	/**
+	 * Sets the status date of this movie.
+	 *
+	 * @param statusDate the status date of this movie
+	 */
+	@Override
+	public void setStatusDate(Date statusDate);
+
+	/**
+	 * Returns <code>true</code> if this movie is approved.
+	 *
+	 * @return <code>true</code> if this movie is approved; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isApproved();
+
+	/**
+	 * Returns <code>true</code> if this movie is denied.
+	 *
+	 * @return <code>true</code> if this movie is denied; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isDenied();
+
+	/**
+	 * Returns <code>true</code> if this movie is a draft.
+	 *
+	 * @return <code>true</code> if this movie is a draft; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isDraft();
+
+	/**
+	 * Returns <code>true</code> if this movie is expired.
+	 *
+	 * @return <code>true</code> if this movie is expired; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isExpired();
+
+	/**
+	 * Returns <code>true</code> if this movie is inactive.
+	 *
+	 * @return <code>true</code> if this movie is inactive; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isInactive();
+
+	/**
+	 * Returns <code>true</code> if this movie is incomplete.
+	 *
+	 * @return <code>true</code> if this movie is incomplete; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isIncomplete();
+
+	/**
+	 * Returns <code>true</code> if this movie is pending.
+	 *
+	 * @return <code>true</code> if this movie is pending; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isPending();
+
+	/**
+	 * Returns <code>true</code> if this movie is scheduled.
+	 *
+	 * @return <code>true</code> if this movie is scheduled; <code>false</code> otherwise
+	 */
+	@Override
+	public boolean isScheduled();
 
 	@Override
 	public boolean isNew();

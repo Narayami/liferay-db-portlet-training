@@ -25,6 +25,9 @@
 		<column name="rating" type="int"></column>
 		<column name="userName" type="String"></column>
         <column name="status" type="int"></column>
+        <column name="statusByUserId" type="long"></column>
+        <column name="statusByUserName" type="String"></column>
+        <column name="statusDate" type="Date"></column>
 		<finder name="GroupId" return-type="Collection">
 			<finder-column name="groupId"></finder-column>
 		</finder>
@@ -38,6 +41,13 @@
 			<finder-column name="groupId"></finder-column>
 			<finder-column name="movieId"></finder-column>
 		</finder>
+        <finder name="status" return-type="Collection">
+            <finder-column name="status"></finder-column>
+        </finder>
+        <finder name="G_S" return-type="Collection">
+            <finder-column name="groupId"></finder-column>
+            <finder-column name="status"></finder-column>
+        </finder>
 		<reference entity="Group" package-path="com.liferay.portal"></reference>
 		<reference entity="AssetEntry"
 			package-path="com.liferay.portlet.asset">
