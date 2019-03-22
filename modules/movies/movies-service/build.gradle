@@ -6,9 +6,6 @@ dependencies {
 
     compileOnly group: "com.liferay", name: "com.liferay.osgi.util", version: "3.0.0"   
     compileOnly group: "javax.servlet", name: "javax.servlet-api", version: "3.0.1"
-   
-    //compileOnly files("../../../bundles/tomcat-9.0.6/lib/ext/portal-kernel.jar")
-    //compileOnly files("../../../bundles/tomcat-9.0.6/lib/ext/portlet.jar") 
 
     compile group: "javax.portlet", name:"portlet-api", version:"2.0"
     compileOnly files("../../../bundles/libtest/ext/portlet.jar")
@@ -23,6 +20,9 @@ dependencies {
 	
 	    compile group: "javax.mail", name: "mail", version: "1.4"
 	
+	compile group: 'com.liferay', name: 'com.liferay.asset.api', version: '1.0.0'
+	
+    //compileOnly files("../../../bundles/osgi/modules/com.liferay.asset.api.jar")
 	
 }
 

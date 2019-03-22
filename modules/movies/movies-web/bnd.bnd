@@ -14,4 +14,5 @@ Export-Package: \
 	com.liferay.training.movies.web.portlet,\
 	com.liferay.training.movies.web.portlet.action,\
 	com.liferay.training.movies.web.portlet.template,\
-	com.liferay.training.movies.web.search
+	com.liferay.training.movies.web.search,\
+	com.liferay.training.movies.web.asset

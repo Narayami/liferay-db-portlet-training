@@ -39,8 +39,7 @@ import com.liferay.training.movies.web.constants.MoviesPortletKeys;
 public class ViewMoviesMVCRenderCommand implements MVCRenderCommand {
 		
 	public String render(RenderRequest renderRequest, RenderResponse renderResponse) throws PortletException {  
-		
-		
+				
 		orderColumnsByAscDesc(renderRequest, renderResponse);
 		
 		return "/view_test.jsp";
@@ -48,7 +47,7 @@ public class ViewMoviesMVCRenderCommand implements MVCRenderCommand {
 	}
 
 	private void orderColumnsByAscDesc(RenderRequest renderRequest, RenderResponse renderResponse) {
-				
+		
 		//toggle asc/desc logic
 		String orderByCol = ParamUtil.getString(renderRequest, "orderByCol"); 
 		String orderByType = ParamUtil.getString(renderRequest, "orderByType"); 

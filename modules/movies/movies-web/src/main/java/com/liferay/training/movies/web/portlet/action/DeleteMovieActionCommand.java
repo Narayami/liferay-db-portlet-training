@@ -61,7 +61,7 @@ public class DeleteMovieActionCommand extends BaseMVCActionCommand {
 			log.error(e);
 		}
 
-		actionResponse.setRenderParameter("jspPage", "/view.jsp");
+		actionResponse.setRenderParameter("jspPage", "/view_test.jsp");
 		
 	}
 }

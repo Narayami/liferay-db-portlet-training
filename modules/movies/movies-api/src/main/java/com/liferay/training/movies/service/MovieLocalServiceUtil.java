@@ -384,6 +384,14 @@ public class MovieLocalServiceUtil {
 		return getService().updateMovie(movie);
 	}
 
+	public static com.liferay.training.movies.model.Movie updateStatus(
+		long userId, long movieId, int status,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return getService().updateStatus(userId, movieId, status, serviceContext);
+	}
+
 	public static MovieLocalService getService() {
 		return _serviceTracker.getService();
 	}

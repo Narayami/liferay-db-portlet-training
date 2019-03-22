@@ -325,4 +325,7 @@ public interface MovieLocalService extends BaseLocalService,
 	*/
 	@Indexable(type = IndexableType.REINDEX)
 	public Movie updateMovie(Movie movie);
+
+	public Movie updateStatus(long userId, long movieId, int status,
+		ServiceContext serviceContext) throws PortalException, SystemException;
 }

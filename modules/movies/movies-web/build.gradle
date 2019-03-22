@@ -1,41 +1,14 @@
-dependencies {2
-    /*
-	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
-	compileOnly group: "com.liferay.portal", name: "com.liferay.util.taglib"
-	compileOnly group: "javax.portlet", name: "portlet-api"
-	compileOnly group: "javax.servlet", name: "javax.servlet-api"
-	compileOnly group: "jstl", name: "jstl"
-	compileOnly group: "org.osgi", name: "osgi.cmpn"
-
-    // Needed by the Application Display templates  
-
-	compileOnly files("../../../bundles/osgi/modules/com.liferay.dynamic.data.mapping.taglib.jar")
-	compileOnly files("../../../bundles/osgi/modules/com.liferay.portlet.display.template.api.jar")
-	// Needed by the Clay tag library
-	
-	compileOnly files("../../../bundles/osgi/modules/com.liferay.frontend.taglib.clay.jar")
-    //compile group: 'com.liferay', name: 'com.liferay.frontend.taglib.clay', version: '1.0.1'
-
-    compileOnly files("../../../bundles/tomcat-9.0.6/lib/ext/portlet.jar")
-	compileOnly files("../../../bundles/tomcat-9.0.6/lib/ext/portal-kernel.jar")
-
-
-	compile project(":modules:movies:movies-api")
-    */
+dependencies {
+    
     compileOnly group: "com.liferay.portal", name: "com.liferay.util.taglib", version: "2.0.0"
 	compileOnly group: "javax.servlet", name: "javax.servlet-api", version: "3.0.1"
 	compileOnly group: "jstl", name: "jstl", version: "1.2"
 	compileOnly group: "org.osgi", name: "osgi.cmpn", version: "6.0.0"
 	compileOnly group: "com.liferay", name: "com.liferay.portal.configuration.metatype.api", version: "1.0.0"
 
-	// TODO: fix when dependencies are available
 
 	compileOnly files("../../../bundles/libtest/ext/portlet.jar")
 	compileOnly files("../../../bundles/libtest/ext/portal-kernel.jar")
-    
-    //compileOnly group: "javax.portlileOnly group: "javax.portlet", name: "portlet-api"
-    //compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
-
 
 	// Needed by the Application Display templates
 
@@ -55,6 +28,7 @@ dependencies {2
 	
 	compile group: 'org.apache.lucene', name: 'lucene-core', version: '7.5.0'
 	
-
-    compileOnly files("../../../bundles/osgi/modules/com.liferay.asset.api.jar")
+	compile group: 'com.liferay', name: 'com.liferay.asset.api', version: '1.0.0'
+	
+    //compileOnly files("../../../bundles/osgi/modules/com.liferay.asset.api.jar")
 }

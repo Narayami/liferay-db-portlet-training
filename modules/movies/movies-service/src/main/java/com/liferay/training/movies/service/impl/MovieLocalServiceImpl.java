@@ -14,24 +14,35 @@
 
 package com.liferay.training.movies.service.impl;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.osgi.service.component.annotations.Reference;
 
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.service.ServiceContextFactory;
 import com.liferay.portal.kernel.util.ContentTypes;
 import com.liferay.portal.kernel.util.OrderByComparator;
+import com.liferay.portal.kernel.util.StringPool;
+import com.liferay.portal.kernel.workflow.WorkflowConstants;
+import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
 import com.liferay.training.movies.exception.NoSuchAuthorException;
 import com.liferay.training.movies.model.Author;
 import com.liferay.training.movies.model.Movie;
 import com.liferay.training.movies.service.AuthorLocalServiceUtil;
 import com.liferay.training.movies.service.AuthorServiceUtil;
 import com.liferay.training.movies.service.base.MovieLocalServiceBaseImpl;
+import com.liferay.training.movies.service.persistence.MoviePersistence;
 
 /**
  * The implementation of the movie local service.
@@ -72,10 +83,6 @@ public class MovieLocalServiceImpl extends MovieLocalServiceBaseImpl {
 		// create new movie object
 		Movie movie = super.createMovie(movieId);
 
-		// test
-		Author author = movie.getAuthor();
-		movie.setAuthor(author);
-
 		// populate all movie object fields
 		movie.setCompanyId(group.getCompanyId());
 		movie.setGroupId(groupId);
@@ -87,22 +94,31 @@ public class MovieLocalServiceImpl extends MovieLocalServiceBaseImpl {
 		movie.setModifiedDate(serviceContext.getModifiedDate(new Date()));
 		movie.setCreateDate(serviceContext.getCreateDate(new Date()));
 
-		// persist the movie
-		movie = super.addMovie(movie);
-
 		// add permission resources
 		boolean portletActions = false;
 		boolean addGroupPermissions = true;
 		boolean addGuestPermissions = true;
-
+		
+		// persist the movie
+		movie = super.addMovie(movie);
+		
 		// when creating the movie, we create the permission resource along it.
 		resourceLocalService.addResources(group.getCompanyId(), groupId, userId, Movie.class.getName(),
 				movie.getMovieId(), portletActions, addGroupPermissions, addGuestPermissions);
-
+		
+		
+		//set status
+		movie.setStatus(WorkflowConstants.STATUS_DRAFT);
+		movie.setStatusByUserId(userId);
+		movie.setStatusByUserName(user.getFullName());
+		movie.setStatusDate(serviceContext.getModifiedDate(null));
+		
 		// update asset
 		updateAsset(movie, serviceContext);
-
-		return movie;
+		
+		
+		return startWorkflowInstance(userId, movie, serviceContext);
+		//return movie;
 	}
 
 	@Indexable(type = IndexableType.REINDEX)
@@ -110,16 +126,18 @@ public class MovieLocalServiceImpl extends MovieLocalServiceBaseImpl {
 			String biography, ServiceContext serviceContext) throws PortalException {
 
 		Movie movie = addMovie(groupId, movieName, description, rating, serviceContext);
+		
+		long userId = serviceContext.getUserId();
 
 		Author author = AuthorServiceUtil.addAuthor(movie.getMovieId(), authorName, biography, serviceContext);
 		author = AuthorLocalServiceUtil.addAuthor(author);
+				
+		return startWorkflowInstance(userId, movie, serviceContext);
 
-		movie.setAuthor(author);
-
-		return movie;
+		//return movie;
 
 	}
-
+	
 	@Indexable(type = IndexableType.DELETE)
 	public Movie deleteMovieAndAuthor(long movieId, long authorId) throws PortalException {
 
@@ -127,6 +145,7 @@ public class MovieLocalServiceImpl extends MovieLocalServiceBaseImpl {
 		Author author = AuthorLocalServiceUtil.getAuthor(authorId);
 
 		author = AuthorLocalServiceUtil.deleteAuthor(author);
+		assetEntryLocalService.deleteEntry(Movie.class.getName(), movie.getMovieId());
 
 		return deleteMovie(movie);
 	}
@@ -149,7 +168,11 @@ public class MovieLocalServiceImpl extends MovieLocalServiceBaseImpl {
 		// delete asset data - delete associated asset and idexes to the entity to clean
 		// up stored asset and indexed info
 		assetEntryLocalService.deleteEntry(Movie.class.getName(), movie.getMovieId());
-
+		
+		//delete workflow instance
+		workflowInstanceLinkLocalService.deleteWorkflowInstanceLinks(movie.getCompanyId(), 
+				movie.getGroupId(), movie.getClass().getName(), movie.getMovieId());
+		
 		return super.deleteMovie(movie);
 	}
 
@@ -192,7 +215,7 @@ public class MovieLocalServiceImpl extends MovieLocalServiceBaseImpl {
 	
 	//receives the queriedList so it can set the author to the movie
 	public List<Movie> getMoviesAndAuthorsQueried(List<Movie> movies) {
-
+		
 		if ((movies != null && (!movies.isEmpty()))) {
 
 			Author author;
@@ -233,12 +256,78 @@ public class MovieLocalServiceImpl extends MovieLocalServiceBaseImpl {
 	}
 
 	private void updateAsset(Movie movie, ServiceContext serviceContext) throws PortalException {
-
+		
+		/*
+		assetEntryLocalService.updateEntry(serviceContext.getUserId(), serviceContext.getScopeGroupId(),
+				movie.getCreateDate(), movie.getModifiedDate(), Movie.class.getName(), 
+				movie.getMovieId(), movie.getUuid(), 0, serviceContext.getAssetCategoryIds(),
+				serviceContext.getAssetTagNames(), true, true, movie.getCreateDate(), null, null, null,
+				ContentTypes.TEXT_HTML, movie.getMovieName(),
+				movie.getDescription(), null, null, null, 0, 0, serviceContext.getAssetPriority());
+		
+		assetEntryLocalService.updateEntry(serviceContext.getUserId(), serviceContext.getScopeGroupId(),
+				movie.getCreateDate(), movie.getModifiedDate(), Movie.class.getName(), 
+				movie.getMovieId(), movie.getUuid(), 0, serviceContext.getAssetCategoryIds(), 
+				serviceContext.getAssetTagNames(), true, true, null, null, null, null, 
+				ContentTypes.TEXT_HTML_UTF8, movie.getMovieName(), 
+				movie.getDescription(), null, null, null, 0, 0, serviceContext.getAssetPriority());
+		 */
+		
+		
 		assetEntryLocalService.updateEntry(serviceContext.getUserId(), serviceContext.getScopeGroupId(),
 				movie.getCreateDate(), movie.getModifiedDate(), Movie.class.getName(), movie.getMovieId(),
 				movie.getUuid(), movie.getRating(), serviceContext.getAssetCategoryIds(),
 				serviceContext.getAssetTagNames(), true, true, movie.getCreateDate(), null, null, null,
 				ContentTypes.TEXT_HTML, null, null, movie.getMovieName(), null, null, 0, 0,
 				serviceContext.getAssetPriority());
+		
 	}
+	
+	
+	public Movie updateStatus(long userId, long movieId, int status, ServiceContext serviceContext)
+			throws PortalException, SystemException {
+		
+		User user = userLocalService.getUser(userId);
+		Movie movie = getMovie(movieId);
+		
+		movie.setStatus(status);
+		movie.setStatusByUserId(userId);
+		movie.setStatusByUserName(user.getFullName());
+		movie.setStatusDate(new Date());
+
+		moviePersistence.update(movie);
+		
+		if (status == WorkflowConstants.STATUS_APPROVED) {
+			assetEntryLocalService.updateVisible(Movie.class.getName(), movieId, true);
+		
+		} else {	
+			assetEntryLocalService.updateVisible(Movie.class.getName(), movieId, false);
+		
+		}
+		
+		return movie;
+	}
+	
+	protected Movie startWorkflowInstance( long userId, Movie movie, ServiceContext serviceContext) 
+			throws PortalException {
+
+		Map<String, Serializable> workflowContext = new HashMap();
+
+		String userPortraitURL = StringPool.BLANK;
+		String userURL = StringPool.BLANK;
+
+		if (serviceContext.getThemeDisplay() != null) {
+			User user = userLocalService.getUser(userId);
+
+			userPortraitURL = user.getPortraitURL(serviceContext.getThemeDisplay());
+			userURL = user.getDisplayURL(serviceContext.getThemeDisplay());
+		}
+
+		workflowContext.put(WorkflowConstants.CONTEXT_USER_PORTRAIT_URL, userPortraitURL);
+		workflowContext.put(WorkflowConstants.CONTEXT_USER_URL, userURL);
+		workflowContext.put(WorkflowConstants.CONTEXT_ENTRY_CLASS_NAME, Movie.class);
+		
+		return WorkflowHandlerRegistryUtil.startWorkflowInstance(movie.getCompanyId(), movie.getGroupId(), userId,
+			Movie.class.getName(), movie.getMovieId(), movie, serviceContext, workflowContext);
+		}
 }

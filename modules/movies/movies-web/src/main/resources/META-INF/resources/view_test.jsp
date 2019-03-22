@@ -1,3 +1,6 @@
+<%@page import="com.liferay.portal.kernel.workflow.WorkflowConstants"%>
+<%@page import="com.liferay.portal.kernel.security.permission.PermissionChecker"%>
+<%@page import="com.liferay.portal.kernel.theme.ThemeDisplay"%>
 <%@page import="com.liferay.training.movies.web.search.MovieSearchContainer"%>
 <%@page import="com.liferay.portal.kernel.dao.search.DisplayTerms"%>
 <%@page import="com.liferay.training.movies.web.search.MovieHelper"%>
@@ -88,37 +91,51 @@
 			<portlet:param name="authorId" value="<%=String.valueOf(movie.getAuthor().getAuthorId()) %>"/>
 		</liferay-portlet:renderURL>
 		
-	<liferay-ui:search-container-row-parameter name="rowURL" value="<%=rowURL.toString() %>"/>
+	<liferay-ui:search-container-row-parameter name="rowURL" value="<%=rowURL.toString() %>" />
 		
 		<liferay-ui:search-container-column-text href="<%=rowURL %>"
 			name="Movie ID"
-			property="movieId" />
+			property="movieId"
+			align="center"
+		/>
 		
 		<liferay-ui:search-container-column-text href="<%=rowURL %>"
 			name="Movie Name"
 			property="movieName"
 			orderable="true" 
-			orderableProperty="movieName"/>
+			orderableProperty="movieName"
+			align="center" 
+		/>
 		
 		<liferay-ui:search-container-column-text href="<%=rowURL %>"
 			name="Rating" 
 			property="rating" 
 			orderable="true"
-			orderableProperty="rating"/>
+			orderableProperty="rating"
+			align="center"
+		/>
 		
 		<liferay-ui:search-container-column-text href="<%=rowURL %>"
 			name="Description"
-			property="description" />
+			property="description" 
+			align="justify"
+		/>
 		
 		<liferay-ui:search-container-column-text href="<%=rowURL %>"
 			name="author" 
 			orderable="true"
 			orderableProperty="authorName"
-			value="<%=movie.getAuthor().getAuthorName() %>" />
+			value="<%=movie.getAuthor().getAuthorName() %>"
+			align="center"
+		/>
 		
 		<liferay-ui:search-container-column-text href="<%=rowURL %>"
 			name="biography" 
-			value="<%=movie.getAuthor().getBiography() %>" />
+			value="<%=movie.getAuthor().getBiography() %>"
+			align="justify"
+		 />
+			
+		<liferay-ui:search-container-column-status align="center" property="status" />
 		
 		<liferay-ui:search-container-column-jsp align="center" path="/button.jsp" />
 			

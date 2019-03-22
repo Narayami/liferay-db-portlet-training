@@ -5,9 +5,12 @@ Liferay-Require-SchemaVersion: 1.0.0
 Liferay-Service: true
 Export-Package: \
 	com.liferay.training.movies.exception,\
+	com.liferay.training.movies.message.bus.listener,\
 	com.liferay.training.movies.model,\
 	com.liferay.training.movies.model.impl,\
+	com.liferay.training.movies.model.listener,\
 	com.liferay.training.movies.permission,\
+	com.liferay.training.movies.post.login.events,\
 	com.liferay.training.movies.search,\
 	com.liferay.training.movies.service,\
 	com.liferay.training.movies.service.base,\
@@ -16,4 +19,5 @@ Export-Package: \
 	com.liferay.training.movies.service.permission.impl,\
 	com.liferay.training.movies.service.persistence,\
 	com.liferay.training.movies.service.persistence.impl,\
-	com.liferay.training.movies.service.util
+	com.liferay.training.movies.service.util,\
+	com.liferay.training.movies.service.workflow

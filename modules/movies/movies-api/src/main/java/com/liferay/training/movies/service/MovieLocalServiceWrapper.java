@@ -403,6 +403,16 @@ public class MovieLocalServiceWrapper implements MovieLocalService,
 	}
 
 	@Override
+	public com.liferay.training.movies.model.Movie updateStatus(long userId,
+		long movieId, int status,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException,
+			com.liferay.portal.kernel.exception.SystemException {
+		return _movieLocalService.updateStatus(userId, movieId, status,
+			serviceContext);
+	}
+
+	@Override
 	public MovieLocalService getWrappedService() {
 		return _movieLocalService;
 	}
