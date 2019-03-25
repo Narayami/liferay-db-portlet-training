@@ -71,19 +71,14 @@ public class MovieAssetRendererFactory extends BaseAssetRendererFactory<Movie> {
 
 		long refererGroupId = 0;
 		long refererPlid = 0;
-		
+		/*
 		ThemeDisplay themeDisplay = (ThemeDisplay)liferayPortletRequest.getAttribute(WebKeys.THEME_DISPLAY);
 		long groupId = themeDisplay.getScopeGroupId();
 		
-		try {
-			Group group = GroupLocalServiceUtil.getGroup(groupId);
-			portletURL = _portal.getControlPanelPortletURL(liferayPortletRequest, group,
-					MoviesPortletKeys.MOVIES, refererGroupId, refererPlid, PortletRequest.RENDER_PHASE);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
+		Group group = GroupLocalServiceUtil.getGroup(groupId);
+		*/
+		portletURL = _portal.getControlPanelPortletURL(liferayPortletRequest, getGroup(liferayPortletRequest),
+			MoviesPortletKeys.MOVIES, refererGroupId, refererPlid, PortletRequest.RENDER_PHASE);
 
 		portletURL.setParameter("mvcRenderCommandName", MVCCommandNames.EDIT_MOVIE);
 		portletURL.setParameter("showback", Boolean.FALSE.toString());

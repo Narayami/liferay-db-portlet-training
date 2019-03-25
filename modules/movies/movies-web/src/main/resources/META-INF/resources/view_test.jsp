@@ -61,16 +61,33 @@
 	
 	//sort
 	List<Movie> movieList = MovieHelper.getMovie(displayTerms, -1, -1);
-	
+	int t = movieList.size();
 	//get local copy to be sorted in our need
 	List<Movie> sortedMovieList = new ArrayList<Movie>(ListUtil.subList(movieList,
 		movieSearchContainer.getStart(), movieSearchContainer.getEnd()));
 		
 	//sort the list based on order and column
 	sortedMovieList = MovieComparatorUtil.sortMovies(sortedMovieList, orderByCol, orderByType);
+	
+	//test 
+	
+	for (int i = 0 ; i < sortedMovieList.size() ; i ++) {
+		if (movieList.get(i).getStatus() == WorkflowConstants.STATUS_PENDING) {
+			System.out.println("pending mList");
+			t -= 1;
+		}
 		
+		if (sortedMovieList.get(i).getStatus() == WorkflowConstants.STATUS_PENDING) {
+			System.out.println("pending sList");
+			sortedMovieList.remove(i);
+		}
+		
+	}
+	
+	//
+	
 	movieSearchContainer.setResults(sortedMovieList);
-	movieSearchContainer.setTotal(movieList.size());
+	movieSearchContainer.setTotal(t);
 %>
 
 <aui:form action="<%=iteratorURL %>" method="post" name="fm">

@@ -17,6 +17,7 @@ package com.liferay.training.movies.service.impl;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -36,6 +37,7 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 import com.liferay.portal.kernel.util.StringPool;
 import com.liferay.portal.kernel.workflow.WorkflowConstants;
 import com.liferay.portal.kernel.workflow.WorkflowHandlerRegistryUtil;
+import com.liferay.portal.kernel.workflow.WorkflowStatusManagerUtil;
 import com.liferay.training.movies.exception.NoSuchAuthorException;
 import com.liferay.training.movies.model.Author;
 import com.liferay.training.movies.model.Movie;
@@ -195,19 +197,20 @@ public class MovieLocalServiceImpl extends MovieLocalServiceBaseImpl {
 
 		// fetch the movies
 		List<Movie> movies = super.getMovies(startPos, endPost);
-
+		
 		// fetch authors
 		if ((movies != null && (!movies.isEmpty()))) {
 
 			Author author;
-
+			
 			for (Movie movie : movies) {
 				try {
 					author = AuthorLocalServiceUtil.getAuthorByMovieId(movie.getMovieId());
 					movie.setAuthor(author);
+					
 				} catch (NoSuchAuthorException e) {
 					e.printStackTrace();
-				}
+				}	
 			}
 		}
 		return movies;
@@ -227,7 +230,7 @@ public class MovieLocalServiceImpl extends MovieLocalServiceBaseImpl {
 				} catch (NoSuchAuthorException e) {
 					e.printStackTrace();
 				}
-			}
+			}	
 		}
 		return movies;
 	}
@@ -257,30 +260,12 @@ public class MovieLocalServiceImpl extends MovieLocalServiceBaseImpl {
 
 	private void updateAsset(Movie movie, ServiceContext serviceContext) throws PortalException {
 		
-		/*
-		assetEntryLocalService.updateEntry(serviceContext.getUserId(), serviceContext.getScopeGroupId(),
-				movie.getCreateDate(), movie.getModifiedDate(), Movie.class.getName(), 
-				movie.getMovieId(), movie.getUuid(), 0, serviceContext.getAssetCategoryIds(),
-				serviceContext.getAssetTagNames(), true, true, movie.getCreateDate(), null, null, null,
-				ContentTypes.TEXT_HTML, movie.getMovieName(),
-				movie.getDescription(), null, null, null, 0, 0, serviceContext.getAssetPriority());
-		
-		assetEntryLocalService.updateEntry(serviceContext.getUserId(), serviceContext.getScopeGroupId(),
-				movie.getCreateDate(), movie.getModifiedDate(), Movie.class.getName(), 
-				movie.getMovieId(), movie.getUuid(), 0, serviceContext.getAssetCategoryIds(), 
-				serviceContext.getAssetTagNames(), true, true, null, null, null, null, 
-				ContentTypes.TEXT_HTML_UTF8, movie.getMovieName(), 
-				movie.getDescription(), null, null, null, 0, 0, serviceContext.getAssetPriority());
-		 */
-		
-		
 		assetEntryLocalService.updateEntry(serviceContext.getUserId(), serviceContext.getScopeGroupId(),
 				movie.getCreateDate(), movie.getModifiedDate(), Movie.class.getName(), movie.getMovieId(),
 				movie.getUuid(), movie.getRating(), serviceContext.getAssetCategoryIds(),
 				serviceContext.getAssetTagNames(), true, true, movie.getCreateDate(), null, null, null,
 				ContentTypes.TEXT_HTML, null, null, movie.getMovieName(), null, null, 0, 0,
 				serviceContext.getAssetPriority());
-		
 	}
 	
 	

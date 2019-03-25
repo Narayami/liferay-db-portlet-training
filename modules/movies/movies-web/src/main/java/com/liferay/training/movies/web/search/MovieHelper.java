@@ -67,9 +67,7 @@ public class MovieHelper {
 				}
 				junction.add(RestrictionsFactoryUtil.ilike("movieName", keywords));
 				
-				
 			}
-			
 			
 			dynamicQuery.add(junction);
 			movieList = MovieLocalServiceUtil.dynamicQuery(dynamicQuery);
@@ -78,7 +76,6 @@ public class MovieHelper {
 			moviesListQueriedAndSettedAuthorsList = MovieLocalServiceUtil.getMoviesAndAuthorsQueried(movieList);
 			
 		}
-		
 		return moviesListQueriedAndSettedAuthorsList;
 	}
 }
