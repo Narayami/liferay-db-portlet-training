@@ -117,18 +117,17 @@ public class AuthorLocalServiceImpl extends AuthorLocalServiceBaseImpl {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
-	@Override
-	public Author getAuthotByMovieId(Long authorId, long movieId) throws NoSuchAuthorException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 	
 	@Override
 	public Author getAuthorByMovieId(long movieId) throws NoSuchAuthorException {
 		
 		return authorPersistence.findByAuthorByMovieId(movieId);
+	}
+
+	@Override
+	public Author getAuthotByMovieId(Long authorId, long movieId) throws NoSuchAuthorException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }
