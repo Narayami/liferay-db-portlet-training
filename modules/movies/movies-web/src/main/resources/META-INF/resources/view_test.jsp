@@ -1,42 +1,4 @@
-<%@page import="com.liferay.portal.kernel.workflow.WorkflowConstants"%>
-<%@page import="com.liferay.portal.kernel.security.permission.PermissionChecker"%>
-<%@page import="com.liferay.portal.kernel.theme.ThemeDisplay"%>
-<%@page import="com.liferay.training.movies.web.search.MovieSearchContainer"%>
-<%@page import="com.liferay.portal.kernel.dao.search.DisplayTerms"%>
-<%@page import="com.liferay.training.movies.web.search.MovieHelper"%>
-<%@page import="com.liferay.portal.kernel.servlet.RequestDispatcherUtil"%>
-<%@page import="java.lang.ProcessBuilder.Redirect"%>
-<%@page import="com.liferay.training.movies.web.comparator.MovieComparatorUtil"%>
-<%@page import="com.liferay.portal.kernel.util.ParamUtil"%>
-<%@page import="com.liferay.training.movies.web.model.view.MovieViewModel"%>
-<%@page import="com.liferay.training.movies.service.AuthorLocalServiceUtil"%>
-<%@page import="com.liferay.portal.kernel.xmlrpc.Response"%>
-<%@page import="com.liferay.portal.kernel.util.ListUtil"%>
-<%@page import="com.liferay.portal.kernel.model.Group"%>
-<%@page import="com.liferay.training.movies.web.constants.MVCCommandNames"%>
-<%@page import="com.liferay.portal.kernel.dao.search.SearchContainer"%>
-<%@page import="com.liferay.training.movies.permission.MoviePermissionChecker"%>
-<%@page import="javax.portlet.filter.RenderResponseWrapper"%>
-<%@page import="javax.portlet.ActionRequest"%>
-<%@page import="javax.portlet.RenderResponse"%>
-<%@page import="javax.portlet.PortletURL"%>
-<%@page import="com.liferay.training.movies.model.Movie"%>
-<%@page import="javax.portlet.ActionURL"%>
-<%@page import="javax.portlet.RenderURL"%>
-<%@page import="com.liferay.training.movies.service.MovieLocalServiceUtil"%>
-<%@ taglib uri="http://liferay.com/tld/aui" prefix="aui" %>
-<%@taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
-<%@page import="com.liferay.portal.kernel.service.PersistedModelLocalService"%>
-<%@page import="com.liferay.training.movies.service.persistence.MoviePersistence"%>
-<%@page import="com.liferay.training.movies.service.MovieLocalService"%>
-<%@page import="com.liferay.portal.kernel.util.WebKeys"%>
-<%@page import="javax.portlet.RenderRequest"%>
-<%@page import="javax.portlet.RenderResponse"%>
-<%@page import="com.liferay.training.movies.model.Movie"%>
-<%@page import="java.util.*" %>
 <%@ include file ="/init.jsp"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/portlet_2_0" prefix="portlet" %>
 
 <h1 align="center">Movies List</h1>
 
@@ -62,6 +24,7 @@
 	//sort
 	List<Movie> movieList = MovieHelper.getMovie(displayTerms, -1, -1);
 	int t = movieList.size();
+	
 	//get local copy to be sorted in our need
 	List<Movie> sortedMovieList = new ArrayList<Movie>(ListUtil.subList(movieList,
 		movieSearchContainer.getStart(), movieSearchContainer.getEnd()));
@@ -69,8 +32,7 @@
 	//sort the list based on order and column
 	sortedMovieList = MovieComparatorUtil.sortMovies(sortedMovieList, orderByCol, orderByType);
 	
-	//test 
-	
+	//test
 	for (int i = 0 ; i < sortedMovieList.size() ; i ++) {
 		if (movieList.get(i).getStatus() == WorkflowConstants.STATUS_PENDING) {
 			System.out.println("pending mList");
@@ -85,7 +47,6 @@
 	}
 	
 	//
-	
 	movieSearchContainer.setResults(sortedMovieList);
 	movieSearchContainer.setTotal(t);
 %>

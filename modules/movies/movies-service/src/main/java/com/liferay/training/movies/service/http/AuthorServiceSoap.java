@@ -82,6 +82,23 @@ public class AuthorServiceSoap {
 		}
 	}
 
+	public static com.liferay.training.movies.model.AuthorSoap updateAuthor(
+		long authorId, String authorName, String biography,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws RemoteException {
+		try {
+			com.liferay.training.movies.model.Author returnValue = AuthorServiceUtil.updateAuthor(authorId,
+					authorName, biography, serviceContext);
+
+			return com.liferay.training.movies.model.AuthorSoap.toSoapModel(returnValue);
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
 	public static com.liferay.training.movies.model.AuthorSoap deleteAuthor(
 		long authorId) throws RemoteException {
 		try {
@@ -117,23 +134,6 @@ public class AuthorServiceSoap {
 				AuthorServiceUtil.getAuthorsByGroupId(groupId, start, end);
 
 			return com.liferay.training.movies.model.AuthorSoap.toSoapModels(returnValue);
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-
-			throw new RemoteException(e.getMessage());
-		}
-	}
-
-	public static com.liferay.training.movies.model.AuthorSoap updateAuthor(
-		long authorId, String authorName, String biography,
-		com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws RemoteException {
-		try {
-			com.liferay.training.movies.model.Author returnValue = AuthorServiceUtil.updateAuthor(authorId,
-					authorName, biography, serviceContext);
-
-			return com.liferay.training.movies.model.AuthorSoap.toSoapModel(returnValue);
 		}
 		catch (Exception e) {
 			_log.error(e, e);

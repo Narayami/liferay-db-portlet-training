@@ -82,6 +82,23 @@ public class MovieServiceSoap {
 		}
 	}
 
+	public static com.liferay.training.movies.model.MovieSoap updateMovie(
+		long movieId, String movieName, String description, int rating,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws RemoteException {
+		try {
+			com.liferay.training.movies.model.Movie returnValue = MovieServiceUtil.updateMovie(movieId,
+					movieName, description, rating, serviceContext);
+
+			return com.liferay.training.movies.model.MovieSoap.toSoapModel(returnValue);
+		}
+		catch (Exception e) {
+			_log.error(e, e);
+
+			throw new RemoteException(e.getMessage());
+		}
+	}
+
 	public static com.liferay.training.movies.model.MovieSoap deleteMovie(
 		long movieId) throws RemoteException {
 		try {
@@ -117,23 +134,6 @@ public class MovieServiceSoap {
 					start, end);
 
 			return com.liferay.training.movies.model.MovieSoap.toSoapModels(returnValue);
-		}
-		catch (Exception e) {
-			_log.error(e, e);
-
-			throw new RemoteException(e.getMessage());
-		}
-	}
-
-	public static com.liferay.training.movies.model.MovieSoap updateMovie(
-		long movieId, String movieName, String description, int rating,
-		com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws RemoteException {
-		try {
-			com.liferay.training.movies.model.Movie returnValue = MovieServiceUtil.updateMovie(movieId,
-					movieName, description, rating, serviceContext);
-
-			return com.liferay.training.movies.model.MovieSoap.toSoapModel(returnValue);
 		}
 		catch (Exception e) {
 			_log.error(e, e);

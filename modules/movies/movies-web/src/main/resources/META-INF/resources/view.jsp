@@ -1,6 +1,4 @@
-<%@page import="com.liferay.training.movies.web.constants.MVCCommandNames"%>
 <%@ include file ="/init.jsp"%>
-
 
 <portlet:renderURL var="updateMovieURL">
 	<portlet:param name="jspPage" value="/update.jsp"/>

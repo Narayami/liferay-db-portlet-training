@@ -1,6 +1,3 @@
-<%@page import="com.liferay.training.movies.web.search.MovieSearchContainer"%>
-<%@page import="com.liferay.portal.kernel.dao.search.SearchContainer"%>
-<%@page import="com.liferay.portal.kernel.dao.search.DisplayTerms"%>
 <%@ include file ="/init.jsp"%>
 
 <%
@@ -15,4 +12,5 @@
 	<aui:input label="rating" name="rating" value="<%=displayTerms.getKeywords() %>"/>
 	<aui:input label="authorName" name="authorName" value="<%=displayTerms.getAuthorName() %>"/>
 	--%>
+	
 </liferay-ui:search-toggle>

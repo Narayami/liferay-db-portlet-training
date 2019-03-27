@@ -92,11 +92,11 @@
         <finder name="AuthorName" return-type="Collection">
             <finder-column name="authorName"></finder-column>
         </finder>
-        <finder name="MovieIdAuthorId" return-type="Author">
-            <finder-column name="movieId"></finder-column>
-            <finder-column name="authorId"></finder-column>
-        </finder>
         <finder name="AuthorByMovieId" return-type="Author">
+            <finder-column name="movieId"></finder-column>
+        </finder>
+        <finder name="AuthorIdMovieId">
+            <finder-column name="authorId"></finder-column>
             <finder-column name="movieId"></finder-column>
         </finder>
         <reference entity="Group" package-path="com.liferay.portal"></reference>

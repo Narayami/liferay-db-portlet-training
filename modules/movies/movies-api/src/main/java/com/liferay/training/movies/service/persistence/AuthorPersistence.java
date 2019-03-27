@@ -625,56 +625,6 @@ public interface AuthorPersistence extends BasePersistence<Author> {
 	public int countByAuthorName(String authorName);
 
 	/**
-	* Returns the author where movieId = &#63; and authorId = &#63; or throws a {@link NoSuchAuthorException} if it could not be found.
-	*
-	* @param movieId the movie ID
-	* @param authorId the author ID
-	* @return the matching author
-	* @throws NoSuchAuthorException if a matching author could not be found
-	*/
-	public Author findByMovieIdAuthorId(long movieId, long authorId)
-		throws NoSuchAuthorException;
-
-	/**
-	* Returns the author where movieId = &#63; and authorId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
-	*
-	* @param movieId the movie ID
-	* @param authorId the author ID
-	* @return the matching author, or <code>null</code> if a matching author could not be found
-	*/
-	public Author fetchByMovieIdAuthorId(long movieId, long authorId);
-
-	/**
-	* Returns the author where movieId = &#63; and authorId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
-	*
-	* @param movieId the movie ID
-	* @param authorId the author ID
-	* @param retrieveFromCache whether to retrieve from the finder cache
-	* @return the matching author, or <code>null</code> if a matching author could not be found
-	*/
-	public Author fetchByMovieIdAuthorId(long movieId, long authorId,
-		boolean retrieveFromCache);
-
-	/**
-	* Removes the author where movieId = &#63; and authorId = &#63; from the database.
-	*
-	* @param movieId the movie ID
-	* @param authorId the author ID
-	* @return the author that was removed
-	*/
-	public Author removeByMovieIdAuthorId(long movieId, long authorId)
-		throws NoSuchAuthorException;
-
-	/**
-	* Returns the number of authors where movieId = &#63; and authorId = &#63;.
-	*
-	* @param movieId the movie ID
-	* @param authorId the author ID
-	* @return the number of matching authors
-	*/
-	public int countByMovieIdAuthorId(long movieId, long authorId);
-
-	/**
 	* Returns the author where movieId = &#63; or throws a {@link NoSuchAuthorException} if it could not be found.
 	*
 	* @param movieId the movie ID
@@ -717,6 +667,56 @@ public interface AuthorPersistence extends BasePersistence<Author> {
 	* @return the number of matching authors
 	*/
 	public int countByAuthorByMovieId(long movieId);
+
+	/**
+	* Returns the author where authorId = &#63; and movieId = &#63; or throws a {@link NoSuchAuthorException} if it could not be found.
+	*
+	* @param authorId the author ID
+	* @param movieId the movie ID
+	* @return the matching author
+	* @throws NoSuchAuthorException if a matching author could not be found
+	*/
+	public Author findByAuthorIdMovieId(long authorId, long movieId)
+		throws NoSuchAuthorException;
+
+	/**
+	* Returns the author where authorId = &#63; and movieId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	*
+	* @param authorId the author ID
+	* @param movieId the movie ID
+	* @return the matching author, or <code>null</code> if a matching author could not be found
+	*/
+	public Author fetchByAuthorIdMovieId(long authorId, long movieId);
+
+	/**
+	* Returns the author where authorId = &#63; and movieId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	*
+	* @param authorId the author ID
+	* @param movieId the movie ID
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the matching author, or <code>null</code> if a matching author could not be found
+	*/
+	public Author fetchByAuthorIdMovieId(long authorId, long movieId,
+		boolean retrieveFromCache);
+
+	/**
+	* Removes the author where authorId = &#63; and movieId = &#63; from the database.
+	*
+	* @param authorId the author ID
+	* @param movieId the movie ID
+	* @return the author that was removed
+	*/
+	public Author removeByAuthorIdMovieId(long authorId, long movieId)
+		throws NoSuchAuthorException;
+
+	/**
+	* Returns the number of authors where authorId = &#63; and movieId = &#63;.
+	*
+	* @param authorId the author ID
+	* @param movieId the movie ID
+	* @return the number of matching authors
+	*/
+	public int countByAuthorIdMovieId(long authorId, long movieId);
 
 	/**
 	* Caches the author in the entity cache if it is enabled.

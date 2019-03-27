@@ -1,12 +1,4 @@
-<%@page import="com.liferay.training.movies.service.AuthorLocalServiceUtil"%>
-<%@page import="com.liferay.training.movies.service.MovieLocalServiceUtil"%>
 <%@ include file="/init.jsp"%>
-<%@ page import="com.liferay.portal.kernel.util.ParamUtil" %>
-<%@page import="com.liferay.training.movies.model.Movie"%>
-<%@page import="com.liferay.training.movies.model.Author"%>
-<%@ taglib uri="http://liferay.com/tld/aui" prefix="aui" %>
-<%@taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui" %>
-
 
 <%
 	String redirect = ParamUtil.getString(request, "backURL");

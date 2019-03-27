@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-
 import com.liferay.training.movies.model.Movie;
 
 public class MovieComparatorUtil {
@@ -46,7 +45,6 @@ public class MovieComparatorUtil {
 			
 			int value = movie1.getMovieName().toLowerCase().compareTo(movie2.getMovieName().toLowerCase());
 			return value;
-			
 		}
 	};
 	
@@ -77,7 +75,7 @@ public class MovieComparatorUtil {
 	};
 	
 	public static Comparator<Movie> movieRatingDesc = new Comparator<Movie>() {
-
+		
 		@Override
 		public int compare(Movie movie1, Movie movie2) {
 			
@@ -96,7 +94,6 @@ public class MovieComparatorUtil {
 		
 		@Override
 		public int compare(Movie movie1, Movie movie2) {
-			
 			int value = movie1.getAuthor().getAuthorName().toLowerCase().compareTo(movie2.getAuthor().getAuthorName().toLowerCase());
 			return value;
 		}
@@ -106,7 +103,6 @@ public class MovieComparatorUtil {
 		
 		@Override
 		public int compare(Movie movie1, Movie movie2) {
-		
 			int value = movie2.getAuthor().getAuthorName().toLowerCase().compareTo(movie1.getAuthor().getAuthorName().toLowerCase());
 			return value;
 		}

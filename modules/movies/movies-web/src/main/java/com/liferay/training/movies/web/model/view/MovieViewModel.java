@@ -3,14 +3,11 @@ package com.liferay.training.movies.web.model.view;
 
 import java.util.List;
 
-import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
-import com.liferay.portal.kernel.search.Indexable;
-import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.ServiceContext;
-import com.liferay.portal.kernel.util.ListUtil;
+
 import com.liferay.training.movies.model.Author;
 import com.liferay.training.movies.model.Movie;
 import com.liferay.training.movies.service.MovieLocalServiceUtil;

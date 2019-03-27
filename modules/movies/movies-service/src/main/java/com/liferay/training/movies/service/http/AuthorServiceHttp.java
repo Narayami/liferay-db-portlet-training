@@ -89,12 +89,46 @@ public class AuthorServiceHttp {
 		}
 	}
 
+	public static com.liferay.training.movies.model.Author updateAuthor(
+		HttpPrincipal httpPrincipal, long authorId, String authorName,
+		String biography,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		try {
+			MethodKey methodKey = new MethodKey(AuthorServiceUtil.class,
+					"updateAuthor", _updateAuthorParameterTypes1);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey,
+					authorId, authorName, biography, serviceContext);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				if (e instanceof com.liferay.portal.kernel.exception.PortalException) {
+					throw (com.liferay.portal.kernel.exception.PortalException)e;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (com.liferay.training.movies.model.Author)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
 	public static com.liferay.training.movies.model.Author deleteAuthor(
 		HttpPrincipal httpPrincipal, long authorId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(AuthorServiceUtil.class,
-					"deleteAuthor", _deleteAuthorParameterTypes1);
+					"deleteAuthor", _deleteAuthorParameterTypes2);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, authorId);
 
@@ -125,7 +159,7 @@ public class AuthorServiceHttp {
 		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(AuthorServiceUtil.class,
-					"getAuthor", _getAuthorParameterTypes2);
+					"getAuthor", _getAuthorParameterTypes3);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, authorId);
 
@@ -155,7 +189,7 @@ public class AuthorServiceHttp {
 		HttpPrincipal httpPrincipal, long groupId, int start, int end) {
 		try {
 			MethodKey methodKey = new MethodKey(AuthorServiceUtil.class,
-					"getAuthorsByGroupId", _getAuthorsByGroupIdParameterTypes3);
+					"getAuthorsByGroupId", _getAuthorsByGroupIdParameterTypes4);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, groupId,
 					start, end);
@@ -178,56 +212,22 @@ public class AuthorServiceHttp {
 		}
 	}
 
-	public static com.liferay.training.movies.model.Author updateAuthor(
-		HttpPrincipal httpPrincipal, long authorId, String authorName,
-		String biography,
-		com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		try {
-			MethodKey methodKey = new MethodKey(AuthorServiceUtil.class,
-					"updateAuthor", _updateAuthorParameterTypes4);
-
-			MethodHandler methodHandler = new MethodHandler(methodKey,
-					authorId, authorName, biography, serviceContext);
-
-			Object returnObj = null;
-
-			try {
-				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
-			}
-			catch (Exception e) {
-				if (e instanceof com.liferay.portal.kernel.exception.PortalException) {
-					throw (com.liferay.portal.kernel.exception.PortalException)e;
-				}
-
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
-			}
-
-			return (com.liferay.training.movies.model.Author)returnObj;
-		}
-		catch (com.liferay.portal.kernel.exception.SystemException se) {
-			_log.error(se, se);
-
-			throw se;
-		}
-	}
-
 	private static Log _log = LogFactoryUtil.getLog(AuthorServiceHttp.class);
 	private static final Class<?>[] _addAuthorParameterTypes0 = new Class[] {
 			long.class, String.class, String.class,
 			com.liferay.portal.kernel.service.ServiceContext.class
 		};
-	private static final Class<?>[] _deleteAuthorParameterTypes1 = new Class[] {
-			long.class
-		};
-	private static final Class<?>[] _getAuthorParameterTypes2 = new Class[] {
-			long.class
-		};
-	private static final Class<?>[] _getAuthorsByGroupIdParameterTypes3 = new Class[] {
-			long.class, int.class, int.class
-		};
-	private static final Class<?>[] _updateAuthorParameterTypes4 = new Class[] {
+	private static final Class<?>[] _updateAuthorParameterTypes1 = new Class[] {
 			long.class, String.class, String.class,
 			com.liferay.portal.kernel.service.ServiceContext.class
+		};
+	private static final Class<?>[] _deleteAuthorParameterTypes2 = new Class[] {
+			long.class
+		};
+	private static final Class<?>[] _getAuthorParameterTypes3 = new Class[] {
+			long.class
+		};
+	private static final Class<?>[] _getAuthorsByGroupIdParameterTypes4 = new Class[] {
+			long.class, int.class, int.class
 		};
 }

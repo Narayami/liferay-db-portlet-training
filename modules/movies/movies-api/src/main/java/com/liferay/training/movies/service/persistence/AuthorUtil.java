@@ -807,67 +807,6 @@ public class AuthorUtil {
 	}
 
 	/**
-	* Returns the author where movieId = &#63; and authorId = &#63; or throws a {@link NoSuchAuthorException} if it could not be found.
-	*
-	* @param movieId the movie ID
-	* @param authorId the author ID
-	* @return the matching author
-	* @throws NoSuchAuthorException if a matching author could not be found
-	*/
-	public static Author findByMovieIdAuthorId(long movieId, long authorId)
-		throws com.liferay.training.movies.exception.NoSuchAuthorException {
-		return getPersistence().findByMovieIdAuthorId(movieId, authorId);
-	}
-
-	/**
-	* Returns the author where movieId = &#63; and authorId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
-	*
-	* @param movieId the movie ID
-	* @param authorId the author ID
-	* @return the matching author, or <code>null</code> if a matching author could not be found
-	*/
-	public static Author fetchByMovieIdAuthorId(long movieId, long authorId) {
-		return getPersistence().fetchByMovieIdAuthorId(movieId, authorId);
-	}
-
-	/**
-	* Returns the author where movieId = &#63; and authorId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
-	*
-	* @param movieId the movie ID
-	* @param authorId the author ID
-	* @param retrieveFromCache whether to retrieve from the finder cache
-	* @return the matching author, or <code>null</code> if a matching author could not be found
-	*/
-	public static Author fetchByMovieIdAuthorId(long movieId, long authorId,
-		boolean retrieveFromCache) {
-		return getPersistence()
-				   .fetchByMovieIdAuthorId(movieId, authorId, retrieveFromCache);
-	}
-
-	/**
-	* Removes the author where movieId = &#63; and authorId = &#63; from the database.
-	*
-	* @param movieId the movie ID
-	* @param authorId the author ID
-	* @return the author that was removed
-	*/
-	public static Author removeByMovieIdAuthorId(long movieId, long authorId)
-		throws com.liferay.training.movies.exception.NoSuchAuthorException {
-		return getPersistence().removeByMovieIdAuthorId(movieId, authorId);
-	}
-
-	/**
-	* Returns the number of authors where movieId = &#63; and authorId = &#63;.
-	*
-	* @param movieId the movie ID
-	* @param authorId the author ID
-	* @return the number of matching authors
-	*/
-	public static int countByMovieIdAuthorId(long movieId, long authorId) {
-		return getPersistence().countByMovieIdAuthorId(movieId, authorId);
-	}
-
-	/**
 	* Returns the author where movieId = &#63; or throws a {@link NoSuchAuthorException} if it could not be found.
 	*
 	* @param movieId the movie ID
@@ -921,6 +860,67 @@ public class AuthorUtil {
 	*/
 	public static int countByAuthorByMovieId(long movieId) {
 		return getPersistence().countByAuthorByMovieId(movieId);
+	}
+
+	/**
+	* Returns the author where authorId = &#63; and movieId = &#63; or throws a {@link NoSuchAuthorException} if it could not be found.
+	*
+	* @param authorId the author ID
+	* @param movieId the movie ID
+	* @return the matching author
+	* @throws NoSuchAuthorException if a matching author could not be found
+	*/
+	public static Author findByAuthorIdMovieId(long authorId, long movieId)
+		throws com.liferay.training.movies.exception.NoSuchAuthorException {
+		return getPersistence().findByAuthorIdMovieId(authorId, movieId);
+	}
+
+	/**
+	* Returns the author where authorId = &#63; and movieId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	*
+	* @param authorId the author ID
+	* @param movieId the movie ID
+	* @return the matching author, or <code>null</code> if a matching author could not be found
+	*/
+	public static Author fetchByAuthorIdMovieId(long authorId, long movieId) {
+		return getPersistence().fetchByAuthorIdMovieId(authorId, movieId);
+	}
+
+	/**
+	* Returns the author where authorId = &#63; and movieId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	*
+	* @param authorId the author ID
+	* @param movieId the movie ID
+	* @param retrieveFromCache whether to retrieve from the finder cache
+	* @return the matching author, or <code>null</code> if a matching author could not be found
+	*/
+	public static Author fetchByAuthorIdMovieId(long authorId, long movieId,
+		boolean retrieveFromCache) {
+		return getPersistence()
+				   .fetchByAuthorIdMovieId(authorId, movieId, retrieveFromCache);
+	}
+
+	/**
+	* Removes the author where authorId = &#63; and movieId = &#63; from the database.
+	*
+	* @param authorId the author ID
+	* @param movieId the movie ID
+	* @return the author that was removed
+	*/
+	public static Author removeByAuthorIdMovieId(long authorId, long movieId)
+		throws com.liferay.training.movies.exception.NoSuchAuthorException {
+		return getPersistence().removeByAuthorIdMovieId(authorId, movieId);
+	}
+
+	/**
+	* Returns the number of authors where authorId = &#63; and movieId = &#63;.
+	*
+	* @param authorId the author ID
+	* @param movieId the movie ID
+	* @return the number of matching authors
+	*/
+	public static int countByAuthorIdMovieId(long authorId, long movieId) {
+		return getPersistence().countByAuthorIdMovieId(authorId, movieId);
 	}
 
 	/**

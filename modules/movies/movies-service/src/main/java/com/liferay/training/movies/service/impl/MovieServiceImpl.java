@@ -55,24 +55,36 @@ public class MovieServiceImpl extends MovieServiceBaseImpl {
 	@Indexable(
 		type = IndexableType.REINDEX
 	)
-	public Movie addMovie(long groupId, String movieName, String description, 
-			int rating, ServiceContext serviceContext) throws PortalException {
+	public Movie addMovie(long groupId, String movieName, String description, int rating, 
+			ServiceContext serviceContext) throws PortalException {
 		
-		moviePermissionChecker.checkTopLevel(getPermissionChecker(), 
-				serviceContext.getScopeGroupId(), MoviePermissionCheckerImpl.ADD_MOVIE);
-		
+		moviePermissionChecker.checkTopLevel(getPermissionChecker(), serviceContext.getScopeGroupId(), 
+				MoviePermissionCheckerImpl.ADD_MOVIE);
 		
 		return movieLocalService.addMovie(groupId, movieName, description, rating, serviceContext);
 	} 
 	
 	@Indexable(
-			type = IndexableType.DELETE
+		type = IndexableType.REINDEX
 	)
-	public Movie deleteMovie(long movieId) throws PortalException{
+	public Movie updateMovie(long movieId, String movieName, String description, 
+			int rating, ServiceContext serviceContext) throws PortalException {
+		
 		Movie movie = movieLocalService.getMovie(movieId);
 		
 		moviePermissionChecker.check(getPermissionChecker(), movie.getGroupId(), 
-				movie.getMovieId(), ActionKeys.DELETE);
+				movie.getMovieId(), ActionKeys.UPDATE);
+		
+		return movieLocalService.updateMovie(movieId, movieName, description, rating, serviceContext);
+	}
+	
+	@Indexable(
+		type = IndexableType.DELETE
+	)
+	public Movie deleteMovie(long movieId) throws PortalException {
+		Movie movie = movieLocalService.getMovie(movieId);
+		
+		moviePermissionChecker.check(getPermissionChecker(), movie.getGroupId(), movie.getMovieId(), ActionKeys.DELETE);
 		
 		return movieLocalService.deleteMovie(movie);
 	}
@@ -80,33 +92,12 @@ public class MovieServiceImpl extends MovieServiceBaseImpl {
 	public Movie getMovie(long movieId) throws PortalException {
 		Movie movie = movieLocalService.getMovie(movieId);
 		
-		
-		moviePermissionChecker.check(getPermissionChecker(), 
-				movie.getGroupId(), movie.getMovieId(), ActionKeys.VIEW);
-		
-		
+		moviePermissionChecker.check(getPermissionChecker(), movie.getGroupId(), movie.getMovieId(), ActionKeys.VIEW);
+			
 		return movie;
 	}
 		
-	public List<Movie> getMoviesByGroupId(long groupId, int start, 
-			int end) {
-		
+	public List<Movie> getMoviesByGroupId(long groupId, int start, int end) {
 		return movieLocalService.getMoviesByGroupId(groupId, start, end);
 	} 
-	
-	@Indexable(
-			type = IndexableType.REINDEX
-		)
-	public Movie updateMovie(long movieId, String movieName, 
-			String description, int rating, ServiceContext serviceContext) throws PortalException {
-		
-		Movie movie = movieLocalService.getMovie(movieId);
-		
-		
-		moviePermissionChecker.check(getPermissionChecker(), movie.getGroupId(), 
-				movie.getMovieId(), ActionKeys.UPDATE);
-		
-		
-		return movieLocalService.updateMovie(movieId, movieName, description, rating, serviceContext);
-	}
 }

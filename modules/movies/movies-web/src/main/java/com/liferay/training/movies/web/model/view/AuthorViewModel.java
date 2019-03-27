@@ -1,7 +1,5 @@
 package com.liferay.training.movies.web.model.view;
 
-import com.liferay.portal.kernel.search.Indexable;
-import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.training.movies.model.Author;
 import com.liferay.training.movies.service.AuthorLocalServiceUtil;
 

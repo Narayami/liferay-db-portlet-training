@@ -8,8 +8,8 @@ import org.osgi.service.component.annotations.Reference;
 
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
-import com.liferay.portal.kernel.transaction.NewTransactionLifecycleListener;
 import com.liferay.portal.kernel.util.ParamUtil;
+
 import com.liferay.training.movies.model.Author;
 import com.liferay.training.movies.model.Movie;
 import com.liferay.training.movies.service.AuthorLocalServiceUtil;
@@ -21,13 +21,13 @@ import com.liferay.training.movies.web.model.view.AuthorViewModel;
 import com.liferay.training.movies.web.model.view.MovieViewModel;
 
 @Component(
-		immediate = true,
-		property = {
-			"javax.portlet.name=" + MoviesPortletKeys.MOVIES,
-			"MVC.command.name=" + MVCCommandNames.UPDATE_MOVIE,
-		},
-		service = MVCActionCommand.class
-	)
+	immediate = true,
+	property = {
+		"javax.portlet.name=" + MoviesPortletKeys.MOVIES,
+		"MVC.command.name=" + MVCCommandNames.UPDATE_MOVIE,
+	},
+	service = MVCActionCommand.class
+)
 public class UpdateMovieMVCActionCommand extends BaseMVCActionCommand {
 
 	private AuthorViewModel authorViewModel = new AuthorViewModel();
@@ -53,6 +53,7 @@ public class UpdateMovieMVCActionCommand extends BaseMVCActionCommand {
 		//Fetch data from table using pk
 		Movie movie = MovieLocalServiceUtil.getMovie(movieId);
 		Author author = AuthorLocalServiceUtil.getAuthor(authorId);
+		
 		//set update data
 		movie.setMovieName(movieName);
 		movie.setDescription(description);
@@ -62,7 +63,6 @@ public class UpdateMovieMVCActionCommand extends BaseMVCActionCommand {
 		author.setBiography(biography);
 		
 		// Update method with changed data
-		//TODO create method updateMovieAndAuthor?
 		movieViewModel.updateMovie(movie);
 		authorViewModel.updateAuthor(author);
 		

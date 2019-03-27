@@ -2,36 +2,21 @@ package com.liferay.training.movies.web.portlet.action;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
-import javax.portlet.PortletException;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
-import com.liferay.counter.kernel.service.CounterLocalServiceUtil;
-import com.liferay.portal.kernel.dao.orm.Session;
-import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
-import com.liferay.portal.kernel.search.suggest.SuggesterResult.Entry;
-import com.liferay.portal.kernel.service.PersistedModelLocalService;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextFactory;
-import com.liferay.portal.kernel.servlet.SessionErrors;
-import com.liferay.portal.kernel.servlet.SessionMessages;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
-import com.liferay.portal.kernel.transaction.NewTransactionLifecycleListener;
 import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.PortletKeys;
 import com.liferay.portal.kernel.util.WebKeys;
-import com.liferay.training.movies.exception.MovieValidationException;
 import com.liferay.training.movies.model.Movie;
-import com.liferay.training.movies.service.AuthorServiceUtil;
-import com.liferay.training.movies.service.MovieLocalServiceUtil;
 import com.liferay.training.movies.service.MovieService;
-import com.liferay.training.movies.service.MovieServiceUtil;
-import com.liferay.training.movies.service.persistence.MoviePersistence;
 import com.liferay.training.movies.web.constants.MVCCommandNames;
 import com.liferay.training.movies.web.constants.MoviesPortletKeys;
 import com.liferay.training.movies.web.model.view.MovieViewModel;
@@ -50,6 +35,7 @@ public class AddMovieMVCActionCommand extends BaseMVCActionCommand {
 	MovieService movieService;
 	
 	MovieViewModel movieViewModel = new MovieViewModel();
+	
 	public static final Log log = LogFactoryUtil.getLog(Movie.class);
 	
 	@Override

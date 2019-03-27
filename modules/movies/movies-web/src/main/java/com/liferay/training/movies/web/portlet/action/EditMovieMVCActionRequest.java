@@ -2,16 +2,13 @@ package com.liferay.training.movies.web.portlet.action;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
-import javax.portlet.RenderRequest;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
-import com.liferay.portal.kernel.dao.search.ResultRow;
-import com.liferay.portal.kernel.portlet.LiferayWindowState;
 import com.liferay.portal.kernel.portlet.bridges.mvc.BaseMVCActionCommand;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCActionCommand;
-import com.liferay.portal.kernel.util.WebKeys;
+
 import com.liferay.training.movies.model.Author;
 import com.liferay.training.movies.model.Movie;
 import com.liferay.training.movies.service.AuthorLocalServiceUtil;
@@ -19,15 +16,14 @@ import com.liferay.training.movies.service.MovieLocalServiceUtil;
 import com.liferay.training.movies.service.MovieService;
 import com.liferay.training.movies.web.constants.MVCCommandNames;
 import com.liferay.training.movies.web.constants.MoviesPortletKeys;
-import com.liferay.training.movies.web.portlet.moviesPortlet;
 
 @Component(
-		immediate = true,
-		property = {
-			"javax.portlet.name=" + MoviesPortletKeys.MOVIES,
-			"MVC.command.name=" + MVCCommandNames.EDIT_MOVIE,
-		},
-		service = MVCActionCommand.class
+	immediate = true,
+	property = {
+		"javax.portlet.name=" + MoviesPortletKeys.MOVIES,
+		"MVC.command.name=" + MVCCommandNames.EDIT_MOVIE,
+	},
+	service = MVCActionCommand.class
 )
 public class EditMovieMVCActionRequest extends BaseMVCActionCommand {
 	@Reference

@@ -19,12 +19,8 @@ import java.util.List;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
-import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.training.movies.model.Author;
-import com.liferay.training.movies.model.Movie;
-import com.liferay.training.movies.service.AuthorLocalService;
-import com.liferay.training.movies.service.AuthorServiceUtil;
 import com.liferay.training.movies.service.base.AuthorServiceBaseImpl;
 
 /**
@@ -44,8 +40,8 @@ import com.liferay.training.movies.service.base.AuthorServiceBaseImpl;
 public class AuthorServiceImpl extends AuthorServiceBaseImpl {
 	
 	@Indexable(
-			type = IndexableType.REINDEX
-		)
+		type = IndexableType.REINDEX
+	)
 	public Author addAuthor(long movieId, String authorName, String biography, ServiceContext serviceContext) 
 			throws PortalException {
 		
@@ -53,33 +49,28 @@ public class AuthorServiceImpl extends AuthorServiceBaseImpl {
 	}
 
 	@Indexable(
-			type = IndexableType.DELETE
-		)
-	public Author deleteAuthor(long authorId) 
+		type = IndexableType.REINDEX
+	)
+	public Author updateAuthor(long authorId, String authorName, String biography, ServiceContext serviceContext) 
 			throws PortalException {
 		
+		return authorLocalService.updateAuthor(authorId, authorName, biography, serviceContext);
+	}
+	
+	@Indexable(
+		type = IndexableType.DELETE
+	)
+	public Author deleteAuthor(long authorId) throws PortalException {
 		return authorLocalService.deleteAuthor(authorId);
 	}
 	
 	public Author getAuthor(long authorId) throws PortalException {
 		Author author = authorLocalService.getAuthor(authorId);
-		
+
 		return author;
 	}
-		
-	public List<Author> getAuthorsByGroupId(long groupId, int start, 
-			int end) {
-		
+	
+	public List<Author> getAuthorsByGroupId(long groupId, int start, int end) {
 		return authorLocalService.getAuthorsByGroupId(groupId, start,end);
 	} 
-	
-	@Indexable(
-			type = IndexableType.REINDEX
-		)
-	public Author updateAuthor(long authorId, String authorName, 
-			String biography, ServiceContext serviceContext) throws PortalException {
-				
-		return authorLocalService.updateAuthor(authorId, authorName, biography, serviceContext);
-	}
-	
 }

@@ -17,19 +17,16 @@ import java.util.Date;
 import java.util.List;
 
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.model.Group;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
-import com.liferay.portal.kernel.service.persistence.GroupPersistence;
 import com.liferay.training.movies.exception.NoSuchAuthorException;
 import com.liferay.training.movies.model.Author;
 import com.liferay.training.movies.model.Movie;
 import com.liferay.training.movies.service.MovieLocalServiceUtil;
 import com.liferay.training.movies.service.base.AuthorLocalServiceBaseImpl;
-import com.liferay.training.movies.service.persistence.AuthorPersistence;
 
 /**
  * The implementation of the author local service.
@@ -58,13 +55,10 @@ public class AuthorLocalServiceImpl extends AuthorLocalServiceBaseImpl {
 		long userId = serviceContext.getUserId();
 		User user = UserLocalServiceUtil.getUser(userId);
 		
-		//generate the author primary key
+		//generate the author pk and create obj author using the pk
 		long authorId = counterLocalService.increment(Author.class.getName());
-		
-		//create author obj
 		Author author = authorLocalService.createAuthor(authorId);
 		
-		//set author properties
 		author.setCompanyId(movie.getCompanyId());
 		author.setGroupId(movie.getGroupId());
 		author.setAuthorId(authorId);
@@ -75,10 +69,8 @@ public class AuthorLocalServiceImpl extends AuthorLocalServiceBaseImpl {
 		author.setUserId(userId);
 		author.setCreateDate(new Date());
 		author.setModifiedDate(new Date());
-		//persist data
-		super.addAuthor(author);
 		
-		return author;
+		return super.addAuthor(author);
 	}
 	
 	@Indexable(
@@ -97,21 +89,23 @@ public class AuthorLocalServiceImpl extends AuthorLocalServiceBaseImpl {
 	} 
 	
 	public List<Author> getAuthorsByGroupId(long groupId) {
-		
 		return authorPersistence.findByGroupId(groupId);
 	}
 	
 	public List<Author> getAuthorsByGroupId(long groupId, int start, int end) {
-		
 		return authorPersistence.findByGroupId(groupId, start, end);
 	}
 	 
-	
 	public int getAuthorCountByGroupId(long groupId) {
-		
 		return authorPersistence.countByGroupId(groupId);
 	}
 
+	@Override
+	public Author getAuthorByMovieId(long movieId) throws NoSuchAuthorException {
+		return authorPersistence.findByAuthorByMovieId(movieId);
+	}
+	
+	//TODO-REMOVE THAT FINDERS
 	@Override
 	public int getAuthorCountByMovies(long movieId, long authorId) {
 		// TODO Auto-generated method stub
@@ -119,16 +113,9 @@ public class AuthorLocalServiceImpl extends AuthorLocalServiceBaseImpl {
 	}
 	
 	@Override
-	public Author getAuthorByMovieId(long movieId) throws NoSuchAuthorException {
-		
-		return authorPersistence.findByAuthorByMovieId(movieId);
-	}
-
-	@Override
 	public Author getAuthotByMovieId(Long authorId, long movieId) throws NoSuchAuthorException {
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
 }
 

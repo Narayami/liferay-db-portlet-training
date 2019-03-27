@@ -11,7 +11,6 @@ import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.service.UserLocalServiceUtil;
 import com.liferay.portal.kernel.util.PortalUtil;
-import com.sun.mail.handlers.message_rfc822;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;

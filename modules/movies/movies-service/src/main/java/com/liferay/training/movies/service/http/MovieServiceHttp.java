@@ -89,12 +89,46 @@ public class MovieServiceHttp {
 		}
 	}
 
+	public static com.liferay.training.movies.model.Movie updateMovie(
+		HttpPrincipal httpPrincipal, long movieId, String movieName,
+		String description, int rating,
+		com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+		try {
+			MethodKey methodKey = new MethodKey(MovieServiceUtil.class,
+					"updateMovie", _updateMovieParameterTypes1);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey, movieId,
+					movieName, description, rating, serviceContext);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception e) {
+				if (e instanceof com.liferay.portal.kernel.exception.PortalException) {
+					throw (com.liferay.portal.kernel.exception.PortalException)e;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(e);
+			}
+
+			return (com.liferay.training.movies.model.Movie)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException se) {
+			_log.error(se, se);
+
+			throw se;
+		}
+	}
+
 	public static com.liferay.training.movies.model.Movie deleteMovie(
 		HttpPrincipal httpPrincipal, long movieId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(MovieServiceUtil.class,
-					"deleteMovie", _deleteMovieParameterTypes1);
+					"deleteMovie", _deleteMovieParameterTypes2);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, movieId);
 
@@ -125,7 +159,7 @@ public class MovieServiceHttp {
 		throws com.liferay.portal.kernel.exception.PortalException {
 		try {
 			MethodKey methodKey = new MethodKey(MovieServiceUtil.class,
-					"getMovie", _getMovieParameterTypes2);
+					"getMovie", _getMovieParameterTypes3);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, movieId);
 
@@ -155,7 +189,7 @@ public class MovieServiceHttp {
 		HttpPrincipal httpPrincipal, long groupId, int start, int end) {
 		try {
 			MethodKey methodKey = new MethodKey(MovieServiceUtil.class,
-					"getMoviesByGroupId", _getMoviesByGroupIdParameterTypes3);
+					"getMoviesByGroupId", _getMoviesByGroupIdParameterTypes4);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, groupId,
 					start, end);
@@ -178,56 +212,22 @@ public class MovieServiceHttp {
 		}
 	}
 
-	public static com.liferay.training.movies.model.Movie updateMovie(
-		HttpPrincipal httpPrincipal, long movieId, String movieName,
-		String description, int rating,
-		com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
-		try {
-			MethodKey methodKey = new MethodKey(MovieServiceUtil.class,
-					"updateMovie", _updateMovieParameterTypes4);
-
-			MethodHandler methodHandler = new MethodHandler(methodKey, movieId,
-					movieName, description, rating, serviceContext);
-
-			Object returnObj = null;
-
-			try {
-				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
-			}
-			catch (Exception e) {
-				if (e instanceof com.liferay.portal.kernel.exception.PortalException) {
-					throw (com.liferay.portal.kernel.exception.PortalException)e;
-				}
-
-				throw new com.liferay.portal.kernel.exception.SystemException(e);
-			}
-
-			return (com.liferay.training.movies.model.Movie)returnObj;
-		}
-		catch (com.liferay.portal.kernel.exception.SystemException se) {
-			_log.error(se, se);
-
-			throw se;
-		}
-	}
-
 	private static Log _log = LogFactoryUtil.getLog(MovieServiceHttp.class);
 	private static final Class<?>[] _addMovieParameterTypes0 = new Class[] {
 			long.class, String.class, String.class, int.class,
 			com.liferay.portal.kernel.service.ServiceContext.class
 		};
-	private static final Class<?>[] _deleteMovieParameterTypes1 = new Class[] {
-			long.class
-		};
-	private static final Class<?>[] _getMovieParameterTypes2 = new Class[] {
-			long.class
-		};
-	private static final Class<?>[] _getMoviesByGroupIdParameterTypes3 = new Class[] {
-			long.class, int.class, int.class
-		};
-	private static final Class<?>[] _updateMovieParameterTypes4 = new Class[] {
+	private static final Class<?>[] _updateMovieParameterTypes1 = new Class[] {
 			long.class, String.class, String.class, int.class,
 			com.liferay.portal.kernel.service.ServiceContext.class
+		};
+	private static final Class<?>[] _deleteMovieParameterTypes2 = new Class[] {
+			long.class
+		};
+	private static final Class<?>[] _getMovieParameterTypes3 = new Class[] {
+			long.class
+		};
+	private static final Class<?>[] _getMoviesByGroupIdParameterTypes4 = new Class[] {
+			long.class, int.class, int.class
 		};
 }
