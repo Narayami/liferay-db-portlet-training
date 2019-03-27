@@ -50,7 +50,7 @@ public class UserPostUpdateModelListener extends BaseModelListener<User> {
 			InternetAddress fromAddress = new InternetAddress("do-not-reply@liferay.com");
 			
 			mailMessage.setTo(toAddress);
-			mailMessage.setFrom(fromAddress);			
+			mailMessage.setFrom(fromAddress);		
 			
 			MailServiceUtil.sendEmail(mailMessage);
 			

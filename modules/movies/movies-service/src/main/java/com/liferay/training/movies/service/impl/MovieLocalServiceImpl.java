@@ -72,7 +72,7 @@ public class MovieLocalServiceImpl extends MovieLocalServiceBaseImpl {
 		long movieId = counterLocalService.increment(Movie.class.getName());
 																			
 		Movie movie = super.createMovie(movieId);
-
+		
 		// populate all movie object fields
 		movie.setCompanyId(group.getCompanyId());
 		movie.setGroupId(groupId);
@@ -125,8 +125,8 @@ public class MovieLocalServiceImpl extends MovieLocalServiceBaseImpl {
 	}
 	
 	@Indexable(type = IndexableType.REINDEX)
-	public Movie updateMovie(Long movieId, String movieName, String description, int rating,
-			ServiceContext serviceContext) throws PortalException {
+	public Movie updateMovie(Long movieId, String movieName, String description, int rating, ServiceContext serviceContext) 
+			throws PortalException {
 		
 		Movie movie = getMovie(movieId);
 		
@@ -143,12 +143,16 @@ public class MovieLocalServiceImpl extends MovieLocalServiceBaseImpl {
 	@Indexable(type = IndexableType.DELETE)
 	public Movie deleteMovieAndAuthor(long movieId, long authorId) throws PortalException {
 
+		//long userId = serviceContext.getUserId();
+		
 		Movie movie = getMovie(movieId);
 		Author author = AuthorLocalServiceUtil.getAuthor(authorId);
 
 		author = AuthorLocalServiceUtil.deleteAuthor(author);
 		assetEntryLocalService.deleteEntry(Movie.class.getName(), movie.getMovieId());
 
+		//return startWorkflowInstance(userId, movie, serviceContext);
+		
 		return deleteMovie(movie);
 	}
 
@@ -162,7 +166,7 @@ public class MovieLocalServiceImpl extends MovieLocalServiceBaseImpl {
 
 	@Indexable(type = IndexableType.DELETE)
 	public Movie deleteMovie(Movie movie) throws PortalException {
-
+		
 		//if we create the movie and the resource along it, when deleting we need to delete the resource permission too.
 		resourceLocalService.deleteResource(movie, ResourceConstants.SCOPE_INDIVIDUAL);
 

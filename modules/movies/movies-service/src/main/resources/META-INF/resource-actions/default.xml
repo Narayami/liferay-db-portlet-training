@@ -46,16 +46,12 @@
 				<action-key>VIEW_MOVIES</action-key>
 			</supports>
 			<site-member-defaults>
-				 
 				<action-key>VIEW</action-key>
                 <action-key>DELETE</action-key>
 				<action-key>ADD_MOVIE</action-key>
                 <action-key>DELETE_MOVIE</action-key>
-				 
-
 			</site-member-defaults>
 			<guest-defaults>
-			 
 				<action-key>VIEW</action-key>
                 <action-key>ADD_MOVIE</action-key>
 				<action-key>EDIT_MOVIE</action-key>

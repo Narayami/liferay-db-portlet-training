@@ -40,14 +40,13 @@ public class MovieWorkflowHandler extends BaseWorkflowHandler<Movie> {
 
 		long userId = GetterUtil.getLong((String) workflowContext.get(WorkflowConstants.CONTEXT_USER_ID));
 
-		long resourcePrimKey = GetterUtil.getLong(
-			(String) workflowContext.get(WorkflowConstants.CONTEXT_ENTRY_CLASS_PK));
+		long resourcePrimKey = GetterUtil.getLong((String)workflowContext.get(WorkflowConstants.CONTEXT_ENTRY_CLASS_PK));
 		
 		if (_log.isDebugEnabled()) {
 			_log.debug("Updating workflow status for movie " + resourcePrimKey);
 		}
 		
-		ServiceContext serviceContext = (ServiceContext) workflowContext.get("serviceContext");
+		ServiceContext serviceContext = (ServiceContext)workflowContext.get("serviceContext");
 		
 		return _movieLocalService.updateStatus(userId, resourcePrimKey, status, serviceContext);
 	}

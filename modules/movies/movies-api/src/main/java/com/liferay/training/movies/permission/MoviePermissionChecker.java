@@ -9,8 +9,7 @@ public interface MoviePermissionChecker extends BaseModelPermissionChecker {
 	
 	public static final String ADD_MOVIE = "ADD_MOVIE";
 	public static final String RESOURCE_NAME = Movie.class.getName();
-	public static final String TOP_LEVEL_RESOURCE = Movie.class.getName()
-			.substring(0, Movie.class.getName().lastIndexOf("."));
+	public static final String TOP_LEVEL_RESOURCE = Movie.class.getName().substring(0, Movie.class.getName().lastIndexOf("."));
 	
 	public void check(PermissionChecker permissionChecker, long groupId, 
 			long movieId, String actionId) throws AuthException; 

@@ -12,7 +12,6 @@
 			</supports>
 			<site-member-defaults>
 				<action-key>VIEW</action-key>
-                <action-key>VIEW</action-key>
 				<action-key>ADD_PORTLET_DISPLAY_TEMPLATE</action-key>
 				<action-key>ADD_TO_PAGE</action-key>
 				<action-key>CONFIGURATION</action-key>
