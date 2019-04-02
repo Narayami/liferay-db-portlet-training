@@ -96,7 +96,6 @@ public class MovieLocalServiceImpl extends MovieLocalServiceBaseImpl {
 		resourceLocalService.addResources(group.getCompanyId(), groupId, userId, Movie.class.getName(),
 				movie.getMovieId(), portletActions, addGroupPermissions, addGuestPermissions);
 		
-		
 		//set status
 		movie.setStatus(WorkflowConstants.STATUS_DRAFT);
 		movie.setStatusByUserId(userId);
@@ -105,7 +104,6 @@ public class MovieLocalServiceImpl extends MovieLocalServiceBaseImpl {
 		
 		// update asset
 		updateAsset(movie, serviceContext);
-		
 		
 		return startWorkflowInstance(userId, movie, serviceContext);
 	}
